@@ -87,21 +87,59 @@ class _Dismissible extends StatelessWidget {
               ),
             ),
             confirmDismiss: (direction) async {
-              return direction == DismissDirection.endToStart;
+              if (direction == DismissDirection.endToStart) {
+                context.read<AddCubit>().delete(documentID: productModel.id);
+              } else {
+                // context.read<AddCubit>().delete(documentID: productModel.id);
+              }
             },
-            onDismissed: (direction) {
-              showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    return _AlertDialog(productModel: productModel);
-                  });
+            //  (right) async {return right == DismissDirection.startToEnd},
 
-              context.read<AddCubit>().delete(documentID: productModel.id);
-            },
             child: _ProductsList(productModel: productModel),
           );
         },
+      ),
+    );
+  }
+}
+
+class _ProductsList extends StatelessWidget {
+  const _ProductsList({
+    Key? key,
+    required this.productModel,
+  }) : super(key: key);
+
+  final ProductModel productModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Container(
+        decoration: const BoxDecoration(color: Colors.black),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(productModel.productName),
+              Text(productModel.productQuantity.toString()),
+              ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return _AlertDialog(productModel: productModel);
+                        });
+                    context
+                        .read<AddCubit>()
+                        .delete(documentID: productModel.id);
+                  },
+                  child: Icon(Icons.add))
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -171,50 +209,6 @@ class _AlertDialog extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class _ProductsList extends StatefulWidget {
-  const _ProductsList({
-    Key? key,
-    required this.productModel,
-  }) : super(key: key);
-
-  final ProductModel productModel;
-
-  @override
-  State<_ProductsList> createState() => _ProductsListState();
-}
-
-class _ProductsListState extends State<_ProductsList> {
-  Color colorContainer = Colors.black;
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Container(
-          color: colorContainer,
-          height: 35,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(widget.productModel.productName),
-                Text(widget.productModel.productQuantity.toString()),
-              ],
-            ),
-          ),
-        ),
-      ),
-      onTap: () {
-        setState(() {
-          colorContainer =
-              colorContainer == Colors.green ? Colors.black : Colors.green;
-        });
-      },
     );
   }
 }
