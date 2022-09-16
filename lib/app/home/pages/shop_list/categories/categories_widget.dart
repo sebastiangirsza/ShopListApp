@@ -116,27 +116,53 @@ class _ProductsList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
-        decoration: const BoxDecoration(color: Colors.black),
+        decoration: const BoxDecoration(
+            color: Colors.green,
+            boxShadow: <BoxShadow>[
+              BoxShadow(color: Colors.black, blurRadius: 15)
+            ],
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(productModel.productName),
-              Text(productModel.productQuantity.toString()),
-              ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return _AlertDialog(productModel: productModel);
-                        });
-                    context
-                        .read<AddCubit>()
-                        .delete(documentID: productModel.id);
-                  },
-                  child: Icon(Icons.add))
+              Text(
+                productModel.productName,
+                style: const TextStyle(fontSize: 15),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    productModel.productQuantity.toString(),
+                    style: const TextStyle(fontSize: 15),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(221, 179, 255, 155),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return _AlertDialog(productModel: productModel);
+                          });
+                      context
+                          .read<AddCubit>()
+                          .delete(documentID: productModel.id);
+                    },
+                    child: const Icon(
+                        size: 17,
+                        color: Colors.black,
+                        Icons.shopping_bag_outlined),
+                  ),
+                ],
+              )
             ],
           ),
         ),

@@ -25,120 +25,137 @@ class _ShopListPageState extends State<ShopListPage> {
     return Scaffold(
       body: ListView(
         children: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
-            onPressed: () => showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
-                    return AlertDialog(
-                      backgroundColor: Colors.blueGrey,
-                      title: const Text(
-                        'Dodaj produkt do listy',
-                        textAlign: TextAlign.center,
-                      ),
-                      content: SizedBox(
-                        height: 300,
-                        child: Column(
-                          children: [
-                            DropdownButtonFormField(
-                              decoration: const InputDecoration(
-                                  label: Text('Kategoria')),
-                              isExpanded: true,
-                              value: productGroup,
-                              onChanged: (newProduct) {
-                                setState(() {
-                                  productGroup = newProduct!;
-                                });
-                              },
-                              items: <String>[
-                                'Mięso',
-                                'Warzywa',
-                              ].map<DropdownMenuItem<String>>(
-                                (productGroup) {
-                                  return DropdownMenuItem<String>(
-                                    value: productGroup,
-                                    child: Text(
-                                      productGroup,
-                                      // style: const TextStyle(color: Colors.black),
-                                    ),
-                                  );
-                                },
-                              ).toList(),
-                            ),
-                            TextField(
-                              decoration: const InputDecoration(
-                                  label: Text('Nazwa produktu')),
-                              onChanged: (newProduct) {
-                                setState(() {
-                                  productName = newProduct;
-                                });
-                              },
-                              textAlign: TextAlign.center,
-                            ),
-                            Column(
-                              children: [
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                const Text('Ilość: '),
-                                Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: NumberPicker(
-                                    itemHeight: 25,
-                                    itemWidth: 40,
-                                    axis: Axis.horizontal,
-                                    value: productQuantity,
-                                    minValue: 1,
-                                    maxValue: 100,
-                                    itemCount: 5,
-                                    onChanged: (value) =>
-                                        setState(() => productQuantity = value),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+          Padding(
+            padding: const EdgeInsets.only(left: 70, right: 70, top: 15),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 173, 255, 141),
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(50)))),
+              onPressed: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setState) {
+                      return AlertDialog(
+                        backgroundColor: Colors.blueGrey,
+                        title: const Text(
+                          'Dodaj produkt do listy',
+                          textAlign: TextAlign.center,
                         ),
-                      ),
-                      actions: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text(
-                              'Cofnij',
-                              style: TextStyle(color: Colors.black),
-                            )),
-                        BlocProvider(
-                          create: (context) => AddCubit(ProductsRepository()),
-                          child: BlocBuilder<AddCubit, AddState>(
-                            builder: (context, state) {
-                              return ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.black),
-                                onPressed:
-                                    productGroup == null || productName == null
-                                        ? null
-                                        : () {
-                                            context.read<AddCubit>().add(
-                                                  productGroup!,
-                                                  productName!,
-                                                  productQuantity,
-                                                );
-                                            Navigator.of(context).pop();
-                                          },
-                                child: const Text('Dodaj do listy'),
-                              );
-                            },
+                        content: SizedBox(
+                          height: 300,
+                          child: Column(
+                            children: [
+                              DropdownButtonFormField(
+                                decoration: const InputDecoration(
+                                    label: Text('Kategoria')),
+                                isExpanded: true,
+                                value: productGroup,
+                                onChanged: (newProduct) {
+                                  setState(() {
+                                    productGroup = newProduct!;
+                                  });
+                                },
+                                items: <String>[
+                                  'Mięso',
+                                  'Warzywa',
+                                ].map<DropdownMenuItem<String>>(
+                                  (productGroup) {
+                                    return DropdownMenuItem<String>(
+                                      value: productGroup,
+                                      child: Text(
+                                        productGroup,
+                                        // style: const TextStyle(color: Colors.black),
+                                      ),
+                                    );
+                                  },
+                                ).toList(),
+                              ),
+                              TextField(
+                                decoration: const InputDecoration(
+                                    label: Text('Nazwa produktu')),
+                                onChanged: (newProduct) {
+                                  setState(() {
+                                    productName = newProduct;
+                                  });
+                                },
+                                textAlign: TextAlign.center,
+                              ),
+                              Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  const Text('Ilość: '),
+                                  Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: NumberPicker(
+                                      itemHeight: 25,
+                                      itemWidth: 40,
+                                      axis: Axis.horizontal,
+                                      value: productQuantity,
+                                      minValue: 1,
+                                      maxValue: 100,
+                                      itemCount: 5,
+                                      onChanged: (value) => setState(
+                                          () => productQuantity = value),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        )
-                      ],
-                    );
-                  });
-                }),
-            child: const Text('Dodaj produkt do listy'),
+                        ),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                'Cofnij',
+                                style: TextStyle(color: Colors.black),
+                              )),
+                          BlocProvider(
+                            create: (context) => AddCubit(ProductsRepository()),
+                            child: BlocBuilder<AddCubit, AddState>(
+                              builder: (context, state) {
+                                return ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.black),
+                                  onPressed: productGroup == null ||
+                                          productName == null
+                                      ? null
+                                      : () {
+                                          context.read<AddCubit>().add(
+                                                productGroup!,
+                                                productName!,
+                                                productQuantity,
+                                              );
+                                          Navigator.of(context).pop();
+                                        },
+                                  child: const Text('Dodaj do listy'),
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      );
+                    });
+                  }),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                      style: TextStyle(color: Colors.black),
+                      'Dodaj produkt do listy'),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Icon(Icons.add, color: Colors.black),
+                ],
+              ),
+            ),
           ),
           const _ProductsGroup(),
         ],
@@ -154,34 +171,49 @@ class _ProductsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 15),
-          Container(
-            decoration: const BoxDecoration(color: Colors.grey),
-            child: Column(
-              children: const [
-                Text('Mięso'),
-                CategoriesWidget(categoriesName: 'Mięso'),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            decoration: const BoxDecoration(color: Colors.grey),
-            child: Column(
-              children: const [
-                Text('Warzywa'),
-                CategoriesWidget(categoriesName: 'Warzywa'),
-              ],
-            ),
-          ),
-        ],
+    final categoriesName = [
+      'Warzywa',
+      'Mięso',
+      'Pieczywo',
+      'Suche produkty',
+      'Nabiał',
+      'Chemia',
+      'Inne',
+    ];
+    return Container(
+      color: Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        child: ListView.builder(
+            shrinkWrap: true, // auto height
+            itemCount: categoriesName.length,
+            itemBuilder: (context, index) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 15),
+                  Container(
+                    decoration: const BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(color: Colors.black, blurRadius: 15)
+                        ],
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        color: Color.fromARGB(255, 47, 148, 0)),
+                    child: Column(
+                      children: [
+                        Text(
+                            style: const TextStyle(fontSize: 17),
+                            categoriesName[index]),
+                        CategoriesWidget(categoriesName: categoriesName[index]),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              );
+            }),
       ),
     );
   }
