@@ -119,7 +119,7 @@ class _ProductsList extends StatelessWidget {
         decoration: const BoxDecoration(
             color: Colors.green,
             boxShadow: <BoxShadow>[
-              BoxShadow(color: Colors.black, blurRadius: 15)
+              BoxShadow(color: Colors.black, blurRadius: 5)
             ],
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Padding(

@@ -29,6 +29,8 @@ class _ShopListPageState extends State<ShopListPage> {
             padding: const EdgeInsets.only(left: 70, right: 70, top: 15),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.black,
+                  elevation: 15,
                   backgroundColor: const Color.fromARGB(255, 173, 255, 141),
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(50)))),
@@ -149,14 +151,13 @@ class _ShopListPageState extends State<ShopListPage> {
                   Text(
                       style: TextStyle(color: Colors.black),
                       'Dodaj produkt do listy'),
-                  SizedBox(
-                    width: 5,
-                  ),
+                  SizedBox(width: 5),
                   Icon(Icons.add, color: Colors.black),
                 ],
               ),
             ),
           ),
+          const SizedBox(height: 10),
           const _ProductsGroup(),
         ],
       ),
@@ -175,10 +176,10 @@ class _ProductsGroup extends StatelessWidget {
       'Warzywa',
       'Mięso',
       'Pieczywo',
-      'Suche produkty',
-      'Nabiał',
-      'Chemia',
-      'Inne',
+      // 'Suche produkty',
+      // 'Nabiał',
+      // 'Chemia',
+      // 'Inne',
     ];
     return Container(
       color: Colors.transparent,
@@ -191,7 +192,7 @@ class _ProductsGroup extends StatelessWidget {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
                   Container(
                     decoration: const BoxDecoration(
                         boxShadow: <BoxShadow>[
@@ -199,13 +200,27 @@ class _ProductsGroup extends StatelessWidget {
                         ],
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         color: Color.fromARGB(255, 47, 148, 0)),
-                    child: Column(
-                      children: [
-                        Text(
-                            style: const TextStyle(fontSize: 17),
-                            categoriesName[index]),
-                        CategoriesWidget(categoriesName: categoriesName[index]),
-                      ],
+                    child: Theme(
+                      data: Theme.of(context)
+                          .copyWith(dividerColor: Colors.transparent),
+                      child: ExpansionTile(
+                        trailing: const Icon(null),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(null),
+                            Text(
+                                style: const TextStyle(
+                                    fontSize: 20, color: Colors.white),
+                                categoriesName[index]),
+                          ],
+                        ),
+                        children: [
+                          const SizedBox(height: 10),
+                          CategoriesWidget(
+                              categoriesName: categoriesName[index]),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(

@@ -22,6 +22,13 @@ class YourProductsPage extends StatelessWidget {
       const StoragePage(storageName: 'Chemia'),
       const StoragePage(storageName: 'Inne'),
     ];
+    final icon = [
+      Icons.kitchen_outlined,
+      Icons.ac_unit_rounded,
+      Icons.door_sliding_outlined,
+      Icons.local_laundry_service_outlined,
+      Icons.more_horiz_outlined,
+    ];
     return Scaffold(
         body: ListView.builder(
             itemCount: storageNames.length,
@@ -42,10 +49,12 @@ class YourProductsPage extends StatelessWidget {
                         child: Container(
                           height: 50,
                           decoration: const BoxDecoration(color: Colors.grey),
-                          child: Center(
-                            child: Text(
-                              storageNames[index],
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(storageNames[index]),
+                              Icon(icon[index]),
+                            ],
                           ),
                         ),
                       ),
