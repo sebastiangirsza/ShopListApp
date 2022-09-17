@@ -176,59 +176,62 @@ class _ProductsGroup extends StatelessWidget {
       'Warzywa',
       'Mięso',
       'Pieczywo',
-      // 'Suche produkty',
-      // 'Nabiał',
-      // 'Chemia',
-      // 'Inne',
+      'Suche produkty',
+      'Nabiał',
+      'Chemia',
+      'Inne',
     ];
     return Container(
       color: Colors.transparent,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: ListView.builder(
-            shrinkWrap: true, // auto height
-            itemCount: categoriesName.length,
-            itemBuilder: (context, index) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 10),
-                  Container(
-                    decoration: const BoxDecoration(
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(color: Colors.black, blurRadius: 15)
-                        ],
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Color.fromARGB(255, 47, 148, 0)),
-                    child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(dividerColor: Colors.transparent),
-                      child: ExpansionTile(
-                        trailing: const Icon(null),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+        child: SizedBox(
+          child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true, // auto height
+              itemCount: categoriesName.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: const BoxDecoration(
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(color: Colors.black, blurRadius: 15)
+                          ],
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: Color.fromARGB(255, 47, 148, 0)),
+                      child: Theme(
+                        data: Theme.of(context)
+                            .copyWith(dividerColor: Colors.transparent),
+                        child: ExpansionTile(
+                          trailing: const Icon(null),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(null),
+                              Text(
+                                  style: const TextStyle(
+                                      fontSize: 20, color: Colors.white),
+                                  categoriesName[index]),
+                            ],
+                          ),
                           children: [
-                            const Icon(null),
-                            Text(
-                                style: const TextStyle(
-                                    fontSize: 20, color: Colors.white),
-                                categoriesName[index]),
+                            const SizedBox(height: 10),
+                            CategoriesWidget(
+                                categoriesName: categoriesName[index]),
                           ],
                         ),
-                        children: [
-                          const SizedBox(height: 10),
-                          CategoriesWidget(
-                              categoriesName: categoriesName[index]),
-                        ],
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
-              );
-            }),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                );
+              }),
+        ),
       ),
     );
   }

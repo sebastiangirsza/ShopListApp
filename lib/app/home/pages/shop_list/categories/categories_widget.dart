@@ -72,16 +72,38 @@ class _Dismissible extends StatelessWidget {
         builder: (context, state) {
           return Dismissible(
             key: UniqueKey(),
-            background: const DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.blueGrey,
+            background: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.blue,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 32.0),
+                    child: Icon(
+                      Icons.add,
+                    ),
+                  ),
+                ),
               ),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 32.0),
-                  child: Icon(
-                    Icons.delete_outline,
+            ),
+            secondaryBackground: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.red,
+                ),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 32.0),
+                    child: Icon(
+                      Icons.delete_outline,
+                    ),
                   ),
                 ),
               ),
@@ -89,12 +111,8 @@ class _Dismissible extends StatelessWidget {
             confirmDismiss: (direction) async {
               if (direction == DismissDirection.endToStart) {
                 context.read<AddCubit>().delete(documentID: productModel.id);
-              } else {
-                // context.read<AddCubit>().delete(documentID: productModel.id);
-              }
+              } else {}
             },
-            //  (right) async {return right == DismissDirection.startToEnd},
-
             child: _ProductsList(productModel: productModel),
           );
         },
