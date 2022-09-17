@@ -21,6 +21,7 @@ class ProductsRepository {
           productName: products['product_name'],
           productQuantity: (products['product_quantity']),
           id: products.id,
+          isChecked: (products['product_check']),
         );
       }).toList();
     });
@@ -50,6 +51,7 @@ class ProductsRepository {
     String productGroup,
     String productName,
     int productQuantity,
+    bool isChecked,
   ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
@@ -63,6 +65,7 @@ class ProductsRepository {
       'product_group': productGroup,
       'product_name': productName,
       'product_quantity': productQuantity,
+      'product_check': isChecked,
     });
   }
 

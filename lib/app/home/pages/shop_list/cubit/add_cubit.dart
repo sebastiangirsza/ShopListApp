@@ -17,12 +17,14 @@ class AddCubit extends Cubit<AddState> {
     String productGroup,
     String productName,
     int productQuantity,
+    bool isChecked,
   ) async {
     try {
       await _productsRepository.add(
         productGroup,
         productName,
         productQuantity,
+        isChecked,
       );
       emit(const AddState());
     } catch (error) {}

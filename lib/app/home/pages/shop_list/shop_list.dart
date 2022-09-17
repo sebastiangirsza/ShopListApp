@@ -19,7 +19,7 @@ class _ShopListPageState extends State<ShopListPage> {
   String? productName;
 
   int productQuantity = 1;
-
+  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,6 +133,7 @@ class _ShopListPageState extends State<ShopListPage> {
                                                 productGroup!,
                                                 productName!,
                                                 productQuantity,
+                                                isChecked,
                                               );
                                           Navigator.of(context).pop();
                                         },
