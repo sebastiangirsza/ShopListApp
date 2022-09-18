@@ -32,7 +32,7 @@ class _ShopListPageState extends State<ShopListPage> {
               style: ElevatedButton.styleFrom(
                   shadowColor: Colors.black,
                   elevation: 15,
-                  backgroundColor: const Color.fromARGB(255, 0, 4, 255),
+                  backgroundColor: Colors.green,
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(50)))),
               onPressed: () => showDialog(
@@ -41,7 +41,7 @@ class _ShopListPageState extends State<ShopListPage> {
                     return StatefulBuilder(
                         builder: (BuildContext context, StateSetter setState) {
                       return AlertDialog(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: const Color.fromARGB(255, 60, 60, 60),
                         title: Text(
                           style: GoogleFonts.getFont('Saira',
                               fontWeight: FontWeight.bold),
@@ -203,6 +203,15 @@ class _ProductsGroup extends StatelessWidget {
       'Chemia',
       'Inne',
     ];
+    var expansionColor = [
+      Colors.red,
+      Colors.blue,
+      const Color.fromARGB(255, 152, 179, 0),
+      Colors.green,
+      Colors.pink,
+      Colors.purple,
+      Colors.grey,
+    ];
     return Container(
       color: Colors.transparent,
       child: Padding(
@@ -219,11 +228,11 @@ class _ProductsGroup extends StatelessWidget {
                     const SizedBox(height: 10),
                     Container(
                       decoration: const BoxDecoration(
+                        color: Colors.blue,
                         boxShadow: <BoxShadow>[
                           BoxShadow(color: Colors.black, blurRadius: 15)
                         ],
                         borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Colors.blue,
                       ),
                       child: Theme(
                         data: Theme.of(context)

@@ -136,7 +136,7 @@ class _ProductsList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
         decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 0, 4, 255),
+            color: Color.fromARGB(255, 60, 60, 60),
             boxShadow: <BoxShadow>[
               BoxShadow(color: Colors.black, blurRadius: 5)
             ],

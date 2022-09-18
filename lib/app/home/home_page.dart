@@ -42,21 +42,21 @@ class _HomePageState extends State<HomePage> {
             child: Scaffold(
               backgroundColor: Colors.transparent,
               appBar: AppBar(
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(30),
-                  ),
-                ),
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.transparent,
                 foregroundColor: Colors.black,
                 leading: IconButton(
                     onPressed: () {},
-                    icon: const Icon(Icons.info_outline_rounded)),
+                    icon: const Icon(
+                      Icons.info_outline_rounded,
+                      color: Colors.white,
+                    )),
                 title: Center(
                     child: Text(
                   'Shop List',
                   style: GoogleFonts.getFont('Saira',
-                      fontWeight: FontWeight.bold, fontSize: 25),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.white),
                 )),
                 actions: [
                   IconButton(
@@ -80,7 +80,10 @@ class _HomePageState extends State<HomePage> {
                                   const _SignOutButton(),
                                 ],
                               )),
-                      icon: const Icon(Icons.person))
+                      icon: const Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ))
                 ],
               ),
               body: Builder(builder: (context) {
@@ -95,45 +98,39 @@ class _HomePageState extends State<HomePage> {
                 }
                 return Container();
               }),
-              bottomNavigationBar: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
-                ),
-                child: BottomNavigationBar(
-                  unselectedItemColor: Colors.black,
-                  selectedItemColor: Colors.white,
-                  selectedLabelStyle: GoogleFonts.getFont('Saira'),
-                  unselectedLabelStyle: GoogleFonts.getFont('Saira'),
-                  currentIndex: currentIndex,
-                  onTap: (newIndex) {
-                    setState(() {
-                      currentIndex = newIndex;
-                    });
-                  },
-                  items: const [
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.edit_note_rounded),
-                      label: 'Lista zakupów',
-                      backgroundColor: Colors.blue,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.shopping_bag_outlined),
-                      label: 'Moje produkty',
-                      backgroundColor: Colors.blue,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.dinner_dining),
-                      label: 'Przepisy',
-                      backgroundColor: Colors.blue,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.liquor),
-                      label: 'Inne',
-                      backgroundColor: Colors.blue,
-                    ),
-                  ],
-                ),
+              bottomNavigationBar: BottomNavigationBar(
+                unselectedItemColor: Colors.black,
+                selectedItemColor: Colors.white,
+                selectedLabelStyle: GoogleFonts.getFont('Saira'),
+                unselectedLabelStyle: GoogleFonts.getFont('Saira'),
+                currentIndex: currentIndex,
+                onTap: (newIndex) {
+                  setState(() {
+                    currentIndex = newIndex;
+                  });
+                },
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.edit_note_rounded),
+                    label: 'Lista zakupów',
+                    backgroundColor: Color.fromARGB(255, 100, 100, 100),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.shopping_bag_outlined),
+                    label: 'Moje produkty',
+                    backgroundColor: Color.fromARGB(255, 100, 100, 100),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.dinner_dining),
+                    label: 'Przepisy',
+                    backgroundColor: Color.fromARGB(255, 100, 100, 100),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.liquor),
+                    label: 'Inne',
+                    backgroundColor: Color.fromARGB(255, 100, 100, 100),
+                  ),
+                ],
               ),
             ),
           );
