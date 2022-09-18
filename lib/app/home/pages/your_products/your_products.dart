@@ -54,7 +54,7 @@ class YourProductsPage extends StatelessWidget {
                               BoxShadow(color: Colors.black, blurRadius: 15)
                             ],
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Colors.blue,
+                            color: Color.fromARGB(255, 0, 63, 114),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

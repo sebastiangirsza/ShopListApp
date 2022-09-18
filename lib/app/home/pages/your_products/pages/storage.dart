@@ -72,8 +72,8 @@ class StoragePage extends StatelessWidget {
                                 const SizedBox(height: 5),
                                 Container(
                                   height: 50,
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue.withOpacity(1),
+                                  decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 0, 63, 114),
                                     boxShadow: <BoxShadow>[
                                       BoxShadow(
                                           color: Colors.black, blurRadius: 5)

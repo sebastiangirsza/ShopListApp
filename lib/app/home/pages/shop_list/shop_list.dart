@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shoplistappsm/app/home/pages/shop_list/categories/categories_widget.dart';
+import 'package:shoplistappsm/app/home/pages/shop_list/categories/cubit/product_cubit.dart';
 import 'package:shoplistappsm/app/home/pages/shop_list/cubit/add_cubit.dart';
 import 'package:shoplistappsm/app/repositories/products_repositories.dart';
 
@@ -27,7 +28,7 @@ class _ShopListPageState extends State<ShopListPage> {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 70, right: 70, top: 15),
+            padding: const EdgeInsets.only(left: 70, right: 70, top: 8),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   shadowColor: Colors.black,
@@ -41,7 +42,7 @@ class _ShopListPageState extends State<ShopListPage> {
                     return StatefulBuilder(
                         builder: (BuildContext context, StateSetter setState) {
                       return AlertDialog(
-                        backgroundColor: const Color.fromARGB(255, 60, 60, 60),
+                        backgroundColor: const Color.fromARGB(255, 0, 63, 114),
                         title: Text(
                           style: GoogleFonts.getFont('Saira',
                               fontWeight: FontWeight.bold),
@@ -134,7 +135,7 @@ class _ShopListPageState extends State<ShopListPage> {
                               child: Text(
                                 'Cofnij',
                                 style: GoogleFonts.getFont('Saira',
-                                    color: Colors.black),
+                                    color: Colors.white),
                               )),
                           BlocProvider(
                             create: (context) => AddCubit(ProductsRepository()),
@@ -225,10 +226,10 @@ class _ProductsGroup extends StatelessWidget {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
                     Container(
                       decoration: const BoxDecoration(
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 0, 63, 114),
                         boxShadow: <BoxShadow>[
                           BoxShadow(color: Colors.black, blurRadius: 15)
                         ],
@@ -243,6 +244,26 @@ class _ProductsGroup extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Icon(null),
+                              // BlocProvider(
+                              //   create: (context) =>
+                              //       ProductCubit(ProductsRepository()),
+                              //   child: BlocBuilder<ProductCubit, ProductState>(
+                              //     builder: (context, state) {
+                              //       final productModels = state.products;
+                              //       return Column(
+                              //         children: [
+                              //           for (final productModel
+                              //               in productModels) ...[
+                              //             Text(
+                              //                 style:
+                              //                     TextStyle(color: Colors.red),
+                              //                 '${productModel.productGroup.length}'),
+                              //           ],
+                              //         ],
+                              //       );
+                              //     },
+                              //   ),
+                              // ),
                               Text(
                                 categoriesName[index],
                                 style: GoogleFonts.getFont('Saira',

@@ -79,22 +79,47 @@ class _DismissibleState extends State<_Dismissible> {
         builder: (context, state) {
           return Dismissible(
             key: UniqueKey(),
-            background: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.green,
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 32.0),
-                    child: Icon(
-                      Icons.add,
-                    ),
-                  ),
-                ),
+            background: BlocProvider(
+              create: (context) => AddCubit(ProductsRepository()),
+              child: BlocBuilder<AddCubit, AddState>(
+                builder: (context, state) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: (widget.productModel.isChecked == false)
+                        ? const DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Colors.green,
+                            ),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 32.0),
+                                child: Icon(
+                                  Icons.done,
+                                ),
+                              ),
+                            ),
+                          )
+                        : const DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Colors.red,
+                            ),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 32.0),
+                                child: Icon(
+                                  Icons.remove_done,
+                                ),
+                              ),
+                            ),
+                          ),
+                  );
+                },
               ),
             ),
             secondaryBackground: const Padding(
@@ -181,7 +206,7 @@ class _ProductsList extends StatelessWidget {
                   const SizedBox(width: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: const Color.fromARGB(255, 0, 63, 114),
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                     ),
@@ -192,13 +217,10 @@ class _ProductsList extends StatelessWidget {
                           builder: (BuildContext context) {
                             return _AlertDialog(productModel: productModel);
                           });
-                      context
-                          .read<AddCubit>()
-                          .delete(documentID: productModel.id);
                     },
                     child: const Icon(
                         size: 17,
-                        color: Colors.black,
+                        color: Colors.white,
                         Icons.shopping_bag_outlined),
                   ),
                 ],
@@ -229,7 +251,7 @@ class _AlertDialog extends StatelessWidget {
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return AlertDialog(
-                backgroundColor: Colors.blue,
+                backgroundColor: const Color.fromARGB(255, 0, 63, 114),
                 title: Text(
                   style:
                       GoogleFonts.getFont('Saira', fontWeight: FontWeight.bold),
@@ -267,22 +289,41 @@ class _AlertDialog extends StatelessWidget {
                   ).toList(),
                 ),
                 actions: [
-                  ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
-                    onPressed: () {
-                      context.read<YourProductsCubit>().addYourProduct(
-                            productModel.productGroup,
-                            productModel.productName,
-                            productModel.productQuantity,
-                            storageName!,
-                          );
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'Cofnij',
                         style:
-                            GoogleFonts.getFont('Saira', color: Colors.white),
-                        'Dodaj'),
+                            GoogleFonts.getFont('Saira', color: Colors.black),
+                      )),
+                  BlocProvider(
+                    create: (context) => AddCubit(ProductsRepository()),
+                    child: BlocBuilder<AddCubit, AddState>(
+                      builder: (context, state) {
+                        return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black),
+                          onPressed: () {
+                            context.read<YourProductsCubit>().addYourProduct(
+                                  productModel.productGroup,
+                                  productModel.productName,
+                                  productModel.productQuantity,
+                                  storageName!,
+                                );
+                            context
+                                .read<AddCubit>()
+                                .delete(documentID: productModel.id);
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                              style: GoogleFonts.getFont('Saira',
+                                  color: Colors.white),
+                              'Dodaj'),
+                        );
+                      },
+                    ),
                   ),
                 ],
               );
