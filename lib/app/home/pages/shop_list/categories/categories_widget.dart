@@ -57,7 +57,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
   }
 }
 
-class _Dismissible extends StatelessWidget {
+class _Dismissible extends StatefulWidget {
   const _Dismissible({
     Key? key,
     required this.productModel,
@@ -65,6 +65,12 @@ class _Dismissible extends StatelessWidget {
 
   final ProductModel productModel;
 
+  @override
+  State<_Dismissible> createState() => _DismissibleState();
+}
+
+class _DismissibleState extends State<_Dismissible> {
+  var isChecked = true;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -111,10 +117,18 @@ class _Dismissible extends StatelessWidget {
             ),
             confirmDismiss: (direction) async {
               if (direction == DismissDirection.endToStart) {
-                context.read<AddCubit>().delete(documentID: productModel.id);
-              } else {}
+                context
+                    .read<AddCubit>()
+                    .delete(documentID: widget.productModel.id);
+              } else {
+                context.read<AddCubit>().isChecked(
+                    isChecked: isChecked, documentID: widget.productModel.id);
+                setState(() {
+                  isChecked = !isChecked;
+                });
+              }
             },
-            child: _ProductsList(productModel: productModel),
+            child: _ProductsList(productModel: widget.productModel),
           );
         },
       ),
@@ -135,12 +149,19 @@ class _ProductsList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
-        decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 60, 60, 60),
-            boxShadow: <BoxShadow>[
-              BoxShadow(color: Colors.black, blurRadius: 5)
-            ],
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+        decoration: (productModel.isChecked == false)
+            ? const BoxDecoration(
+                color: Color.fromARGB(255, 60, 60, 60),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(color: Colors.black, blurRadius: 5)
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(10)))
+            : const BoxDecoration(
+                color: Colors.green,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(color: Colors.black, blurRadius: 5)
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Row(

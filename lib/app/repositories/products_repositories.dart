@@ -91,6 +91,21 @@ class ProductsRepository {
     });
   }
 
+  Future<void> isChecked(
+    bool isChecked,
+    String id,
+  ) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('products')
+        .doc(id)
+        .update({
+      'product_check': isChecked,
+    });
+  }
+
   Future<void> delete({required String id}) {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {

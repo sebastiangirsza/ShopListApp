@@ -30,6 +30,19 @@ class AddCubit extends Cubit<AddState> {
     } catch (error) {}
   }
 
+  Future<void> isChecked({
+    required bool isChecked,
+    required String documentID,
+  }) async {
+    try {
+      await _productsRepository.isChecked(
+        isChecked,
+        documentID,
+      );
+      emit(const AddState());
+    } catch (error) {}
+  }
+
   Future<void> delete({required String documentID}) {
     return _productsRepository.delete(id: documentID);
   }
