@@ -27,15 +27,38 @@ class StoragePage extends StatelessWidget {
         ),
       ),
       child: Scaffold(
-          appBar: AppBar(
+          body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
               backgroundColor: Colors.transparent,
-              foregroundColor: Colors.black,
+              foregroundColor: Colors.white,
+              expandedHeight: 90,
+              snap: false,
+              pinned: true,
+              floating: false,
+              forceElevated: true,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Text(
+                          style: GoogleFonts.getFont('Saira',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              color: Colors.white),
+                          storageName),
+                    ),
+                  ],
+                ),
+              ),
               title: Text(
                   style: GoogleFonts.getFont('Saira',
                       fontWeight: FontWeight.bold,
-                      fontSize: 25,
+                      fontSize: 20,
                       color: Colors.white),
-                  storageName),
+                  'Shop List'),
               leading: IconButton(
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -44,73 +67,91 @@ class StoragePage extends StatelessWidget {
                     Icons.arrow_back,
                     color: Colors.white,
                   ))),
-          body: BlocProvider(
-            create: (context) =>
-                YourProductsCubit(ProductsRepository())..start(),
-            child: BlocBuilder<YourProductsCubit, YourProductsState>(
-              builder: (context, state) {
-                final purchasedProductModels = state.purchasedProducts;
-                return SizedBox(
-                  child: ListView(
-                    children: [
-                      for (final purchasedProductsModel
-                          in purchasedProductModels) ...[
-                        if (purchasedProductsModel.storageName ==
-                            storageName) ...[
-                          Dismissible(
-                            key: UniqueKey(),
-                            confirmDismiss: (direction) async {
-                              if (direction == DismissDirection.endToStart) {
-                                context
-                                    .read<YourProductsCubit>()
-                                    .deletePurchasedProduct(
-                                        documentID: purchasedProductsModel.id);
-                              } else {}
-                            },
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 5),
-                                Container(
-                                  height: 50,
-                                  decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 0, 63, 114),
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: Colors.black, blurRadius: 5)
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                BlocProvider(
+                  create: (context) =>
+                      YourProductsCubit(ProductsRepository())..start(),
+                  child: BlocBuilder<YourProductsCubit, YourProductsState>(
+                    builder: (context, state) {
+                      final purchasedProductModels = state.purchasedProducts;
+                      return MediaQuery.removePadding(
+                        removeTop: true,
+                        context: context,
+                        child: ListView(
+                          physics: const ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                          children: [
+                            for (final purchasedProductsModel
+                                in purchasedProductModels) ...[
+                              if (purchasedProductsModel.storageName ==
+                                  storageName) ...[
+                                Dismissible(
+                                  key: UniqueKey(),
+                                  confirmDismiss: (direction) async {
+                                    if (direction ==
+                                        DismissDirection.endToStart) {
+                                      context
+                                          .read<YourProductsCubit>()
+                                          .deletePurchasedProduct(
+                                              documentID:
+                                                  purchasedProductsModel.id);
+                                    } else {}
+                                  },
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(height: 5),
+                                      Container(
+                                        height: 50,
+                                        decoration: const BoxDecoration(
+                                          color:
+                                              Color.fromARGB(255, 0, 63, 114),
+                                          boxShadow: <BoxShadow>[
+                                            BoxShadow(
+                                                color: Colors.black,
+                                                blurRadius: 5)
+                                          ],
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 25.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                  style: GoogleFonts.getFont(
+                                                      'Saira'),
+                                                  purchasedProductsModel
+                                                      .purchasedProductName),
+                                              Text(
+                                                  style: GoogleFonts.getFont(
+                                                      'Saira'),
+                                                  purchasedProductsModel
+                                                      .purchasedProductQuantity
+                                                      .toString()),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
                                     ],
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 25.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                            style: GoogleFonts.getFont('Saira'),
-                                            purchasedProductsModel
-                                                .purchasedProductName),
-                                        Text(
-                                            style: GoogleFonts.getFont('Saira'),
-                                            purchasedProductsModel
-                                                .purchasedProductQuantity
-                                                .toString()),
-                                      ],
-                                    ),
-                                  ),
                                 ),
-                                const SizedBox(height: 5),
-                              ],
-                            ),
-                          ),
-                        ]
-                      ]
-                    ],
+                              ]
+                            ]
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+              ],
             ),
-          )),
+          ),
+        ],
+      )),
     );
   }
 }
