@@ -208,9 +208,18 @@ class _AlertDialog extends StatelessWidget {
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return AlertDialog(
+                backgroundColor: Colors.blue,
+                title: Text(
+                  style:
+                      GoogleFonts.getFont('Saira', fontWeight: FontWeight.bold),
+                  'Wybierz miejsce przechowywania',
+                  textAlign: TextAlign.center,
+                ),
                 content: DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                      label: Text('Miejsce przechowywania')),
+                  decoration: InputDecoration(
+                      label: Text(
+                          style: GoogleFonts.getFont('Saira'),
+                          'Miejsce przechowywania')),
                   isExpanded: true,
                   value: storageName,
                   onChanged: (newProduct) {
@@ -229,6 +238,7 @@ class _AlertDialog extends StatelessWidget {
                       return DropdownMenuItem<String>(
                         value: storageName,
                         child: Text(
+                          style: GoogleFonts.getFont('Saira'),
                           storageName,
                         ),
                       );
@@ -237,6 +247,8 @@ class _AlertDialog extends StatelessWidget {
                 ),
                 actions: [
                   ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
                     onPressed: () {
                       context.read<YourProductsCubit>().addYourProduct(
                             productModel.productGroup,
@@ -246,7 +258,10 @@ class _AlertDialog extends StatelessWidget {
                           );
                       Navigator.of(context).pop();
                     },
-                    child: const Text('Dodaj'),
+                    child: Text(
+                        style:
+                            GoogleFonts.getFont('Saira', color: Colors.white),
+                        'Dodaj'),
                   ),
                 ],
               );

@@ -42,8 +42,8 @@ class YourProductsCubit extends Cubit<YourProductsState> {
     } catch (error) {}
   }
 
-  Future<void> delete({required String documentID}) {
-    return _productsRepository.delete(id: documentID);
+  Future<void> deletePurchasedProduct({required String documentID}) {
+    return _productsRepository.deletePurchasedProduct(id: documentID);
   }
 
   @override

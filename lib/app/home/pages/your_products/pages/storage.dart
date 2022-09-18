@@ -40,6 +40,14 @@ class StoragePage extends StatelessWidget {
                           storageName) ...[
                         Dismissible(
                           key: UniqueKey(),
+                          confirmDismiss: (direction) async {
+                            if (direction == DismissDirection.endToStart) {
+                              context
+                                  .read<YourProductsCubit>()
+                                  .deletePurchasedProduct(
+                                      documentID: purchasedProductsModel.id);
+                            } else {}
+                          },
                           child: Column(
                             children: [
                               const SizedBox(height: 5),

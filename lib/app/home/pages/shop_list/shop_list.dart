@@ -76,9 +76,11 @@ class _ShopListPageState extends State<ShopListPage> {
                                   (productGroup) {
                                     return DropdownMenuItem<String>(
                                       value: productGroup,
-                                      child: Text(
-                                        style: GoogleFonts.getFont('Saira'),
-                                        productGroup,
+                                      child: Center(
+                                        child: Text(
+                                          style: GoogleFonts.getFont('Saira'),
+                                          productGroup,
+                                        ),
                                       ),
                                     );
                                   },
