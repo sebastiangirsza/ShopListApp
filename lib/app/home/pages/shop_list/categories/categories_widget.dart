@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shoplistappsm/app/home/pages/shop_list/categories/cubit/product_cubit.dart';
 import 'package:shoplistappsm/app/home/pages/shop_list/cubit/add_cubit.dart';
 import 'package:shoplistappsm/app/home/pages/your_products/cubit/your_products_cubit.dart';
@@ -77,7 +78,7 @@ class _Dismissible extends StatelessWidget {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.blue,
+                  color: Colors.green,
                 ),
                 child: Align(
                   alignment: Alignment.centerLeft,
@@ -135,7 +136,7 @@ class _ProductsList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
         decoration: const BoxDecoration(
-            color: Colors.green,
+            color: Color.fromARGB(255, 0, 4, 255),
             boxShadow: <BoxShadow>[
               BoxShadow(color: Colors.black, blurRadius: 5)
             ],
@@ -147,19 +148,19 @@ class _ProductsList extends StatelessWidget {
             children: [
               Text(
                 productModel.productName,
-                style: const TextStyle(fontSize: 15),
+                style: GoogleFonts.getFont('Saira', fontSize: 15),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
                     productModel.productQuantity.toString(),
-                    style: const TextStyle(fontSize: 15),
+                    style: GoogleFonts.getFont('Saira', fontSize: 15),
                   ),
                   const SizedBox(width: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(221, 179, 255, 155),
+                      backgroundColor: Colors.blue,
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                     ),

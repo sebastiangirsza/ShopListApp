@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shoplistappsm/app/home/pages/your_products/cubit/your_products_cubit.dart';
 import 'package:shoplistappsm/app/repositories/products_repositories.dart';
 
@@ -13,7 +14,17 @@ class StoragePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(storageName),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(30),
+            ),
+          ),
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.black,
+          title: Text(
+              style: GoogleFonts.getFont('Saira',
+                  fontWeight: FontWeight.bold, fontSize: 25),
+              storageName),
         ),
         body: BlocProvider(
           create: (context) => YourProductsCubit(ProductsRepository())..start(),
@@ -37,8 +48,15 @@ class StoragePage extends StatelessWidget {
                                     horizontal: 25.0),
                                 child: Container(
                                   height: 35,
-                                  decoration:
-                                      const BoxDecoration(color: Colors.black),
+                                  decoration: const BoxDecoration(
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                          color: Colors.black, blurRadius: 15)
+                                    ],
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    color: Colors.blue,
+                                  ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
@@ -46,11 +64,15 @@ class StoragePage extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(purchasedProductsModel
-                                            .purchasedProductName),
-                                        Text(purchasedProductsModel
-                                            .purchasedProductQuantity
-                                            .toString()),
+                                        Text(
+                                            style: GoogleFonts.getFont('Saira'),
+                                            purchasedProductsModel
+                                                .purchasedProductName),
+                                        Text(
+                                            style: GoogleFonts.getFont('Saira'),
+                                            purchasedProductsModel
+                                                .purchasedProductQuantity
+                                                .toString()),
                                       ],
                                     ),
                                   ),

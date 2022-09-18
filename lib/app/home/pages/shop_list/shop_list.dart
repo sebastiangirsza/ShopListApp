@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shoplistappsm/app/home/pages/shop_list/categories/categories_widget.dart';
 import 'package:shoplistappsm/app/home/pages/shop_list/cubit/add_cubit.dart';
@@ -31,7 +32,7 @@ class _ShopListPageState extends State<ShopListPage> {
               style: ElevatedButton.styleFrom(
                   shadowColor: Colors.black,
                   elevation: 15,
-                  backgroundColor: const Color.fromARGB(255, 173, 255, 141),
+                  backgroundColor: const Color.fromARGB(255, 0, 4, 255),
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(50)))),
               onPressed: () => showDialog(
@@ -40,18 +41,22 @@ class _ShopListPageState extends State<ShopListPage> {
                     return StatefulBuilder(
                         builder: (BuildContext context, StateSetter setState) {
                       return AlertDialog(
-                        backgroundColor: Colors.blueGrey,
-                        title: const Text(
+                        backgroundColor: Colors.blue,
+                        title: Text(
+                          style: GoogleFonts.getFont('Saira',
+                              fontWeight: FontWeight.bold),
                           'Dodaj produkt do listy',
                           textAlign: TextAlign.center,
                         ),
                         content: SizedBox(
-                          height: 300,
+                          height: 223,
                           child: Column(
                             children: [
                               DropdownButtonFormField(
-                                decoration: const InputDecoration(
-                                    label: Text('Kategoria')),
+                                decoration: InputDecoration(
+                                    label: Text(
+                                        style: GoogleFonts.getFont('Saira'),
+                                        'Kategoria')),
                                 isExpanded: true,
                                 value: productGroup,
                                 onChanged: (newProduct) {
@@ -60,23 +65,31 @@ class _ShopListPageState extends State<ShopListPage> {
                                   });
                                 },
                                 items: <String>[
-                                  'Mięso',
                                   'Warzywa',
+                                  'Mięso',
+                                  'Pieczywo',
+                                  'Suche produkty',
+                                  'Nabiał',
+                                  'Chemia',
+                                  'Inne',
                                 ].map<DropdownMenuItem<String>>(
                                   (productGroup) {
                                     return DropdownMenuItem<String>(
                                       value: productGroup,
                                       child: Text(
+                                        style: GoogleFonts.getFont('Saira'),
                                         productGroup,
-                                        // style: const TextStyle(color: Colors.black),
                                       ),
                                     );
                                   },
                                 ).toList(),
                               ),
                               TextField(
-                                decoration: const InputDecoration(
-                                    label: Text('Nazwa produktu')),
+                                style: GoogleFonts.getFont('Saira'),
+                                decoration: InputDecoration(
+                                    label: Text(
+                                        style: GoogleFonts.getFont('Saira'),
+                                        'Nazwa produktu')),
                                 onChanged: (newProduct) {
                                   setState(() {
                                     productName = newProduct;
@@ -87,13 +100,15 @@ class _ShopListPageState extends State<ShopListPage> {
                               Column(
                                 children: [
                                   const SizedBox(
-                                    height: 15,
+                                    height: 9,
                                   ),
-                                  const Text('Ilość: '),
+                                  Text(
+                                      style: GoogleFonts.getFont('Saira'),
+                                      'Ilość: '),
                                   Padding(
                                     padding: const EdgeInsets.all(15.0),
                                     child: NumberPicker(
-                                      itemHeight: 25,
+                                      itemHeight: 24,
                                       itemWidth: 40,
                                       axis: Axis.horizontal,
                                       value: productQuantity,
@@ -114,9 +129,10 @@ class _ShopListPageState extends State<ShopListPage> {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: const Text(
+                              child: Text(
                                 'Cofnij',
-                                style: TextStyle(color: Colors.black),
+                                style: GoogleFonts.getFont('Saira',
+                                    color: Colors.black),
                               )),
                           BlocProvider(
                             create: (context) => AddCubit(ProductsRepository()),
@@ -137,7 +153,9 @@ class _ShopListPageState extends State<ShopListPage> {
                                               );
                                           Navigator.of(context).pop();
                                         },
-                                  child: const Text('Dodaj do listy'),
+                                  child: Text(
+                                      style: GoogleFonts.getFont('Saira'),
+                                      'Dodaj do listy'),
                                 );
                               },
                             ),
@@ -148,17 +166,18 @@ class _ShopListPageState extends State<ShopListPage> {
                   }),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                      style: TextStyle(color: Colors.black),
+                      style: GoogleFonts.getFont('Saira',
+                          color: Colors.white, fontWeight: FontWeight.bold),
                       'Dodaj produkt do listy'),
-                  SizedBox(width: 5),
-                  Icon(Icons.add, color: Colors.black),
+                  const SizedBox(width: 5),
+                  const Icon(Icons.add, color: Colors.white),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 4),
           const _ProductsGroup(),
         ],
       ),
@@ -198,11 +217,12 @@ class _ProductsGroup extends StatelessWidget {
                     const SizedBox(height: 10),
                     Container(
                       decoration: const BoxDecoration(
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(color: Colors.black, blurRadius: 15)
-                          ],
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Color.fromARGB(255, 47, 148, 0)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(color: Colors.black, blurRadius: 15)
+                        ],
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        color: Colors.blue,
+                      ),
                       child: Theme(
                         data: Theme.of(context)
                             .copyWith(dividerColor: Colors.transparent),
@@ -213,9 +233,12 @@ class _ProductsGroup extends StatelessWidget {
                             children: [
                               const Icon(null),
                               Text(
-                                  style: const TextStyle(
-                                      fontSize: 20, color: Colors.white),
-                                  categoriesName[index]),
+                                categoriesName[index],
+                                style: GoogleFonts.getFont('Saira',
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ],
                           ),
                           children: [

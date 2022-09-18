@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shoplistappsm/app/home/pages/your_products/pages/storage.dart';
 
 class YourProductsPage extends StatelessWidget {
@@ -48,11 +49,22 @@ class YourProductsPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),
                         child: Container(
                           height: 50,
-                          decoration: const BoxDecoration(color: Colors.grey),
+                          decoration: const BoxDecoration(
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(color: Colors.black, blurRadius: 15)
+                            ],
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.blue,
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(storageNames[index]),
+                              Text(
+                                  style: GoogleFonts.getFont('Saira',
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                  storageNames[index]),
                               Icon(icon[index]),
                             ],
                           ),
