@@ -6,6 +6,10 @@ import 'package:shoplistappsm/app/home/pages/shop_list/cubit/add_cubit.dart';
 import 'package:shoplistappsm/app/home/pages/your_products/cubit/your_products_cubit.dart';
 import 'package:shoplistappsm/app/models/product_model.dart';
 import 'package:shoplistappsm/app/repositories/products_repositories.dart';
+import 'package:shoplistappsm/app/repositories/purchased_products_repository.dart';
+import 'package:shoplistappsm/data/remote_data_sources/product_remote_data_source.dart';
+import 'package:shoplistappsm/data/remote_data_sources/purchased_product_remote_data_source.dart';
+import 'package:shoplistappsm/data/remote_data_sources/user_remote_data_source.dart';
 
 class CategoriesWidget extends StatefulWidget {
   const CategoriesWidget({
@@ -22,11 +26,14 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddCubit(ProductsRepository()),
+      create: (context) => AddCubit(ProductsRepository(
+          ProductRemoteDataSource(), UserRemoteDataSource())),
       child: BlocBuilder<AddCubit, AddState>(
         builder: (context, state) {
           return BlocProvider(
-            create: (context) => ProductCubit(ProductsRepository())..start(),
+            create: (context) => ProductCubit(ProductsRepository(
+                ProductRemoteDataSource(), UserRemoteDataSource()))
+              ..start(),
             child: BlocBuilder<ProductCubit, ProductState>(
               builder: (context, state) {
                 final productModels = state.products;
@@ -74,13 +81,15 @@ class _DismissibleState extends State<_Dismissible> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => YourProductsCubit(ProductsRepository()),
+      create: (context) => YourProductsCubit(PurchasedProductsRepository(
+          PurchasedProductsRemoteDataSource(), UserRemoteDataSource())),
       child: BlocBuilder<YourProductsCubit, YourProductsState>(
         builder: (context, state) {
           return Dismissible(
             key: UniqueKey(),
             background: BlocProvider(
-              create: (context) => AddCubit(ProductsRepository()),
+              create: (context) => AddCubit(ProductsRepository(
+                  ProductRemoteDataSource(), UserRemoteDataSource())),
               child: BlocBuilder<AddCubit, AddState>(
                 builder: (context, state) {
                   return Padding(
@@ -244,7 +253,9 @@ class _AlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => YourProductsCubit(ProductsRepository())..start(),
+      create: (context) => YourProductsCubit(PurchasedProductsRepository(
+          PurchasedProductsRemoteDataSource(), UserRemoteDataSource()))
+        ..start(),
       child: BlocBuilder<YourProductsCubit, YourProductsState>(
         builder: (context, state) {
           String? storageName;
@@ -299,7 +310,8 @@ class _AlertDialog extends StatelessWidget {
                             GoogleFonts.getFont('Saira', color: Colors.black),
                       )),
                   BlocProvider(
-                    create: (context) => AddCubit(ProductsRepository()),
+                    create: (context) => AddCubit(ProductsRepository(
+                        ProductRemoteDataSource(), UserRemoteDataSource())),
                     child: BlocBuilder<AddCubit, AddState>(
                       builder: (context, state) {
                         return ElevatedButton(

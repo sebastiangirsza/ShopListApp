@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoplistappsm/app/home/pages/your_products/cubit/your_products_cubit.dart';
-import 'package:shoplistappsm/app/repositories/products_repositories.dart';
+import 'package:shoplistappsm/app/repositories/purchased_products_repository.dart';
+import 'package:shoplistappsm/data/remote_data_sources/purchased_product_remote_data_source.dart';
+import 'package:shoplistappsm/data/remote_data_sources/user_remote_data_source.dart';
 
 class StoragePage extends StatelessWidget {
   const StoragePage({
@@ -71,8 +73,11 @@ class StoragePage extends StatelessWidget {
             delegate: SliverChildListDelegate(
               [
                 BlocProvider(
-                  create: (context) =>
-                      YourProductsCubit(ProductsRepository())..start(),
+                  create: (context) => YourProductsCubit(
+                      PurchasedProductsRepository(
+                          PurchasedProductsRemoteDataSource(),
+                          UserRemoteDataSource()))
+                    ..start(),
                   child: BlocBuilder<YourProductsCubit, YourProductsState>(
                     builder: (context, state) {
                       final purchasedProductModels = state.purchasedProducts;

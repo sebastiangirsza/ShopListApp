@@ -1,15 +1,13 @@
 import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shoplistappsm/app/models/user_model.dart';
-import 'package:shoplistappsm/app/repositories/user_repository.dart';
+import 'package:shoplistappsm/data/remote_data_sources/user_remote_data_source.dart';
 
-class FirebaseAuthRespository implements AuthProvider {
-  FirebaseAuth getInstance = FirebaseAuth.instance;
+class FirebaseAuthRespository {
+  FirebaseAuthRespository(this._userRemoteDataSource);
+  final UserRemoteDataSource _userRemoteDataSource;
 
-  @override
-  UserModel? get currentUser {
-    final user = FirebaseAuth.instance.currentUser;
+  Future<UserModel?> currentUser() async {
+    final user = _userRemoteDataSource.currentUser();
     if (user != null) {
       return UserModel.fromFirebase(user);
     } else {
@@ -17,50 +15,52 @@ class FirebaseAuthRespository implements AuthProvider {
     }
   }
 
-  @override
-  Future<UserModel> createUser({
+  Stream<UserModel?> userModelStream() => _userRemoteDataSource
+      .getInstance()
+      .authStateChanges()
+      .map((user) => (user != null) ? UserModel.fromFirebase(user) : null);
+
+  Future<UserModel?> createUser({
     required String email,
     required String password,
   }) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      final user = currentUser;
+      await _userRemoteDataSource.getInstance().createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
+      final user = _userRemoteDataSource.currentUser();
       if (user != null) {
-        return user;
+        return UserModel.fromFirebase(user);
       } else {
         throw Exception();
       }
-    } on FirebaseAuthException catch (e) {
-      throw Exception(e.code.toString());
+    } catch (error) {
+      throw Exception(error.toString());
     }
   }
 
-  @override
-  Future<UserModel> logIn({
+  Future<UserModel?> logIn({
     required String email,
     required String password,
   }) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      final user = currentUser;
+      await _userRemoteDataSource.getInstance().signInWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
+      final user = _userRemoteDataSource.currentUser();
       if (user != null) {
-        return user;
+        return UserModel.fromFirebase(user);
       } else {
         throw Exception();
       }
-    } on FirebaseAuthException catch (e) {
-      throw Exception(e.code.toString());
+    } catch (error) {
+      throw Exception(error.toString());
     }
   }
 
-  @override
   Future<void> logOut() async {
-    await FirebaseAuth.instance.signOut();
+    await _userRemoteDataSource.getInstance().signOut();
   }
 }

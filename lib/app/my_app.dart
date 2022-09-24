@@ -4,6 +4,7 @@ import 'package:shoplistappsm/app/cubit/auth_cubit.dart';
 import 'package:shoplistappsm/app/home/home_page.dart';
 import 'package:shoplistappsm/app/login/login_page.dart';
 import 'package:shoplistappsm/app/repositories/firebase_auth_repository.dart';
+import 'package:shoplistappsm/data/remote_data_sources/user_remote_data_source.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({
@@ -34,7 +35,8 @@ class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(FirebaseAuthRespository())..start(),
+      create: (context) =>
+          AuthCubit(FirebaseAuthRespository(UserRemoteDataSource()))..start(),
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           final user = state.user;

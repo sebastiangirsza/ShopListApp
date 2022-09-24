@@ -1,48 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shoplistappsm/app/models/product_model.dart';
-import 'package:shoplistappsm/app/models/purchased_product_model.dart';
+import 'package:shoplistappsm/data/remote_data_sources/product_remote_data_source.dart';
+import 'package:shoplistappsm/data/remote_data_sources/user_remote_data_source.dart';
 
 class ProductsRepository {
+  ProductsRepository(this._productRemoteDataSource, this._userRemoteDataSource);
+  final ProductRemoteDataSource _productRemoteDataSource;
+  final UserRemoteDataSource _userRemoteDataSource;
   Stream<List<ProductModel>> getProductsStream() {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
+    final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {
       throw Exception('Użytkownik nie jest zalogowany');
     }
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('products')
-        .snapshots()
-        .map((querySnapshots) {
+    return _productRemoteDataSource.getProductsStream().map((querySnapshots) {
       return querySnapshots.docs.map((products) {
-        return ProductModel(
-          productGroup: products['product_group'],
-          productName: products['product_name'],
-          productQuantity: (products['product_quantity']),
-          id: products.id,
-          isChecked: (products['product_check']),
-        );
-      }).toList();
-    });
-  }
-
-  Stream<List<PurchasedProductModel>> getPurchasedProductsStream() {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('purchased_products')
-        .snapshots()
-        .map((querySnapshots) {
-      return querySnapshots.docs.map((purchasedProducts) {
-        return PurchasedProductModel(
-          purchasedProductGroup: purchasedProducts['product_group'],
-          purchasedProductName: purchasedProducts['product_name'],
-          purchasedProductQuantity: (purchasedProducts['product_quantity']),
-          id: purchasedProducts.id,
-          storageName: purchasedProducts['storage_name'],
-        );
+        return ProductModel.fromJson(products);
       }).toList();
     });
   }
@@ -53,82 +24,34 @@ class ProductsRepository {
     int productQuantity,
     bool isChecked,
   ) async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
+    final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {
       throw Exception('Użytkownik nie jest zalogowany');
     }
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('products')
-        .add({
-      'product_group': productGroup,
-      'product_name': productName,
-      'product_quantity': productQuantity,
-      'product_check': isChecked,
-    });
-  }
-
-  Future<void> addYourProduct(
-    String purchasedProductGroup,
-    String purchasedProductName,
-    int purchasedProductQuantity,
-    String storageName,
-  ) async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    if (userID == null) {
-      throw Exception('Użytkownik nie jest zalogowany');
-    }
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('purchased_products')
-        .add({
-      'product_group': purchasedProductGroup,
-      'product_name': purchasedProductName,
-      'product_quantity': purchasedProductQuantity,
-      'storage_name': storageName,
-    });
+    await _productRemoteDataSource.add(
+      productGroup,
+      productName,
+      productQuantity,
+      isChecked,
+    );
   }
 
   Future<void> isChecked(
     bool isChecked,
     String id,
   ) async {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('products')
-        .doc(id)
-        .update({
-      'product_check': isChecked,
-    });
+    final userID = _userRemoteDataSource.getUserID();
+    if (userID == null) {
+      throw Exception('Użytkownik nie jest zalogowany');
+    }
+    await _productRemoteDataSource.isChecked(isChecked, id);
   }
 
   Future<void> delete({required String id}) {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
+    final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {
       throw Exception('Użytkownik nie jest zalogowany');
     }
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('products')
-        .doc(id)
-        .delete();
-  }
-
-  Future<void> deletePurchasedProduct({required String id}) {
-    final userID = FirebaseAuth.instance.currentUser?.uid;
-    if (userID == null) {
-      throw Exception('Użytkownik nie jest zalogowany');
-    }
-    return FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('purchased_products')
-        .doc(id)
-        .delete();
+    return _productRemoteDataSource.delete(id: id);
   }
 }

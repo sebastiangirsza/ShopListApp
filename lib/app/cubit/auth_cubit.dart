@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:shoplistappsm/app/models/user_model.dart';
 import 'package:shoplistappsm/app/repositories/firebase_auth_repository.dart';
@@ -24,14 +23,12 @@ class AuthCubit extends Cubit<AuthState> {
         user: null,
       ),
     );
-    _streamSubscription =
-        _firebaseAuthRespository.getInstance.authStateChanges().listen(
+    _streamSubscription = _firebaseAuthRespository.userModelStream().listen(
       (user) {
         if (user != null) {
-          final userModel = UserModel.fromFirebase(user);
           emit(
             AuthState(
-              user: userModel,
+              user: user,
             ),
           );
         } else {
@@ -43,12 +40,12 @@ class AuthCubit extends Cubit<AuthState> {
         }
       },
     )..onError((error) {
-            emit(
-              const AuthState(
-                user: null,
-              ),
-            );
-          });
+        emit(
+          const AuthState(
+            user: null,
+          ),
+        );
+      });
   }
 
   Future<void> createUser({

@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shoplistappsm/app/home/pages/shop_list/categories/categories_widget.dart';
-import 'package:shoplistappsm/app/home/pages/shop_list/categories/cubit/product_cubit.dart';
 import 'package:shoplistappsm/app/home/pages/shop_list/cubit/add_cubit.dart';
 import 'package:shoplistappsm/app/repositories/products_repositories.dart';
+import 'package:shoplistappsm/data/remote_data_sources/product_remote_data_source.dart';
+import 'package:shoplistappsm/data/remote_data_sources/user_remote_data_source.dart';
 
 class ShopListPage extends StatefulWidget {
   const ShopListPage({
@@ -138,7 +139,9 @@ class _ShopListPageState extends State<ShopListPage> {
                                     color: Colors.white),
                               )),
                           BlocProvider(
-                            create: (context) => AddCubit(ProductsRepository()),
+                            create: (context) => AddCubit(ProductsRepository(
+                                ProductRemoteDataSource(),
+                                UserRemoteDataSource())),
                             child: BlocBuilder<AddCubit, AddState>(
                               builder: (context, state) {
                                 return ElevatedButton(

@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-
 import 'package:shoplistappsm/app/repositories/products_repositories.dart';
 
 part 'add_state.dart';

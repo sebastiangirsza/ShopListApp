@@ -1,24 +1,23 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:shoplistappsm/app/models/purchased_product_model.dart';
-import 'package:shoplistappsm/app/repositories/products_repositories.dart';
+import 'package:shoplistappsm/app/repositories/purchased_products_repository.dart';
 
 part 'your_products_state.dart';
 
 class YourProductsCubit extends Cubit<YourProductsState> {
-  YourProductsCubit(this._productsRepository)
+  YourProductsCubit(this._purchasedProductsRepository)
       : super(
           const YourProductsState(),
         );
 
   StreamSubscription? _streamSubscription;
 
-  final ProductsRepository _productsRepository;
+  final PurchasedProductsRepository _purchasedProductsRepository;
 
   Future<void> start() async {
-    _streamSubscription = _productsRepository
+    _streamSubscription = _purchasedProductsRepository
         .getPurchasedProductsStream()
         .listen((purchasedProduct) {
       emit(YourProductsState(purchasedProducts: purchasedProduct));
@@ -32,7 +31,7 @@ class YourProductsCubit extends Cubit<YourProductsState> {
     String storageName,
   ) async {
     try {
-      await _productsRepository.addYourProduct(
+      await _purchasedProductsRepository.addYourProduct(
         purchasedProductGroup,
         purchasedProductName,
         purchasedProductQuantity,
@@ -43,7 +42,7 @@ class YourProductsCubit extends Cubit<YourProductsState> {
   }
 
   Future<void> deletePurchasedProduct({required String documentID}) {
-    return _productsRepository.deletePurchasedProduct(id: documentID);
+    return _purchasedProductsRepository.deletePurchasedProduct(id: documentID);
   }
 
   @override

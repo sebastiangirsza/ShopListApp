@@ -7,6 +7,7 @@ import 'package:shoplistappsm/app/home/pages/recipes/recipes.dart';
 import 'package:shoplistappsm/app/home/pages/shop_list/shop_list.dart';
 import 'package:shoplistappsm/app/home/pages/your_products/your_products.dart';
 import 'package:shoplistappsm/app/repositories/firebase_auth_repository.dart';
+import 'package:shoplistappsm/data/remote_data_sources/user_remote_data_source.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -22,7 +23,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(FirebaseAuthRespository())..start(),
+      create: (context) =>
+          AuthCubit(FirebaseAuthRespository(UserRemoteDataSource()))..start(),
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           return Container(
@@ -148,7 +150,8 @@ class _SignOutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(FirebaseAuthRespository()),
+      create: (context) =>
+          AuthCubit(FirebaseAuthRespository(UserRemoteDataSource())),
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           return ElevatedButton(

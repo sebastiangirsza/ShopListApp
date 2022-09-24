@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart' show User;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -11,8 +11,7 @@ class UserModel {
     required this.uid,
   });
 
-  factory UserModel.fromFirebase(User user) => UserModel(
-        email: user.email,
-        uid: user.uid,
-      );
+  UserModel.fromFirebase(User user)
+      : email = user.email,
+        uid = user.uid;
 }
