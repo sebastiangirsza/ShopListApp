@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:shoplistappsm/app/cubit/auth_cubit.dart';
-import 'package:shoplistappsm/app/home/pages/recipes/recipes.dart';
-import 'package:shoplistappsm/app/home/pages/shop_list/shop_list.dart';
-import 'package:shoplistappsm/app/home/pages/your_products/your_products.dart';
-import 'package:shoplistappsm/app/repositories/firebase_auth_repository.dart';
-import 'package:shoplistappsm/data/remote_data_sources/user_remote_data_source.dart';
+import 'package:ShopListApp/app/cubit/auth_cubit.dart';
+import 'package:ShopListApp/app/home/pages/recipes/recipes.dart';
+import 'package:ShopListApp/app/home/pages/shop_list/shop_list.dart';
+import 'package:ShopListApp/app/home/pages/your_products/your_products.dart';
+import 'package:ShopListApp/app/repositories/firebase_auth_repository.dart';
+import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       const SizedBox(width: 15),
                                       Text(
-                                        'Shop List App',
+                                        'ShopListApp',
                                         style: GoogleFonts.getFont('Saira',
                                             fontSize: 20),
                                         textAlign: TextAlign.center,

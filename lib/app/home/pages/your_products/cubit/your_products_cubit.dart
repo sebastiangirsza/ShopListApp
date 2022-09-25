@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:shoplistappsm/app/models/purchased_product_model.dart';
-import 'package:shoplistappsm/app/repositories/purchased_products_repository.dart';
+import 'package:ShopListApp/app/models/purchased_product_model.dart';
+import 'package:ShopListApp/app/repositories/purchased_products_repository.dart';
 
 part 'your_products_state.dart';
 

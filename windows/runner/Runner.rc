@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.sebastiangirsza" "\0"
-            VALUE "FileDescription", "shoplistappsm" "\0"
+            VALUE "FileDescription", "ShopListApp" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "shoplistappsm" "\0"
+            VALUE "InternalName", "ShopListApp" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.sebastiangirsza. All rights reserved." "\0"
-            VALUE "OriginalFilename", "shoplistappsm.exe" "\0"
-            VALUE "ProductName", "shoplistappsm" "\0"
+            VALUE "OriginalFilename", "ShopListApp.exe" "\0"
+            VALUE "ProductName", "ShopListApp" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

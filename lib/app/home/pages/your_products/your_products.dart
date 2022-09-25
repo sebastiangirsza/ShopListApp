@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shoplistappsm/app/home/pages/your_products/pages/storage.dart';
+import 'package:ShopListApp/app/home/pages/your_products/pages/storage.dart';
 
 class YourProductsPage extends StatelessWidget {
   const YourProductsPage({

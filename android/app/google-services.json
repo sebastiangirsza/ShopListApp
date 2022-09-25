@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:812465192951:android:9d1877ba7c9932a7c278f2",
         "android_client_info": {
-          "package_name": "com.sebastiangirsza.shoplistappsm"
+          "package_name": "com.sebastiangirsza.ShopListApp"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "812465192951-qprpcqe1mjoaip1ltk7fgpk8nd052sh8.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sebastiangirsza.shoplistappsm"
+                "bundle_id": "com.sebastiangirsza.ShopListApp"
               }
             }
           ]

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoplistappsm/app/cubit/auth_cubit.dart';
-import 'package:shoplistappsm/app/home/home_page.dart';
-import 'package:shoplistappsm/app/login/login_page.dart';
-import 'package:shoplistappsm/app/repositories/firebase_auth_repository.dart';
-import 'package:shoplistappsm/data/remote_data_sources/user_remote_data_source.dart';
+import 'package:ShopListApp/app/cubit/auth_cubit.dart';
+import 'package:ShopListApp/app/home/home_page.dart';
+import 'package:ShopListApp/app/login/login_page.dart';
+import 'package:ShopListApp/app/repositories/firebase_auth_repository.dart';
+import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({

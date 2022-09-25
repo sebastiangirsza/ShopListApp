@@ -1,4 +1,4 @@
-# shoplistappsm
+# ShopListApp
 
 A new Flutter project.
 

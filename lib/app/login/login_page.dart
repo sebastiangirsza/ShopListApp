@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoplistappsm/app/cubit/auth_cubit.dart';
+import 'package:ShopListApp/app/cubit/auth_cubit.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({

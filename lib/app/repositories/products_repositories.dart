@@ -1,6 +1,6 @@
-import 'package:shoplistappsm/app/models/product_model.dart';
-import 'package:shoplistappsm/data/remote_data_sources/product_remote_data_source.dart';
-import 'package:shoplistappsm/data/remote_data_sources/user_remote_data_source.dart';
+import 'package:ShopListApp/app/models/product_model.dart';
+import 'package:ShopListApp/data/remote_data_sources/product_remote_data_source.dart';
+import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
 
 class ProductsRepository {
   ProductsRepository(this._productRemoteDataSource, this._userRemoteDataSource);

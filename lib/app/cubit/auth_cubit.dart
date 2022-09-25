@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:shoplistappsm/app/models/user_model.dart';
-import 'package:shoplistappsm/app/repositories/firebase_auth_repository.dart';
+import 'package:ShopListApp/app/models/user_model.dart';
+import 'package:ShopListApp/app/repositories/firebase_auth_repository.dart';
 
 part 'auth_state.dart';
 

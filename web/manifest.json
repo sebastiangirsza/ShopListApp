@@ -1,6 +1,6 @@
 {
-    "name": "shoplistappsm",
-    "short_name": "shoplistappsm",
+    "name": "ShopListApp",
+    "short_name": "ShopListApp",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
