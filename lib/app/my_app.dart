@@ -72,7 +72,7 @@ class _SplashScreen extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(25.0),
                     child: ClipOval(
                       child: AnimatedSize(
                         // clipBehavior: Clip.antiAlias,
