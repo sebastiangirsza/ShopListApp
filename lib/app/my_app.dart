@@ -37,7 +37,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreen extends State<SplashScreen> {
-  int splashtime = 1;
+  int splashtime = 2;
+  double _size = 150;
 
   @override
   void initState() {
@@ -71,15 +72,15 @@ class _SplashScreen extends State<SplashScreen> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const AnimatedSize(
-                    curve: Curves.easeIn,
-                    duration: Duration(seconds: 3),
-                    child: CircleAvatar(
-                      radius: 110,
-                      backgroundColor: Color.fromARGB(255, 0, 63, 114),
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage('images/icon/app_icon.png'),
-                        radius: 100,
+                  Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: ClipOval(
+                      child: AnimatedSize(
+                        // clipBehavior: Clip.antiAlias,
+                        curve: Curves.decelerate,
+                        duration: const Duration(seconds: 1),
+                        child: ClipOval(
+                            child: Image.asset('images/icon/app_icon_2.png')),
                       ),
                     ),
                   ),
