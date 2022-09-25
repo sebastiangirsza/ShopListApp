@@ -1,3 +1,4 @@
+import 'package:ShopListApp/app/home/pages/shop_list/categories/cubit/product_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,189 +28,189 @@ class _ShopListPageState extends State<ShopListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        children: [
+        shrinkWrap: true,
+        children: const [
           Padding(
-            padding: const EdgeInsets.only(left: 70, right: 70, top: 8),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  shadowColor: Colors.black,
-                  elevation: 15,
-                  backgroundColor: Colors.green,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(50)))),
-              onPressed: () => showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return StatefulBuilder(
-                        builder: (BuildContext context, StateSetter setState) {
-                      return AlertDialog(
-                        backgroundColor: const Color.fromARGB(255, 0, 63, 114),
-                        title: Text(
-                          style: GoogleFonts.getFont('Saira',
-                              fontWeight: FontWeight.bold),
-                          'Dodaj produkt do listy',
-                          textAlign: TextAlign.center,
-                        ),
-                        content: SizedBox(
-                          height: 223,
-                          child: Column(
-                            children: [
-                              DropdownButtonFormField(
-                                decoration: InputDecoration(
-                                    label: Text(
-                                        style: GoogleFonts.getFont('Saira'),
-                                        'Kategoria')),
-                                isExpanded: true,
-                                value: productGroup,
-                                onChanged: (newProduct) {
-                                  setState(() {
-                                    productGroup = newProduct!;
-                                  });
-                                },
-                                items: <String>[
-                                  'Warzywa',
-                                  'Mięso',
-                                  'Pieczywo',
-                                  'Suche produkty',
-                                  'Nabiał',
-                                  'Chemia',
-                                  'Inne',
-                                ].map<DropdownMenuItem<String>>(
-                                  (productGroup) {
-                                    return DropdownMenuItem<String>(
-                                      value: productGroup,
-                                      child: Center(
-                                        child: Text(
-                                          style: GoogleFonts.getFont('Saira'),
-                                          productGroup,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ).toList(),
-                              ),
-                              TextField(
-                                style: GoogleFonts.getFont('Saira'),
-                                decoration: InputDecoration(
-                                    label: Text(
-                                        style: GoogleFonts.getFont('Saira'),
-                                        'Nazwa produktu')),
-                                onChanged: (newProduct) {
-                                  setState(() {
-                                    productName = newProduct;
-                                  });
-                                },
-                                textAlign: TextAlign.center,
-                              ),
-                              Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 9,
-                                  ),
-                                  Text(
+            padding: EdgeInsets.only(bottom: 50.0, top: 15),
+            child: _ProductsGroup(),
+          ),
+        ],
+      ),
+      floatingActionButton: SizedBox(
+        width: 210,
+        height: 40,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              shadowColor: Colors.black,
+              elevation: 15,
+              backgroundColor: Colors.green,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(50)))),
+          onPressed: () => showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                  return AlertDialog(
+                    backgroundColor: const Color.fromARGB(255, 0, 63, 114),
+                    title: Text(
+                      style: GoogleFonts.getFont('Saira',
+                          fontWeight: FontWeight.bold),
+                      'Dodaj produkt do listy',
+                      textAlign: TextAlign.center,
+                    ),
+                    content: SizedBox(
+                      height: 223,
+                      child: Column(
+                        children: [
+                          DropdownButtonFormField(
+                            decoration: InputDecoration(
+                                label: Text(
+                                    style: GoogleFonts.getFont('Saira'),
+                                    'Kategoria')),
+                            isExpanded: true,
+                            value: productGroup,
+                            onChanged: (newProduct) {
+                              setState(() {
+                                productGroup = newProduct!;
+                              });
+                            },
+                            items: <String>[
+                              'Warzywa',
+                              'Mięso',
+                              'Pieczywo',
+                              'Suche produkty',
+                              'Nabiał',
+                              'Chemia',
+                              'Inne',
+                            ].map<DropdownMenuItem<String>>(
+                              (productGroup) {
+                                return DropdownMenuItem<String>(
+                                  value: productGroup,
+                                  child: Center(
+                                    child: Text(
                                       style: GoogleFonts.getFont('Saira'),
-                                      'Ilość: '),
-                                  Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: NumberPicker(
-                                      itemHeight: 24,
-                                      itemWidth: 40,
-                                      axis: Axis.horizontal,
-                                      value: productQuantity,
-                                      minValue: 1,
-                                      maxValue: 100,
-                                      itemCount: 5,
-                                      onChanged: (value) => setState(
-                                          () => productQuantity = value),
+                                      productGroup,
                                     ),
                                   ),
-                                ],
+                                );
+                              },
+                            ).toList(),
+                          ),
+                          TextField(
+                            style: GoogleFonts.getFont('Saira'),
+                            decoration: InputDecoration(
+                                label: Text(
+                                    style: GoogleFonts.getFont('Saira'),
+                                    'Nazwa produktu')),
+                            onChanged: (newProduct) {
+                              setState(() {
+                                productName = newProduct;
+                              });
+                            },
+                            textAlign: TextAlign.center,
+                          ),
+                          Column(
+                            children: [
+                              const SizedBox(
+                                height: 9,
+                              ),
+                              Text(
+                                  style: GoogleFonts.getFont('Saira'),
+                                  'Ilość: '),
+                              Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: NumberPicker(
+                                  itemHeight: 24,
+                                  itemWidth: 40,
+                                  axis: Axis.horizontal,
+                                  value: productQuantity,
+                                  minValue: 1,
+                                  maxValue: 100,
+                                  itemCount: 5,
+                                  onChanged: (value) =>
+                                      setState(() => productQuantity = value),
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                        actions: [
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(
-                                'Cofnij',
-                                style: GoogleFonts.getFont('Saira',
-                                    color: Colors.white),
-                              )),
-                          BlocProvider(
-                            create: (context) => AddCubit(ProductsRepository(
-                                ProductRemoteDataSource(),
-                                UserRemoteDataSource())),
-                            child: BlocBuilder<AddCubit, AddState>(
-                              builder: (context, state) {
-                                return ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.black),
-                                  onPressed: productGroup == null ||
-                                          productName == null
-                                      ? null
-                                      : () {
-                                          context.read<AddCubit>().add(
-                                                productGroup!,
-                                                productName!,
-                                                productQuantity,
-                                                isChecked,
-                                              );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              duration: const Duration(
-                                                  milliseconds: 600),
-                                              content: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                      style:
-                                                          GoogleFonts.getFont(
-                                                              'Saira',
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.white),
-                                                      'Produkt dodany do listy'),
-                                                ],
-                                              ),
-                                              backgroundColor: Colors.green,
-                                            ),
-                                          );
-                                          Navigator.of(context).pop();
-                                        },
-                                  child: Text(
-                                      style: GoogleFonts.getFont('Saira'),
-                                      'Dodaj do listy'),
-                                );
-                              },
-                            ),
-                          )
                         ],
-                      );
-                    });
-                  }),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                      style: GoogleFonts.getFont('Saira',
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                      'Dodaj produkt do listy'),
-                  const SizedBox(width: 5),
-                  const Icon(Icons.add, color: Colors.white),
-                ],
-              ),
-            ),
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            'Cofnij',
+                            style: GoogleFonts.getFont('Saira',
+                                color: Colors.white),
+                          )),
+                      BlocProvider(
+                        create: (context) => AddCubit(ProductsRepository(
+                            ProductRemoteDataSource(), UserRemoteDataSource())),
+                        child: BlocBuilder<AddCubit, AddState>(
+                          builder: (context, state) {
+                            return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.black),
+                              onPressed: productGroup == null ||
+                                      productName == null
+                                  ? null
+                                  : () {
+                                      context.read<AddCubit>().add(
+                                            productGroup!,
+                                            productName!,
+                                            productQuantity,
+                                            isChecked,
+                                          );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          duration:
+                                              const Duration(milliseconds: 600),
+                                          content: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                  style: GoogleFonts.getFont(
+                                                      'Saira',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                  'Produkt dodany do listy'),
+                                            ],
+                                          ),
+                                          backgroundColor: Colors.green,
+                                        ),
+                                      );
+                                      Navigator.of(context).pop();
+                                    },
+                              child: Text(
+                                  style: GoogleFonts.getFont('Saira'),
+                                  'Dodaj do listy'),
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  );
+                });
+              }),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                  style: GoogleFonts.getFont('Saira',
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                  'Dodaj produkt do listy'),
+              const SizedBox(width: 5),
+              const Icon(Icons.add, color: Colors.white),
+            ],
           ),
-          const SizedBox(height: 4),
-          const _ProductsGroup(),
-        ],
+        ),
       ),
     );
   }
@@ -262,6 +263,28 @@ class _ProductsGroup extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Icon(null),
+                              BlocProvider(
+                                create: (context) => ProductCubit(
+                                    ProductsRepository(
+                                        ProductRemoteDataSource(),
+                                        UserRemoteDataSource())),
+                                child: BlocBuilder<ProductCubit, ProductState>(
+                                  builder: (context, state) {
+                                    final productModels = state.products;
+                                    return Column(
+                                      children: [
+                                        for (final productModel
+                                            in productModels) ...[
+                                          Text(
+                                              style:
+                                                  TextStyle(color: Colors.red),
+                                              '${productModel.productGroup.length}'),
+                                        ],
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
                               Text(
                                 categoriesName[index],
                                 style: GoogleFonts.getFont('Saira',

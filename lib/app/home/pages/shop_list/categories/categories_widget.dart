@@ -250,9 +250,11 @@ class _ProductsList extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                productModel.productName,
-                style: GoogleFonts.getFont('Saira', fontSize: 15),
+              Flexible(
+                child: Text(
+                  productModel.productName,
+                  style: GoogleFonts.getFont('Saira', fontSize: 15),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -298,6 +300,7 @@ class _ProductsList extends StatelessWidget {
                         color: Colors.white,
                         Icons.shopping_bag_outlined),
                   ),
+                  // Text(productModel.quantity.toString())
                 ],
               )
             ],
