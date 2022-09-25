@@ -208,8 +208,8 @@ class _DismissibleState extends State<_Dismissible> {
                           backgroundColor: Colors.blue,
                         ),
                       );
-                ;
               }
+              return null;
             },
             child: _ProductsList(productModel: widget.productModel),
           );
@@ -292,7 +292,6 @@ class _ProductsList extends StatelessWidget {
                                 backgroundColor: Colors.blue,
                               ),
                             );
-                      ;
                     },
                     child: const Icon(
                         size: 17,

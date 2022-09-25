@@ -102,7 +102,8 @@ class StoragePage extends StatelessWidget {
                                           .deletePurchasedProduct(
                                               documentID:
                                                   purchasedProductsModel.id);
-                                    } else {}
+                                    }
+                                    return null;
                                   },
                                   child: Column(
                                     children: [

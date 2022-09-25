@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shoplistappsm/app/models/purchased_product_model.dart';
 
 class PurchasedProductsRemoteDataSource {
   Stream<QuerySnapshot<Map<String, dynamic>>> getPurchasedProductsStream() {

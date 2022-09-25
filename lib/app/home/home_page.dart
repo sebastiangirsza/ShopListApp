@@ -54,7 +54,10 @@ class _HomePageState extends State<HomePage> {
                                 children: [
                                   Row(
                                     children: [
-                                      const FlutterLogo(),
+                                      const CircleAvatar(
+                                        backgroundImage: AssetImage(
+                                            'images/icon/app_icon_2.png'),
+                                      ),
                                       const SizedBox(width: 15),
                                       Text(
                                         'Shop List App',

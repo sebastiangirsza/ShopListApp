@@ -38,7 +38,9 @@ class YourProductsCubit extends Cubit<YourProductsState> {
         storageName,
       );
       emit(const YourProductsState());
-    } catch (error) {}
+    } catch (error) {
+      null;
+    }
   }
 
   Future<void> deletePurchasedProduct({required String documentID}) {

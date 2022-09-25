@@ -26,7 +26,9 @@ class AddCubit extends Cubit<AddState> {
         isChecked,
       );
       emit(const AddState());
-    } catch (error) {}
+    } catch (error) {
+      null;
+    }
   }
 
   Future<void> isChecked({
@@ -39,7 +41,9 @@ class AddCubit extends Cubit<AddState> {
         documentID,
       );
       emit(const AddState());
-    } catch (error) {}
+    } catch (error) {
+      null;
+    }
   }
 
   Future<void> delete({required String documentID}) {

@@ -231,15 +231,6 @@ class _ProductsGroup extends StatelessWidget {
       'Chemia',
       'Inne',
     ];
-    var expansionColor = [
-      Colors.red,
-      Colors.blue,
-      const Color.fromARGB(255, 152, 179, 0),
-      Colors.green,
-      Colors.pink,
-      Colors.purple,
-      Colors.grey,
-    ];
     return Container(
       color: Colors.transparent,
       child: Padding(
