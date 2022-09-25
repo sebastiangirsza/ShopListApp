@@ -154,12 +154,61 @@ class _DismissibleState extends State<_Dismissible> {
                 context
                     .read<AddCubit>()
                     .delete(documentID: widget.productModel.id);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                            style: GoogleFonts.getFont('Saira',
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                            'Produkt usunięty z listy zakupów'),
+                      ],
+                    ),
+                    backgroundColor: Colors.red,
+                  ),
+                );
               } else {
                 context.read<AddCubit>().isChecked(
                     isChecked: isChecked, documentID: widget.productModel.id);
                 setState(() {
                   isChecked = !isChecked;
                 });
+                (isChecked == false)
+                    ? ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          duration: const Duration(milliseconds: 600),
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                  style: GoogleFonts.getFont('Saira',
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                  'Produkt dodany do listy kupionych'),
+                            ],
+                          ),
+                          backgroundColor: Colors.blue,
+                        ),
+                      )
+                    : ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          duration: const Duration(milliseconds: 600),
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                  style: GoogleFonts.getFont('Saira',
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                  'Produkt usunięty z listy kupionych'),
+                            ],
+                          ),
+                          backgroundColor: Colors.blue,
+                        ),
+                      );
+                ;
               }
             },
             child: _ProductsList(productModel: widget.productModel),
@@ -220,12 +269,30 @@ class _ProductsList extends StatelessWidget {
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                     ),
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return _AlertDialog(productModel: productModel);
-                          });
+                      (productModel.isChecked == true)
+                          ? showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return _AlertDialog(productModel: productModel);
+                              })
+                          : ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: const Duration(milliseconds: 600),
+                                content: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        style: GoogleFonts.getFont('Saira',
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                        'Produkt nie został kupiony'),
+                                  ],
+                                ),
+                                backgroundColor: Colors.blue,
+                              ),
+                            );
+                      ;
                     },
                     child: const Icon(
                         size: 17,
@@ -318,6 +385,22 @@ class _AlertDialog extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black),
                           onPressed: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: const Duration(milliseconds: 600),
+                                content: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        style: GoogleFonts.getFont('Saira',
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                        'Produkt dodany do \'$storageName\''),
+                                  ],
+                                ),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
                             context.read<YourProductsCubit>().addYourProduct(
                                   productModel.productGroup,
                                   productModel.productName,

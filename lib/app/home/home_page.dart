@@ -47,7 +47,60 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.black,
                 leading: IconButton(
-                    onPressed: () {},
+                    onPressed: () => showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const FlutterLogo(),
+                                      const SizedBox(width: 15),
+                                      Text(
+                                        'Shop List App',
+                                        style: GoogleFonts.getFont('Saira',
+                                            fontSize: 20),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'version 1.0.0',
+                                        style: GoogleFonts.getFont('Saira',
+                                            fontSize: 15),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              content: ListView(
+                                shrinkWrap: true,
+                                children: [
+                                  Text(
+                                    'Aplikacja stworzona do łatwiejszego planowania robienia zakupów',
+                                    style: GoogleFonts.getFont('Saira',
+                                        fontSize: 12),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    'Dięki tej aplikacji możesz sprawdzić jakich produktów potrzebujesz, dodać je do listy, a następnie po kupieniu ich dodać je do odpowiedniego miejsca przechowywania',
+                                    style: GoogleFonts.getFont('Saira',
+                                        fontSize: 10),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Cofnij')),
+                              ],
+                            )),
                     icon: const Icon(
                       Icons.info_outline_rounded,
                       color: Colors.white,

@@ -157,6 +157,30 @@ class _ShopListPageState extends State<ShopListPage> {
                                                 productQuantity,
                                                 isChecked,
                                               );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              duration: const Duration(
+                                                  milliseconds: 600),
+                                              content: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                      style:
+                                                          GoogleFonts.getFont(
+                                                              'Saira',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.white),
+                                                      'Produkt dodany do listy'),
+                                                ],
+                                              ),
+                                              backgroundColor: Colors.green,
+                                            ),
+                                          );
                                           Navigator.of(context).pop();
                                         },
                                   child: Text(
@@ -247,26 +271,6 @@ class _ProductsGroup extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Icon(null),
-                              // BlocProvider(
-                              //   create: (context) =>
-                              //       ProductCubit(ProductsRepository()),
-                              //   child: BlocBuilder<ProductCubit, ProductState>(
-                              //     builder: (context, state) {
-                              //       final productModels = state.products;
-                              //       return Column(
-                              //         children: [
-                              //           for (final productModel
-                              //               in productModels) ...[
-                              //             Text(
-                              //                 style:
-                              //                     TextStyle(color: Colors.red),
-                              //                 '${productModel.productGroup.length}'),
-                              //           ],
-                              //         ],
-                              //       );
-                              //     },
-                              //   ),
-                              // ),
                               Text(
                                 categoriesName[index],
                                 style: GoogleFonts.getFont('Saira',
