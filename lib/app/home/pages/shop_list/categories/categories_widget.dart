@@ -47,6 +47,9 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                           if (productModel.productGroup ==
                               widget.categoriesName) ...[
                             const SizedBox(height: 5),
+                            // Text(
+                            //   productModels.length.toString(),
+                            // ),
                             _Dismissible(productModel: productModel),
                             const SizedBox(height: 5)
                           ],
@@ -263,6 +266,7 @@ class _ProductsList extends StatelessWidget {
                     productModel.productQuantity.toString(),
                     style: GoogleFonts.getFont('Saira', fontSize: 15),
                   ),
+
                   const SizedBox(width: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -403,12 +407,15 @@ class _AlertDialog extends StatelessWidget {
                                 backgroundColor: Colors.green,
                               ),
                             );
-                            context.read<YourProductsCubit>().addYourProduct(
-                                  productModel.productGroup,
-                                  productModel.productName,
-                                  productModel.productQuantity,
-                                  storageName!,
-                                );
+                            final int count = productModel.productQuantity;
+                            for (var i = 0; i < count; i++) {
+                              context.read<YourProductsCubit>().addYourProduct(
+                                    productModel.productGroup,
+                                    productModel.productName,
+                                    productModel.productQuantity,
+                                    storageName!,
+                                  );
+                            }
                             context
                                 .read<AddCubit>()
                                 .delete(documentID: productModel.id);

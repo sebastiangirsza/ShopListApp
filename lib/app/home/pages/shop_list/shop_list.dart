@@ -263,28 +263,6 @@ class _ProductsGroup extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Icon(null),
-                              BlocProvider(
-                                create: (context) => ProductCubit(
-                                    ProductsRepository(
-                                        ProductRemoteDataSource(),
-                                        UserRemoteDataSource())),
-                                child: BlocBuilder<ProductCubit, ProductState>(
-                                  builder: (context, state) {
-                                    final productModels = state.products;
-                                    return Column(
-                                      children: [
-                                        for (final productModel
-                                            in productModels) ...[
-                                          Text(
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                              '${productModel.productGroup.length}'),
-                                        ],
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
                               Text(
                                 categoriesName[index],
                                 style: GoogleFonts.getFont('Saira',
