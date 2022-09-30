@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ShopListApp/app/home/pages/shop_list/categories/cubit/product_cubit.dart';
 import 'package:ShopListApp/app/home/pages/shop_list/cubit/add_cubit.dart';
 import 'package:ShopListApp/app/home/pages/your_products/cubit/your_products_cubit.dart';
 import 'package:ShopListApp/app/models/product_model.dart';
@@ -11,64 +10,8 @@ import 'package:ShopListApp/data/remote_data_sources/product_remote_data_source.
 import 'package:ShopListApp/data/remote_data_sources/purchased_product_remote_data_source.dart';
 import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
 
-class CategoriesWidget extends StatefulWidget {
-  const CategoriesWidget({
-    required this.categoriesName,
-    super.key,
-  });
-  final String categoriesName;
-
-  @override
-  State<CategoriesWidget> createState() => _CategoriesWidgetState();
-}
-
-class _CategoriesWidgetState extends State<CategoriesWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AddCubit(ProductsRepository(
-          ProductRemoteDataSource(), UserRemoteDataSource())),
-      child: BlocBuilder<AddCubit, AddState>(
-        builder: (context, state) {
-          return BlocProvider(
-            create: (context) => ProductCubit(ProductsRepository(
-                ProductRemoteDataSource(), UserRemoteDataSource()))
-              ..start(),
-            child: BlocBuilder<ProductCubit, ProductState>(
-              builder: (context, state) {
-                final productModels = state.products;
-                return ListView(
-                  physics: const ClampingScrollPhysics(),
-                  shrinkWrap: true,
-                  children: [
-                    Column(
-                      children: [
-                        for (final productModel in productModels) ...[
-                          if (productModel.productGroup ==
-                              widget.categoriesName) ...[
-                            const SizedBox(height: 5),
-                            // Text(
-                            //   productModels.length.toString(),
-                            // ),
-                            _Dismissible(productModel: productModel),
-                            const SizedBox(height: 5)
-                          ],
-                        ],
-                      ],
-                    ),
-                  ],
-                );
-              },
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _Dismissible extends StatefulWidget {
-  const _Dismissible({
+class DismissibleWidget extends StatefulWidget {
+  const DismissibleWidget({
     Key? key,
     required this.productModel,
   }) : super(key: key);
@@ -76,10 +19,10 @@ class _Dismissible extends StatefulWidget {
   final ProductModel productModel;
 
   @override
-  State<_Dismissible> createState() => _DismissibleState();
+  State<DismissibleWidget> createState() => DismissibleWidgetState();
 }
 
-class _DismissibleState extends State<_Dismissible> {
+class DismissibleWidgetState extends State<DismissibleWidget> {
   var isChecked = true;
   @override
   Widget build(BuildContext context) {
@@ -332,6 +275,8 @@ class _AlertDialog extends StatelessWidget {
       child: BlocBuilder<YourProductsCubit, YourProductsState>(
         builder: (context, state) {
           String? storageName;
+          DateTime? productDate = DateTime.now();
+          bool isDated = false;
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return AlertDialog(
@@ -412,8 +357,9 @@ class _AlertDialog extends StatelessWidget {
                               context.read<YourProductsCubit>().addYourProduct(
                                     productModel.productGroup,
                                     productModel.productName,
-                                    productModel.productQuantity,
+                                    productDate,
                                     storageName!,
+                                    isDated,
                                   );
                             }
                             context

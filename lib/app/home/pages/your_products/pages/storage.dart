@@ -1,4 +1,5 @@
 import 'package:ShopListApp/app/models/purchased_product_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,7 +84,7 @@ class StoragePage extends StatelessWidget {
   }
 }
 
-class _List extends StatelessWidget {
+class _List extends StatefulWidget {
   const _List({
     Key? key,
     required this.storageName,
@@ -91,6 +92,11 @@ class _List extends StatelessWidget {
 
   final String storageName;
 
+  @override
+  State<_List> createState() => _ListState();
+}
+
+class _ListState extends State<_List> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -109,9 +115,12 @@ class _List extends StatelessWidget {
               children: [
                 for (final purchasedProductsModel
                     in purchasedProductModels) ...[
-                  if (purchasedProductsModel.storageName == storageName) ...[
+                  if (purchasedProductsModel.storageName ==
+                      widget.storageName) ...[
                     const SizedBox(height: 7),
-                    _OneProduct(purchasedProductsModel: purchasedProductsModel),
+                    _OneProduct(
+                      purchasedProductsModel: purchasedProductsModel,
+                    ),
                   ]
                 ]
               ],
@@ -123,7 +132,7 @@ class _List extends StatelessWidget {
   }
 }
 
-class _OneProduct extends StatelessWidget {
+class _OneProduct extends StatefulWidget {
   const _OneProduct({
     Key? key,
     required this.purchasedProductsModel,
@@ -132,34 +141,151 @@ class _OneProduct extends StatelessWidget {
   final PurchasedProductModel purchasedProductsModel;
 
   @override
+  State<_OneProduct> createState() => _OneProductState();
+}
+
+class _OneProductState extends State<_OneProduct> {
+  var isDated = true;
+  DateTime? purchasedProductDate = DateTime.now();
+
+  @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      key: UniqueKey(),
-      confirmDismiss: (direction) async {
-        if (direction == DismissDirection.endToStart) {
-          context
-              .read<YourProductsCubit>()
-              .deletePurchasedProduct(documentID: purchasedProductsModel.id);
-        }
-        return null;
-      },
-      child: Container(
-        height: 50,
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 0, 63, 114),
-          boxShadow: <BoxShadow>[BoxShadow(color: Colors.black, blurRadius: 5)],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                  style: GoogleFonts.getFont('Saira'),
-                  purchasedProductsModel.purchasedProductName),
-            ],
-          ),
-        ),
+    return BlocProvider(
+      create: (context) => YourProductsCubit(PurchasedProductsRepository(
+          PurchasedProductsRemoteDataSource(), UserRemoteDataSource())),
+      child: BlocBuilder<YourProductsCubit, YourProductsState>(
+        builder: (context, state) {
+          return Dismissible(
+            key: UniqueKey(),
+            confirmDismiss: (direction) async {
+              if (direction == DismissDirection.endToStart) {
+                context.read<YourProductsCubit>().deletePurchasedProduct(
+                    documentID: widget.purchasedProductsModel.id);
+              }
+              return null;
+            },
+            child: Container(
+              height: 50,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 0, 63, 114),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(color: Colors.black, blurRadius: 5)
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                        style: GoogleFonts.getFont('Saira'),
+                        widget.purchasedProductsModel.purchasedProductName),
+                    Row(children: [
+                      if (widget.purchasedProductsModel.isDated == true)
+                        Text(
+                            style: GoogleFonts.getFont('Saira'),
+                            widget.purchasedProductsModel.dateFormatted()),
+                      const SizedBox(width: 10),
+                      (widget.purchasedProductsModel.isDated == false)
+                          ? ElevatedButton(
+                              onPressed: () async {
+                                showCupertinoModalPopup(
+                                    context: context,
+                                    builder: (BuildContext builder) {
+                                      return CupertinoPopupSurface(
+                                        child: Container(
+                                            color: Colors.grey,
+                                            alignment: Alignment.center,
+                                            width: double.infinity,
+                                            height: 150,
+                                            child: Column(children: [
+                                              Text(
+                                                'Wybierz termin ważności',
+                                                style: GoogleFonts.getFont(
+                                                  'Saira',
+                                                  fontSize: 20,
+                                                  color: Colors.black,
+                                                  decoration:
+                                                      TextDecoration.none,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.grey[800]),
+                                                onPressed: () async {
+                                                  final DateTime? newDate =
+                                                      await showDatePicker(
+                                                          context: context,
+                                                          initialDate:
+                                                              DateTime.now(),
+                                                          firstDate:
+                                                              DateTime.now(),
+                                                          lastDate:
+                                                              DateTime(2100));
+                                                  if (newDate != null &&
+                                                      newDate !=
+                                                          purchasedProductDate) {
+                                                    setState(() {
+                                                      purchasedProductDate =
+                                                          newDate;
+                                                    });
+                                                  }
+                                                },
+                                                child: const Icon(
+                                                    Icons.calendar_month),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  context
+                                                      .read<YourProductsCubit>()
+                                                      .isDated(
+                                                          isDated: true,
+                                                          documentID: widget
+                                                              .purchasedProductsModel
+                                                              .id,
+                                                          purchasedProductDate:
+                                                              purchasedProductDate!);
+
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text(
+                                                  'Zapisz',
+                                                  style: GoogleFonts.getFont(
+                                                    'Saira',
+                                                    fontSize: 15,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ])),
+                                      );
+                                    });
+                              },
+                              child: const Icon(Icons.calendar_month),
+                            )
+                          : ElevatedButton(
+                              onPressed: () {
+                                context.read<YourProductsCubit>().isDated(
+                                      isDated: false,
+                                      documentID:
+                                          widget.purchasedProductsModel.id,
+                                      purchasedProductDate: DateTime(2000),
+                                    );
+                                setState(() {
+                                  isDated = !isDated;
+                                });
+                              },
+                              child: const Icon(Icons.delete))
+                    ])
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

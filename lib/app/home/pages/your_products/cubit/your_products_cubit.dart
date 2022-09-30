@@ -27,15 +27,34 @@ class YourProductsCubit extends Cubit<YourProductsState> {
   Future<void> addYourProduct(
     String purchasedProductGroup,
     String purchasedProductName,
-    int purchasedProductQuantity,
+    DateTime purchasedProductDate,
     String storageName,
+    bool isDated,
   ) async {
     try {
       await _purchasedProductsRepository.addYourProduct(
         purchasedProductGroup,
         purchasedProductName,
-        purchasedProductQuantity,
+        purchasedProductDate,
         storageName,
+        isDated,
+      );
+      emit(const YourProductsState());
+    } catch (error) {
+      null;
+    }
+  }
+
+  Future<void> isDated({
+    required bool isDated,
+    required String documentID,
+    required DateTime purchasedProductDate,
+  }) async {
+    try {
+      await _purchasedProductsRepository.isDated(
+        isDated,
+        documentID,
+        purchasedProductDate,
       );
       emit(const YourProductsState());
     } catch (error) {

@@ -25,8 +25,9 @@ class PurchasedProductsRepository {
   Future<void> addYourProduct(
     String purchasedProductGroup,
     String purchasedProductName,
-    int purchasedProductQuantity,
+    DateTime purchasedProductDate,
     String storageName,
+    bool isDated,
   ) async {
     final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {
@@ -35,8 +36,25 @@ class PurchasedProductsRepository {
     await _purchasedProductRemoteDataSource.addYourProduct(
       purchasedProductGroup,
       purchasedProductName,
-      purchasedProductQuantity,
+      purchasedProductDate,
       storageName,
+      isDated,
+    );
+  }
+
+  Future<void> isDated(
+    bool isDated,
+    String id,
+    DateTime purchasedProductDate,
+  ) async {
+    final userID = _userRemoteDataSource.getUserID();
+    if (userID == null) {
+      throw Exception('Użytkownik nie jest zalogowany');
+    }
+    await _purchasedProductRemoteDataSource.isDated(
+      isDated,
+      id,
+      purchasedProductDate,
     );
   }
 
