@@ -102,6 +102,7 @@ class DismissibleWidgetState extends State<DismissibleWidget> {
                     .delete(documentID: widget.productModel.id);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
+                    duration: const Duration(milliseconds: 600),
                     content: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
