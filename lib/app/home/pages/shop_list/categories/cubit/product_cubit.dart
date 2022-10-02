@@ -14,67 +14,10 @@ class ProductCubit extends Cubit<ProductState> {
 
   final ProductsRepository _productsRepository;
 
-  Future<void> vegetables() async {
+  Future<void> products({required String productGroup}) async {
     _streamSubscription =
-        _productsRepository.getProductsStream().listen((products) {
-      final vege =
-          products.where((item) => item.productGroup == 'Warzywa').toList();
-      emit(ProductState(products: vege));
-    });
-  }
-
-  Future<void> meat() async {
-    _streamSubscription =
-        _productsRepository.getProductsStream().listen((products) {
-      final vege =
-          products.where((item) => item.productGroup == 'Mięso').toList();
-      emit(ProductState(products: vege));
-    });
-  }
-
-  Future<void> bread() async {
-    _streamSubscription =
-        _productsRepository.getProductsStream().listen((products) {
-      final vege =
-          products.where((item) => item.productGroup == 'Pieczywo').toList();
-      emit(ProductState(products: vege));
-    });
-  }
-
-  Future<void> dryProducts() async {
-    _streamSubscription =
-        _productsRepository.getProductsStream().listen((products) {
-      final vege = products
-          .where((item) => item.productGroup == 'Suche produkty')
-          .toList();
-      emit(ProductState(products: vege));
-    });
-  }
-
-  Future<void> dairy() async {
-    _streamSubscription =
-        _productsRepository.getProductsStream().listen((products) {
-      final vege =
-          products.where((item) => item.productGroup == 'Nabiał').toList();
-      emit(ProductState(products: vege));
-    });
-  }
-
-  Future<void> householdChemicals() async {
-    _streamSubscription =
-        _productsRepository.getProductsStream().listen((products) {
-      final vege =
-          products.where((item) => item.productGroup == 'Chemia').toList();
-      emit(ProductState(products: vege));
-    });
-  }
-
-  Future<void> other() async {
-    _streamSubscription =
-        _productsRepository.getProductsStream().listen((products) {
-      final vege =
-          products.where((item) => item.productGroup == 'Inne').toList();
-      emit(ProductState(products: vege));
+        _productsRepository.getProductsStream(productGroup).listen((products) {
+      emit(ProductState(products: products));
     });
   }
 

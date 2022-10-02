@@ -9,7 +9,6 @@ class ProductRemoteDataSource {
         .collection('users')
         .doc(userID)
         .collection('products')
-        // .where('product_group', isEqualTo: 'Warzywa')
         .snapshots();
   }
 
