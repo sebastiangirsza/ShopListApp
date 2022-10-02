@@ -61,11 +61,28 @@ class ProductsGroupHouseholdChemicals extends StatelessWidget {
                                     trailing: Stack(
                                         alignment: Alignment.center,
                                         children: [
-                                          Image.asset(
-                                            'images/list_icon/list_empty.png',
-                                            width: 20,
-                                          ),
-                                          Text(productsNumber)
+                                          if (productsNumber != '0')
+                                            Image.asset(
+                                              'images/list_icon/list_empty.png',
+                                              width: 20,
+                                            )
+                                          else
+                                            Image.asset(
+                                              'images/list_icon/list_check.png',
+                                              width: 20,
+                                            ),
+                                          if (productsNumber != '0')
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 5.0),
+                                              child: Text(
+                                                productsNumber,
+                                                style: const TextStyle(
+                                                  color: Color.fromARGB(
+                                                      255, 0, 63, 114),
+                                                ),
+                                              ),
+                                            )
                                         ]),
                                     title: Row(
                                       mainAxisAlignment:
