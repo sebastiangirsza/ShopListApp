@@ -2,7 +2,6 @@ import 'package:ShopListApp/app/home/pages/shop_list/categories/cubit/product_cu
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ShopListApp/app/home/pages/shop_list/cubit/add_cubit.dart';
 import 'package:ShopListApp/app/home/pages/your_products/cubit/your_products_cubit.dart';
 import 'package:ShopListApp/app/models/product_model.dart';
 import 'package:ShopListApp/app/repositories/products_repositories.dart';
@@ -11,20 +10,18 @@ import 'package:ShopListApp/data/remote_data_sources/product_remote_data_source.
 import 'package:ShopListApp/data/remote_data_sources/purchased_product_remote_data_source.dart';
 import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
 
-class CategoriesWidgetVegetables extends StatefulWidget {
-  const CategoriesWidgetVegetables({
+class CategoriesWidget extends StatefulWidget {
+  const CategoriesWidget({
     super.key,
     required this.categoriesName,
   });
   final String categoriesName;
 
   @override
-  State<CategoriesWidgetVegetables> createState() =>
-      _CategoriesWidgetVegetablesState();
+  State<CategoriesWidget> createState() => _CategoriesWidgetState();
 }
 
-class _CategoriesWidgetVegetablesState
-    extends State<CategoriesWidgetVegetables> {
+class _CategoriesWidgetState extends State<CategoriesWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -43,20 +40,23 @@ class _CategoriesWidgetVegetablesState
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   children: [
-                    Column(
-                      children: [
-                        for (final productModel in productModels) ...[
-                          if (productModel.productGroup ==
-                              widget.categoriesName) ...[
-                            const SizedBox(height: 5),
-                            DismissibleWidget(
-                              productModel: productModel,
-                              categoriesName: widget.categoriesName,
-                            ),
-                            const SizedBox(height: 5)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Column(
+                        children: [
+                          for (final productModel in productModels) ...[
+                            if (productModel.productGroup ==
+                                widget.categoriesName) ...[
+                              const SizedBox(height: 5),
+                              DismissibleWidget(
+                                productModel: productModel,
+                                categoriesName: widget.categoriesName,
+                              ),
+                              const SizedBox(height: 5)
+                            ],
                           ],
                         ],
-                      ],
+                      ),
                     ),
                   ],
                 );
@@ -99,59 +99,51 @@ class DismissibleWidgetState extends State<DismissibleWidget> {
                   ProductRemoteDataSource(), UserRemoteDataSource())),
               child: BlocBuilder<AddCubit, AddState>(
                 builder: (context, state) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: (widget.productModel.isChecked == false)
-                        ? const DecoratedBox(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              color: Colors.green,
-                            ),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 32.0),
-                                child: Icon(
-                                  Icons.done,
-                                ),
-                              ),
-                            ),
-                          )
-                        : const DecoratedBox(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              color: Colors.red,
-                            ),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 32.0),
-                                child: Icon(
-                                  Icons.remove_done,
-                                ),
+                  return (widget.productModel.isChecked == false)
+                      ? const DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.green,
+                          ),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 32.0),
+                              child: Icon(
+                                Icons.done,
                               ),
                             ),
                           ),
-                  );
+                        )
+                      : const DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.red,
+                          ),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 32.0),
+                              child: Icon(
+                                Icons.remove_done,
+                              ),
+                            ),
+                          ),
+                        );
                 },
               ),
             ),
-            secondaryBackground: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.red,
-                ),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 32.0),
-                    child: Icon(
-                      Icons.delete_outline,
-                    ),
+            secondaryBackground: const DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: Colors.red,
+              ),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 32.0),
+                  child: Icon(
+                    Icons.delete_outline,
                   ),
                 ),
               ),
@@ -194,7 +186,7 @@ class DismissibleWidgetState extends State<DismissibleWidget> {
                                   style: GoogleFonts.getFont('Saira',
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white),
-                                  'Produkt dodany do listy kupionych'),
+                                  'Produkt dodany koszyka'),
                             ],
                           ),
                           backgroundColor: Colors.blue,
@@ -210,7 +202,7 @@ class DismissibleWidgetState extends State<DismissibleWidget> {
                                   style: GoogleFonts.getFont('Saira',
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white),
-                                  'Produkt usunięty z listy kupionych'),
+                                  'Produkt usunięty z koszyka'),
                             ],
                           ),
                           backgroundColor: Colors.blue,
@@ -237,81 +229,78 @@ class _ProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Container(
-        decoration: (productModel.isChecked == false)
-            ? const BoxDecoration(
-                color: Color.fromARGB(255, 60, 60, 60),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(color: Colors.black, blurRadius: 5)
-                ],
-                borderRadius: BorderRadius.all(Radius.circular(10)))
-            : const BoxDecoration(
-                color: Colors.green,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(color: Colors.black, blurRadius: 5)
-                ],
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  productModel.productName,
+    return Container(
+      decoration: (productModel.isChecked == false)
+          ? const BoxDecoration(
+              color: Color.fromARGB(255, 60, 60, 60),
+              boxShadow: <BoxShadow>[
+                BoxShadow(color: Colors.black, blurRadius: 5)
+              ],
+              borderRadius: BorderRadius.all(Radius.circular(10)))
+          : const BoxDecoration(
+              color: Colors.green,
+              boxShadow: <BoxShadow>[
+                BoxShadow(color: Colors.black, blurRadius: 5)
+              ],
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text(
+                productModel.productName,
+                style: GoogleFonts.getFont('Saira', fontSize: 15),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  productModel.productQuantity.toString(),
                   style: GoogleFonts.getFont('Saira', fontSize: 15),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    productModel.productQuantity.toString(),
-                    style: GoogleFonts.getFont('Saira', fontSize: 15),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 0, 63, 114),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 0, 63, 114),
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                    ),
-                    onPressed: () {
-                      (productModel.isChecked == true)
-                          ? showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return _AlertDialog(productModel: productModel);
-                              })
-                          : ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                duration: const Duration(milliseconds: 600),
-                                content: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                        style: GoogleFonts.getFont('Saira',
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                        'Produkt nie został kupiony'),
-                                  ],
-                                ),
-                                backgroundColor: Colors.blue,
+                  onPressed: () {
+                    (productModel.isChecked == true)
+                        ? showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return _AlertDialog(productModel: productModel);
+                            })
+                        : ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              duration: const Duration(milliseconds: 600),
+                              content: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                      style: GoogleFonts.getFont('Saira',
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                      'Produkt nie został kupiony'),
+                                ],
                               ),
-                            );
-                    },
-                    child: const Icon(
-                        size: 17,
-                        color: Colors.white,
-                        Icons.shopping_bag_outlined),
-                  ),
-                ],
-              )
-            ],
-          ),
+                              backgroundColor: Colors.blue,
+                            ),
+                          );
+                  },
+                  child: const Icon(
+                      size: 17,
+                      color: Colors.white,
+                      Icons.shopping_bag_outlined),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

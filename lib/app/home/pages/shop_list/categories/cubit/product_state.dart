@@ -8,3 +8,8 @@ class ProductState {
     required this.products,
   });
 }
+
+@immutable
+class AddState {
+  const AddState();
+}

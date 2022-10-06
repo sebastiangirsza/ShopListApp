@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:ShopListApp/app/home/pages/shop_list/cubit/add_cubit.dart';
 import 'package:ShopListApp/app/repositories/products_repositories.dart';
 import 'package:ShopListApp/data/remote_data_sources/product_remote_data_source.dart';
 import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
@@ -21,7 +20,7 @@ class ShopListPage extends StatefulWidget {
 class _ShopListPageState extends State<ShopListPage> {
   String? productGroup;
   String? productName;
-
+  String? productTypeName;
   int productQuantity = 1;
   bool isChecked = false;
   @override
@@ -36,7 +35,7 @@ class _ShopListPageState extends State<ShopListPage> {
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               children: const [
-                ProductsGroupVegetables(),
+                ProductsGroup(),
               ],
             ),
           ),
@@ -59,20 +58,22 @@ class _ShopListPageState extends State<ShopListPage> {
                     builder: (BuildContext context, StateSetter setState) {
                   return AlertDialog(
                     backgroundColor: const Color.fromARGB(255, 0, 63, 114),
-                    title: Text(
-                      style: GoogleFonts.getFont('Saira',
-                          fontWeight: FontWeight.bold),
-                      'Dodaj produkt do listy',
-                      textAlign: TextAlign.center,
-                    ),
                     content: SizedBox(
-                      height: 223,
-                      child: Column(
+                      height: 250,
+                      child: ListView(
+                        physics: const ClampingScrollPhysics(),
                         children: [
+                          Text(
+                            style: GoogleFonts.getFont('Saira',
+                                fontWeight: FontWeight.bold),
+                            'Dodaj produkt do listy',
+                            textAlign: TextAlign.center,
+                          ),
                           DropdownButtonFormField(
                             decoration: InputDecoration(
                                 label: Text(
-                                    style: GoogleFonts.getFont('Saira'),
+                                    style: GoogleFonts.getFont('Saira',
+                                        fontSize: 12),
                                     'Kategoria')),
                             isExpanded: true,
                             value: productGroup,
@@ -95,7 +96,8 @@ class _ShopListPageState extends State<ShopListPage> {
                                   value: productGroup,
                                   child: Center(
                                     child: Text(
-                                      style: GoogleFonts.getFont('Saira'),
+                                      style: GoogleFonts.getFont('Saira',
+                                          fontSize: 12),
                                       productGroup,
                                     ),
                                   ),
@@ -104,10 +106,11 @@ class _ShopListPageState extends State<ShopListPage> {
                             ).toList(),
                           ),
                           TextField(
-                            style: GoogleFonts.getFont('Saira'),
+                            style: GoogleFonts.getFont('Saira', fontSize: 12),
                             decoration: InputDecoration(
                                 label: Text(
-                                    style: GoogleFonts.getFont('Saira'),
+                                    style: GoogleFonts.getFont('Saira',
+                                        fontSize: 12),
                                     'Nazwa produktu')),
                             onChanged: (newProduct) {
                               setState(() {
@@ -119,13 +122,14 @@ class _ShopListPageState extends State<ShopListPage> {
                           Column(
                             children: [
                               const SizedBox(
-                                height: 9,
+                                height: 4,
                               ),
                               Text(
-                                  style: GoogleFonts.getFont('Saira'),
+                                  style: GoogleFonts.getFont('Saira',
+                                      fontSize: 12),
                                   'Ilość: '),
                               Padding(
-                                padding: const EdgeInsets.all(15.0),
+                                padding: const EdgeInsets.all(5.0),
                                 child: NumberPicker(
                                   itemHeight: 24,
                                   itemWidth: 40,
@@ -139,6 +143,39 @@ class _ShopListPageState extends State<ShopListPage> {
                                 ),
                               ),
                             ],
+                          ),
+                          DropdownButtonFormField(
+                            decoration: InputDecoration(
+                                label: Text(
+                                    style: GoogleFonts.getFont('Saira',
+                                        fontSize: 12),
+                                    'Kind of package')),
+                            isExpanded: true,
+                            value: productTypeName,
+                            onChanged: (newProduct) {
+                              setState(() {
+                                productTypeName = newProduct!;
+                              });
+                            },
+                            items: <String>[
+                              'pack',
+                              'carton',
+                              'portion (100g)',
+                              'pieces',
+                            ].map<DropdownMenuItem<String>>(
+                              (productTypeName) {
+                                return DropdownMenuItem<String>(
+                                  value: productTypeName,
+                                  child: Center(
+                                    child: Text(
+                                      style: GoogleFonts.getFont('Saira',
+                                          fontSize: 12),
+                                      productTypeName,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ).toList(),
                           ),
                         ],
                       ),
@@ -222,8 +259,8 @@ class _ShopListPageState extends State<ShopListPage> {
   }
 }
 
-class ProductsGroupVegetables extends StatelessWidget {
-  const ProductsGroupVegetables({
+class ProductsGroup extends StatelessWidget {
+  const ProductsGroup({
     Key? key,
   }) : super(key: key);
 
@@ -331,7 +368,7 @@ class ProductsGroupVegetables extends StatelessWidget {
                                           ],
                                         ),
                                         children: [
-                                          CategoriesWidgetVegetables(
+                                          CategoriesWidget(
                                             categoriesName:
                                                 categoriesName[index],
                                           ),

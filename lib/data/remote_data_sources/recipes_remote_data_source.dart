@@ -1,0 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+class RecipesRemoteDataSource {
+  Future<void> add(
+    String recipesName,
+    String recipesProductName,
+    String recipesMakeing,
+  ) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('recipes')
+        .add({
+      'recipes_name': recipesName,
+      'recipes_product_name': recipesProductName,
+      'recipes_makeing': recipesMakeing,
+    });
+  }
+}
