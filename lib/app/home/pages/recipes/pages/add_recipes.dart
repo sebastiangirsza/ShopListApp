@@ -1,7 +1,7 @@
-import 'package:ShopListApp/app/home/pages/recipes/cubit/recipes_cubit.dart';
-import 'package:ShopListApp/app/home/pages/shop_list/categories/cubit/product_cubit.dart';
+import 'package:ShopListApp/app/home/pages/recipes/pages/cubit/add_recipes_cubit.dart';
 import 'package:ShopListApp/app/repositories/recipes_repository.dart';
 import 'package:ShopListApp/data/remote_data_sources/recipes_remote_data_source.dart';
+import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,43 +54,101 @@ class _AddRecipesWidget extends StatefulWidget {
 
 class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
   String? recipesName;
-  String? recipesProductName;
+  String? recipesProductNameOne;
+  String? recipesProductNameTwo;
+  String? recipesProductNameThree;
   String? recipesMakeing;
-  int quantityProducts = 2;
+  int quantityProducts = 1;
+
+  final List<TextEditingController> _controller =
+      List.generate(50, (i) => TextEditingController());
 
   @override
   Widget build(BuildContext context) {
     int maxLines = 10;
 
     return BlocProvider(
-      create: (context) =>
-          AddRecipesCubit(RecipesRepository(RecipesRemoteDataSource())),
+      create: (context) => AddRecipesCubit(
+          RecipesRepository(RecipesRemoteDataSource(), UserRemoteDataSource())),
       child: BlocBuilder<AddRecipesCubit, AddRecipesState>(
         builder: (context, state) {
           return ListView(
             children: [
               const SizedBox(height: 15),
+              Center(
+                child: SizedBox(
+                  width: 120,
+                  height: 100,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(color: Colors.green, blurRadius: 15)
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(10),
+                      width: 120,
+                      alignment: Alignment.center,
+                      child: Image.asset('images/icon/add_photo_icon.png'),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
               const Center(child: Text('Nazwa potrawy')),
-              TextField(onChanged: (newProduct) {
-                setState(() {
-                  recipesName = newProduct;
-                });
-              }),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white.withOpacity(0.5),
+                ),
+                margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                child: TextField(
+                    decoration: const InputDecoration(
+                      // filled: true,
+                      hintText: 'Przykład: Wrapy z piersią z kurczaka',
+                      border: InputBorder.none,
+                    ),
+                    onChanged: (newProduct) {
+                      setState(() {
+                        recipesName = newProduct;
+                      });
+                    }),
+              ),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shadowColor: Colors.black,
+                          elevation: 15,
+                          backgroundColor: Colors.green,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50)))),
                       onPressed: () {
-                        setState(() {
-                          quantityProducts--;
-                        });
+                        if (quantityProducts >= 2) {
+                          setState(() {
+                            quantityProducts--;
+                          });
+                        } else
+                          null;
                       },
                       child: const Icon(Icons.remove)),
                   const SizedBox(width: 15),
                   const Center(child: Text('Potrzebne produkty:')),
                   const SizedBox(width: 15),
                   ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          shadowColor: Colors.black,
+                          elevation: 15,
+                          backgroundColor: Colors.green,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50)))),
                       onPressed: () {
                         setState(() {
                           quantityProducts++;
@@ -101,17 +159,23 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
               ),
               for (var i = 0; i < quantityProducts; i++)
                 Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    color: Colors.white.withOpacity(0.5),
+                  ),
                   margin:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                  padding:
                       const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                   child: Column(
                     children: [
                       TextField(
-                        decoration: const InputDecoration(filled: true),
-                        onChanged: (newProduct) {
-                          setState(() {
-                            recipesProductName = newProduct;
-                          });
-                        },
+                        controller: _controller[i],
+                        decoration: const InputDecoration(
+                          // filled: true,
+                          hintText: 'Przykład: Pierś z kurczaka 250g',
+                          border: InputBorder.none,
+                        ),
                       ),
                     ],
                   ),
@@ -119,7 +183,14 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
               const SizedBox(height: 15),
               const Center(child: Text('Sposób przygotowania')),
               Container(
-                  margin: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    color: Colors.white.withOpacity(0.5),
+                  ),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                   height: maxLines * 24,
                   child: TextField(
                     onChanged: (newProduct) {
@@ -129,16 +200,30 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                     },
                     maxLines: maxLines,
                     decoration: const InputDecoration(
-                      filled: true,
-                    ),
+                        // filled: true,
+                        border: InputBorder.none,
+                        hintText:
+                            'Przykład:\n1. Rozgrzej 10g oleju na patelni.\n2. Pokrój kurczaka na drobne kawałki.'),
                   )),
               IconButton(
                   onPressed: () {
-                    context.read<AddRecipesCubit>().add(
-                        recipesName!, recipesProductName!, recipesMakeing!);
+                    List<String> textList = _controller
+                        .getRange(0, quantityProducts)
+                        .map((x) => x.text)
+                        .toList();
+                    context.read<AddRecipesCubit>().add(recipesName!,
+                        textList.join(",\n").toString(), recipesMakeing!);
                     Navigator.of(context).pop();
                   },
-                  icon: const Icon(Icons.save_alt))
+                  icon: const Icon(Icons.save_alt)),
+              Text(
+                _controller
+                    .getRange(0, quantityProducts)
+                    .map((e) => e.text)
+                    .toList()
+                    .join(",\n")
+                    .toString(),
+              ),
             ],
           );
         },

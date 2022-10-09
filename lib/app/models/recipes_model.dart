@@ -11,8 +11,8 @@ class RecipesModel {
     required this.recipesMakeing,
   });
 
-  RecipesModel.fromJson(QueryDocumentSnapshot<Map<String, dynamic>> products)
-      : recipesName = products['recipes_name'],
-        recipesProductName = products['recipes_product_name'],
-        recipesMakeing = products['recipes_makeing'];
+  RecipesModel.fromJson(QueryDocumentSnapshot<Map<String, dynamic>> recipes)
+      : recipesName = recipes['recipes_name'],
+        recipesProductName = recipes['recipes_product_name'],
+        recipesMakeing = recipes['recipes_makeing'];
 }

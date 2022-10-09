@@ -1,9 +1,8 @@
 part of 'recipes_cubit.dart';
 
 @immutable
-class RecipesState {}
+class RecipesState {
+  final List<RecipesModel> recipes;
 
-@immutable
-class AddRecipesState {
-  const AddRecipesState();
+  const RecipesState({required this.recipes});
 }

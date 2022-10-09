@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:ShopListApp/app/models/recipes_model.dart';
 import 'package:ShopListApp/app/repositories/recipes_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -5,31 +8,23 @@ import 'package:meta/meta.dart';
 part 'recipes_state.dart';
 
 class RecipesCubit extends Cubit<RecipesState> {
-  RecipesCubit() : super(RecipesState());
-}
+  RecipesCubit(this._recipesRepository)
+      : super(const RecipesState(recipes: []));
 
-class AddRecipesCubit extends Cubit<AddRecipesState> {
-  AddRecipesCubit(this._recipesRepository)
-      : super(
-          const AddRecipesState(),
-        );
+  StreamSubscription? _streamSubscription;
 
   final RecipesRepository _recipesRepository;
 
-  Future<void> add(
-    String recipesName,
-    String recipesProductName,
-    String recipesMakeing,
-  ) async {
-    try {
-      await _recipesRepository.add(
-        recipesName,
-        recipesProductName,
-        recipesMakeing,
-      );
-      emit(const AddRecipesState());
-    } catch (error) {
-      null;
-    }
+  Future<void> recipes() async {
+    _streamSubscription =
+        _recipesRepository.getRecipesStream().listen((recipes) {
+      emit(RecipesState(recipes: recipes));
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _streamSubscription?.cancel();
+    return super.close();
   }
 }
