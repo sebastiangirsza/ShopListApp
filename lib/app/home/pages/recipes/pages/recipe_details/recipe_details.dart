@@ -1,8 +1,16 @@
+import 'package:ShopListApp/app/home/pages/recipes/pages/recipe_details/cubit/recipe_details_cubit.dart';
+import 'package:ShopListApp/app/home/pages/your_products/cubit/your_products_cubit.dart';
 import 'package:ShopListApp/app/models/recipes_model.dart';
+import 'package:ShopListApp/app/repositories/purchased_products_repository.dart';
+import 'package:ShopListApp/app/repositories/recipes_products_repository.dart';
+import 'package:ShopListApp/data/remote_data_sources/purchased_product_remote_data_source.dart';
+import 'package:ShopListApp/data/remote_data_sources/recipes_product_remote_data_source.dart';
+import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RecipeDatails extends StatelessWidget {
+class RecipeDatails extends StatefulWidget {
   const RecipeDatails({
     Key? key,
     required this.recipesModel,
@@ -10,6 +18,12 @@ class RecipeDatails extends StatelessWidget {
 
   final RecipesModel recipesModel;
 
+  @override
+  State<RecipeDatails> createState() => _RecipeDatailsState();
+}
+
+class _RecipeDatailsState extends State<RecipeDatails> {
+  String? searchKey = '';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,7 +46,7 @@ class RecipeDatails extends StatelessWidget {
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.white,
           title: Text(
-            recipesModel.recipesName,
+            widget.recipesModel.recipesName,
             style: GoogleFonts.getFont('Saira', fontWeight: FontWeight.bold),
           ),
           actions: [],
@@ -67,6 +81,11 @@ class RecipeDatails extends StatelessWidget {
                                 color: Colors.grey,
                               ),
                             )),
+                        onChanged: (value) {
+                          setState(() {
+                            searchKey = value;
+                          });
+                        },
                       ),
                     ),
                     Container(
@@ -90,11 +109,32 @@ class RecipeDatails extends StatelessWidget {
                   ],
                 ),
               ),
+              if (searchKey != '' && searchKey != null)
+                BlocProvider(
+                  create: (context) => RecipeDetailsCubit(
+                      RecipesProductsRepository(
+                          RecipesProductRemoteDataSource(),
+                          UserRemoteDataSource()))
+                    ..start(searchKey: searchKey!),
+                  child: BlocBuilder<RecipeDetailsCubit, RecipeDetailsState>(
+                    builder: (context, state) {
+                      final purchasedProducts = state.purchasedProducts;
+                      return ListView(
+                        shrinkWrap: true,
+                        children: [
+                          for (final purchasedProduct in purchasedProducts) ...[
+                            Text(purchasedProduct.purchasedProductName)
+                          ]
+                        ],
+                      );
+                    },
+                  ),
+                ),
               const Text('Potrzebne składniki:'),
               Container(
                 padding: const EdgeInsets.all(10),
                 color: Colors.white.withOpacity(0.5),
-                child: Text(recipesModel.recipesProductName,
+                child: Text(widget.recipesModel.recipesProductName,
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -103,7 +143,7 @@ class RecipeDatails extends StatelessWidget {
               const Text('Sposób przygotowania:'),
               Container(
                 color: Colors.white.withOpacity(0.5),
-                child: Text(recipesModel.recipesMakeing,
+                child: Text(widget.recipesModel.recipesMakeing,
                     style: const TextStyle(
                         color: Colors.blue,
                         fontSize: 15,
