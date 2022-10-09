@@ -41,6 +41,55 @@ class RecipeDatails extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: ListView(
             children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                child: Row(
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: TextField(
+                        cursorColor: Colors.grey,
+                        decoration: InputDecoration(
+                            fillColor: Colors.black.withOpacity(0.3),
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide.none),
+                            hintText: 'Wyszukaj potrzebne produkty',
+                            hintStyle: const TextStyle(
+                                color: Colors.grey, fontSize: 12),
+                            prefixIcon: Container(
+                              padding: const EdgeInsets.all(15),
+                              width: 18,
+                              child: const Icon(
+                                Icons.search,
+                                color: Colors.grey,
+                              ),
+                            )),
+                      ),
+                    ),
+                    Container(
+                      height: 50,
+                      width: 50,
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100.0),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(color: Colors.white, blurRadius: 15)
+                            ],
+                          ),
+                          child: Image.asset(
+                            'images/icon/list_search_icon.png',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               const Text('Potrzebne składniki:'),
               Container(
                 padding: const EdgeInsets.all(10),

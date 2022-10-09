@@ -1,6 +1,6 @@
 import 'package:ShopListApp/app/home/pages/recipes/cubit/recipes_cubit.dart';
-import 'package:ShopListApp/app/home/pages/recipes/pages/add_recipes.dart';
-import 'package:ShopListApp/app/home/pages/recipes/pages/recipe_details.dart';
+import 'package:ShopListApp/app/home/pages/recipes/pages/add_recipes/add_recipes.dart';
+import 'package:ShopListApp/app/home/pages/recipes/pages/recipe_details/recipe_details.dart';
 import 'package:ShopListApp/app/models/recipes_model.dart';
 import 'package:ShopListApp/app/repositories/recipes_repository.dart';
 import 'package:ShopListApp/data/remote_data_sources/recipes_remote_data_source.dart';
@@ -107,6 +107,7 @@ class RecipesPage extends StatelessWidget {
                           MaterialPageRoute(
                             builder: (_) =>
                                 RecipeDatails(recipesModel: recipesModel),
+                            fullscreenDialog: true,
                           ),
                         );
                       },

@@ -1,4 +1,4 @@
-import 'package:ShopListApp/app/home/pages/recipes/pages/cubit/add_recipes_cubit.dart';
+import 'package:ShopListApp/app/home/pages/recipes/pages/add_recipes/cubit/add_recipes_cubit.dart';
 import 'package:ShopListApp/app/repositories/recipes_repository.dart';
 import 'package:ShopListApp/data/remote_data_sources/recipes_remote_data_source.dart';
 import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
