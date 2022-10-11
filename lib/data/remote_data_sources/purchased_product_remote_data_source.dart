@@ -13,11 +13,13 @@ class PurchasedProductsRemoteDataSource {
   }
 
   Future<void> addYourProduct(
-      String purchasedProductGroup,
-      String purchasedProductName,
-      DateTime purchasedProductDate,
-      String storageName,
-      bool isDated) async {
+    String purchasedProductGroup,
+    String purchasedProductName,
+    DateTime purchasedProductDate,
+    String storageName,
+    bool isDated,
+    List listaProcura,
+  ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 
     await FirebaseFirestore.instance
@@ -30,6 +32,7 @@ class PurchasedProductsRemoteDataSource {
       'product_date': purchasedProductDate,
       'storage_name': storageName,
       'is_dated': isDated,
+      'lista_procura': listaProcura,
     });
   }
 

@@ -19,6 +19,10 @@ class RecipesProductsRepository {
         .map((querySnapshots) => querySnapshots.docs
             .map((purchasedProducts) =>
                 PurchasedProductModel.fromJson(purchasedProducts))
+            // .where((item) => item.listaProcura
+            //     .toString()
+            //     .toLowerCase()
+            //     .contains(searchKey.toLowerCase()))
             .toList());
   }
 }

@@ -30,6 +30,7 @@ class YourProductsCubit extends Cubit<YourProductsState> {
     DateTime purchasedProductDate,
     String storageName,
     bool isDated,
+    List listaProcura,
   ) async {
     try {
       await _purchasedProductsRepository.addYourProduct(
@@ -38,6 +39,7 @@ class YourProductsCubit extends Cubit<YourProductsState> {
         purchasedProductDate,
         storageName,
         isDated,
+        listaProcura,
       );
       emit(const YourProductsState());
     } catch (error) {

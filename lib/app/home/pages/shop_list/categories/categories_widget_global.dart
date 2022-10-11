@@ -326,6 +326,8 @@ class _AlertDialog extends StatelessWidget {
           String? storageName;
           DateTime? productDate = DateTime.now();
           bool isDated = false;
+          String purchasedProductNameLow =
+              productModel.productName.toLowerCase();
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return AlertDialog(
@@ -401,7 +403,20 @@ class _AlertDialog extends StatelessWidget {
                                 backgroundColor: Colors.green,
                               ),
                             );
+                            List<String> listaProcura = [];
+                            String temp = "";
+                            for (var i = 0;
+                                i < productModel.productName.length;
+                                i++) {
+                              if (productModel.productName[i] == " ") {
+                                temp = "";
+                              } else {
+                                temp = temp + productModel.productName[i];
+                                listaProcura.add(temp.toLowerCase());
+                              }
+                            }
                             final int count = productModel.productQuantity;
+
                             for (var i = 0; i < count; i++) {
                               context.read<YourProductsCubit>().addYourProduct(
                                     productModel.productGroup,
@@ -409,6 +424,7 @@ class _AlertDialog extends StatelessWidget {
                                     productDate,
                                     storageName!,
                                     isDated,
+                                    listaProcura,
                                   );
                             }
                             context

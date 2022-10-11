@@ -10,8 +10,8 @@ class RecipesProductRemoteDataSource {
         .collection('users')
         .doc(userID)
         .collection('purchased_products')
-        .where('product_name', isGreaterThanOrEqualTo: searchKey)
-        .where('product_name', isLessThan: '${searchKey}z')
+        .where('lista_procura',
+            arrayContains: searchKey.toLowerCase()) // search with first letter
         .snapshots();
   }
 }

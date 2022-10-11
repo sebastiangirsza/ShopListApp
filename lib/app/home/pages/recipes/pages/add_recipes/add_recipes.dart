@@ -57,7 +57,7 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
   String? recipesProductNameOne;
   String? recipesProductNameTwo;
   String? recipesProductNameThree;
-  String? recipesMakeing;
+  final TextEditingController recipesMakeing = TextEditingController();
   int quantityProducts = 1;
 
   final List<TextEditingController> _controller =
@@ -193,11 +193,12 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                       const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                   height: maxLines * 24,
                   child: TextField(
-                    onChanged: (newProduct) {
-                      setState(() {
-                        recipesMakeing = newProduct;
-                      });
-                    },
+                    // onChanged: (newProduct) {
+                    //   setState(() {
+                    //     recipesMakeing = newProduct;
+                    //   });
+                    // },
+                    controller: recipesMakeing,
                     maxLines: maxLines,
                     decoration: const InputDecoration(
                         // filled: true,
@@ -212,7 +213,7 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                         .map((x) => x.text)
                         .toList();
                     context.read<AddRecipesCubit>().add(recipesName!,
-                        textList.join(",\n").toString(), recipesMakeing!);
+                        textList.join(",\n").toString(), recipesMakeing.text);
                     Navigator.of(context).pop();
                   },
                   icon: const Icon(Icons.save_alt)),
