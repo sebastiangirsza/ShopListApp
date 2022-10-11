@@ -165,7 +165,6 @@ class _OneProductState extends State<_OneProduct> {
               return null;
             },
             child: Container(
-              height: 50,
               decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 0, 63, 114),
                 boxShadow: <BoxShadow>[
@@ -173,113 +172,177 @@ class _OneProductState extends State<_OneProduct> {
                 ],
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                        style: GoogleFonts.getFont('Saira'),
-                        widget.purchasedProductsModel.purchasedProductName),
-                    Row(children: [
-                      if (widget.purchasedProductsModel.isDated == true)
-                        Text(
-                            style: GoogleFonts.getFont('Saira'),
-                            widget.purchasedProductsModel.dateFormatted()),
-                      const SizedBox(width: 10),
-                      (widget.purchasedProductsModel.isDated == false)
-                          ? ElevatedButton(
-                              onPressed: () async {
-                                showCupertinoModalPopup(
-                                    context: context,
-                                    builder: (BuildContext builder) {
-                                      return CupertinoPopupSurface(
-                                        child: Container(
-                                            color: Colors.grey,
-                                            alignment: Alignment.center,
-                                            width: double.infinity,
-                                            height: 150,
-                                            child: Column(children: [
-                                              Text(
-                                                'Wybierz termin ważności',
-                                                style: GoogleFonts.getFont(
-                                                  'Saira',
-                                                  fontSize: 20,
-                                                  color: Colors.black,
-                                                  decoration:
-                                                      TextDecoration.none,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        Colors.grey[800]),
-                                                onPressed: () async {
-                                                  final DateTime? newDate =
-                                                      await showDatePicker(
-                                                          context: context,
-                                                          initialDate:
-                                                              DateTime.now(),
-                                                          firstDate:
-                                                              DateTime.now(),
-                                                          lastDate:
-                                                              DateTime(2100));
-                                                  if (newDate != null &&
-                                                      newDate !=
-                                                          purchasedProductDate) {
-                                                    setState(() {
-                                                      purchasedProductDate =
-                                                          newDate;
-                                                    });
-                                                  }
-                                                },
-                                                child: const Icon(
-                                                    Icons.calendar_month),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  context
-                                                      .read<YourProductsCubit>()
-                                                      .isDated(
-                                                          isDated: true,
-                                                          documentID: widget
-                                                              .purchasedProductsModel
-                                                              .id,
-                                                          purchasedProductDate:
-                                                              purchasedProductDate!);
+                    Flexible(
+                      child: Text(
+                          style: GoogleFonts.getFont('Saira'),
+                          widget.purchasedProductsModel.purchasedProductName),
+                    ),
+                    const SizedBox(width: 3),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 45,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: const Icon(
+                                  Icons.read_more,
+                                  size: 14,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 2),
+                            Column(children: [
+                              (widget.purchasedProductsModel.isDated == false)
+                                  ? SizedBox(
+                                      width: 80,
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          showCupertinoModalPopup(
+                                              context: context,
+                                              builder: (BuildContext builder) {
+                                                return CupertinoPopupSurface(
+                                                  child: Container(
+                                                      color: Colors.grey,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      width: double.infinity,
+                                                      height: 150,
+                                                      child: Column(children: [
+                                                        Text(
+                                                          'Wybierz termin ważności',
+                                                          style: GoogleFonts
+                                                              .getFont(
+                                                            'Saira',
+                                                            fontSize: 20,
+                                                            color: Colors.black,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .none,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                                  backgroundColor:
+                                                                      Colors.grey[
+                                                                          800]),
+                                                          onPressed: () async {
+                                                            final DateTime? newDate =
+                                                                await showDatePicker(
+                                                                    context:
+                                                                        context,
+                                                                    initialDate:
+                                                                        DateTime
+                                                                            .now(),
+                                                                    firstDate:
+                                                                        DateTime
+                                                                            .now(),
+                                                                    lastDate:
+                                                                        DateTime(
+                                                                            2100));
+                                                            if (newDate !=
+                                                                    null &&
+                                                                newDate !=
+                                                                    purchasedProductDate) {
+                                                              setState(() {
+                                                                purchasedProductDate =
+                                                                    newDate;
+                                                              });
+                                                            }
+                                                          },
+                                                          child: const Icon(Icons
+                                                              .calendar_month),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            context.read<YourProductsCubit>().isDated(
+                                                                isDated: true,
+                                                                documentID: widget
+                                                                    .purchasedProductsModel
+                                                                    .id,
+                                                                purchasedProductDate:
+                                                                    purchasedProductDate!);
 
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text(
-                                                  'Zapisz',
-                                                  style: GoogleFonts.getFont(
-                                                    'Saira',
-                                                    fontSize: 15,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ),
-                                            ])),
-                                      );
-                                    });
-                              },
-                              child: const Icon(Icons.calendar_month),
-                            )
-                          : ElevatedButton(
-                              onPressed: () {
-                                context.read<YourProductsCubit>().isDated(
-                                      isDated: false,
-                                      documentID:
-                                          widget.purchasedProductsModel.id,
-                                      purchasedProductDate: DateTime(2000),
-                                    );
-                                setState(() {
-                                  isDated = !isDated;
-                                });
-                              },
-                              child: const Icon(Icons.delete))
-                    ])
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text(
+                                                            'Zapisz',
+                                                            style: GoogleFonts
+                                                                .getFont(
+                                                              'Saira',
+                                                              fontSize: 15,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ])),
+                                                );
+                                              });
+                                        },
+                                        child: const Icon(Icons.calendar_month),
+                                      ),
+                                    )
+                                  : SizedBox(
+                                      width: 80,
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            context
+                                                .read<YourProductsCubit>()
+                                                .isDated(
+                                                  isDated: false,
+                                                  documentID: widget
+                                                      .purchasedProductsModel
+                                                      .id,
+                                                  purchasedProductDate:
+                                                      DateTime(2000),
+                                                );
+                                            setState(() {
+                                              isDated = !isDated;
+                                            });
+                                          },
+                                          child: Text(
+                                            widget.purchasedProductsModel
+                                                .dateFormatted(),
+                                            style: GoogleFonts.getFont(
+                                              'Saira',
+                                              fontSize: 10,
+                                              color: Colors.black,
+                                              decoration: TextDecoration.none,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          )),
+                                    ),
+                            ]),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              '1 ${widget.purchasedProductsModel.productTypeName}',
+                              style: GoogleFonts.getFont('Saira', fontSize: 8),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),

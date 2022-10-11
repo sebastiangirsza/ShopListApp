@@ -17,6 +17,7 @@ class ProductRemoteDataSource {
     String productName,
     int productQuantity,
     bool isChecked,
+    String productTypeName,
   ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 
@@ -29,6 +30,7 @@ class ProductRemoteDataSource {
       'product_name': productName,
       'product_quantity': productQuantity,
       'product_check': isChecked,
+      'product_type_name': productTypeName,
     });
   }
 

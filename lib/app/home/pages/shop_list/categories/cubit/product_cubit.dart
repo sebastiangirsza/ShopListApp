@@ -41,6 +41,7 @@ class AddCubit extends Cubit<AddState> {
     String productName,
     int productQuantity,
     bool isChecked,
+    String productTypeName,
   ) async {
     try {
       await _productsRepository.add(
@@ -48,6 +49,7 @@ class AddCubit extends Cubit<AddState> {
         productName,
         productQuantity,
         isChecked,
+        productTypeName,
       );
       emit(const AddState());
     } catch (error) {

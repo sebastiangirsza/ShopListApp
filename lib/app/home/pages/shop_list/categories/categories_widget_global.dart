@@ -324,10 +324,9 @@ class _AlertDialog extends StatelessWidget {
       child: BlocBuilder<YourProductsCubit, YourProductsState>(
         builder: (context, state) {
           String? storageName;
-          DateTime? productDate = DateTime.now();
+          DateTime? productDate = DateTime(1999);
           bool isDated = false;
-          String purchasedProductNameLow =
-              productModel.productName.toLowerCase();
+          String productTypeName = productModel.productTypeName;
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return AlertDialog(
@@ -425,6 +424,7 @@ class _AlertDialog extends StatelessWidget {
                                     storageName!,
                                     isDated,
                                     listaProcura,
+                                    productTypeName,
                                   );
                             }
                             context

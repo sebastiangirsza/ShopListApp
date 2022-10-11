@@ -19,6 +19,7 @@ class PurchasedProductsRemoteDataSource {
     String storageName,
     bool isDated,
     List listaProcura,
+    String productTypeName,
   ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 
@@ -33,6 +34,7 @@ class PurchasedProductsRemoteDataSource {
       'storage_name': storageName,
       'is_dated': isDated,
       'lista_procura': listaProcura,
+      'product_type_name': productTypeName,
     });
   }
 

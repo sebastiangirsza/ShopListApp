@@ -29,6 +29,7 @@ class PurchasedProductsRepository {
     String storageName,
     bool isDated,
     List listaProcura,
+    String productTypeName,
   ) async {
     final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {
@@ -41,6 +42,7 @@ class PurchasedProductsRepository {
       storageName,
       isDated,
       listaProcura,
+      productTypeName,
     );
   }
 

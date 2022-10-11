@@ -23,6 +23,7 @@ class ProductsRepository {
     String productName,
     int productQuantity,
     bool isChecked,
+    String productTypeName,
   ) async {
     final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {
@@ -33,6 +34,7 @@ class ProductsRepository {
       productName,
       productQuantity,
       isChecked,
+      productTypeName,
     );
   }
 

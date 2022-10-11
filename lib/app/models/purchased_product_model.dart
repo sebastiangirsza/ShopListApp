@@ -5,20 +5,22 @@ class PurchasedProductModel {
   final String id;
   final String purchasedProductGroup;
   final String purchasedProductName;
-
   final DateTime purchasedProductDate;
   final String storageName;
   final bool isDated;
   final List listaProcura;
+  final String productTypeName;
 
-  PurchasedProductModel(
-      {required this.id,
-      required this.purchasedProductGroup,
-      required this.purchasedProductName,
-      required this.purchasedProductDate,
-      required this.storageName,
-      required this.isDated,
-      required this.listaProcura});
+  PurchasedProductModel({
+    required this.id,
+    required this.purchasedProductGroup,
+    required this.purchasedProductName,
+    required this.purchasedProductDate,
+    required this.storageName,
+    required this.isDated,
+    required this.listaProcura,
+    required this.productTypeName,
+  });
 
   PurchasedProductModel.fromJson(
       QueryDocumentSnapshot<Map<String, dynamic>> purchasedProducts)
@@ -28,9 +30,10 @@ class PurchasedProductModel {
         id = purchasedProducts.id,
         storageName = (purchasedProducts['storage_name']),
         isDated = purchasedProducts['is_dated'],
-        listaProcura = purchasedProducts['lista_procura'];
+        listaProcura = purchasedProducts['lista_procura'],
+        productTypeName = purchasedProducts['product_type_name'];
 
   String dateFormatted() {
-    return DateFormat('dd/MM/yyyy').format(purchasedProductDate);
+    return DateFormat('dd/MM/yy').format(purchasedProductDate);
   }
 }

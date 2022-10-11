@@ -149,7 +149,7 @@ class _ShopListPageState extends State<ShopListPage> {
                                 label: Text(
                                     style: GoogleFonts.getFont('Saira',
                                         fontSize: 12),
-                                    'Kind of package')),
+                                    '')),
                             isExpanded: true,
                             value: productTypeName,
                             onChanged: (newProduct) {
@@ -158,10 +158,10 @@ class _ShopListPageState extends State<ShopListPage> {
                               });
                             },
                             items: <String>[
-                              'pack',
-                              'carton',
-                              'portion (100g)',
-                              'pieces',
+                              'sztuka',
+                              'karton',
+                              'porcja (100g)',
+                              'paczka',
                             ].map<DropdownMenuItem<String>>(
                               (productTypeName) {
                                 return DropdownMenuItem<String>(
@@ -207,6 +207,7 @@ class _ShopListPageState extends State<ShopListPage> {
                                             productName!,
                                             productQuantity,
                                             isChecked,
+                                            productTypeName!,
                                           );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
