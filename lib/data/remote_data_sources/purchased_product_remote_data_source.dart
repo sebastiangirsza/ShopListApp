@@ -55,6 +55,21 @@ class PurchasedProductsRemoteDataSource {
     });
   }
 
+  Future<void> updateStorage(
+    String storageName,
+    String id,
+  ) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('purchased_products')
+        .doc(id)
+        .update({
+      'storage_name': storageName,
+    });
+  }
+
   Future<void> deletePurchasedProduct({required String id}) {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 

@@ -62,6 +62,20 @@ class PurchasedProductsRepository {
     );
   }
 
+  Future<void> updateStorage(
+    String storageName,
+    String id,
+  ) async {
+    final userID = _userRemoteDataSource.getUserID();
+    if (userID == null) {
+      throw Exception('Użytkownik nie jest zalogowany');
+    }
+    await _purchasedProductRemoteDataSource.updateStorage(
+      storageName,
+      id,
+    );
+  }
+
   Future<void> deletePurchasedProduct({required String id}) {
     final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {

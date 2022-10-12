@@ -66,6 +66,21 @@ class YourProductsCubit extends Cubit<YourProductsState> {
     }
   }
 
+  Future<void> updateStorage({
+    required String storageName,
+    required String documentID,
+  }) async {
+    try {
+      await _purchasedProductsRepository.updateStorage(
+        storageName,
+        documentID,
+      );
+      emit(const YourProductsState());
+    } catch (error) {
+      null;
+    }
+  }
+
   Future<void> deletePurchasedProduct({required String documentID}) {
     return _purchasedProductsRepository.deletePurchasedProduct(id: documentID);
   }

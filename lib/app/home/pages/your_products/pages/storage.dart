@@ -1,4 +1,7 @@
+import 'package:ShopListApp/app/home/pages/shop_list/categories/cubit/product_cubit.dart';
 import 'package:ShopListApp/app/models/purchased_product_model.dart';
+import 'package:ShopListApp/app/repositories/products_repositories.dart';
+import 'package:ShopListApp/data/remote_data_sources/product_remote_data_source.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -187,16 +190,7 @@ class _OneProductState extends State<_OneProduct> {
                       children: [
                         Row(
                           children: [
-                            SizedBox(
-                              width: 45,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                child: const Icon(
-                                  Icons.read_more,
-                                  size: 14,
-                                ),
-                              ),
-                            ),
+                            _UpdateStorageWidget(widget: widget),
                             const SizedBox(width: 2),
                             Column(children: [
                               (widget.purchasedProductsModel.isDated == false)
@@ -349,6 +343,139 @@ class _OneProductState extends State<_OneProduct> {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class _UpdateStorageWidget extends StatelessWidget {
+  const _UpdateStorageWidget({
+    Key? key,
+    required this.widget,
+  }) : super(key: key);
+
+  final _OneProduct widget;
+
+  @override
+  Widget build(BuildContext context) {
+    String? storageName;
+    return SizedBox(
+      width: 45,
+      child: ElevatedButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return AlertDialog(
+                      backgroundColor: const Color.fromARGB(255, 0, 63, 114),
+                      title: Text(
+                        style: GoogleFonts.getFont('Saira',
+                            fontWeight: FontWeight.bold),
+                        'Wybierz nowe miejsce przechowywania',
+                        textAlign: TextAlign.center,
+                      ),
+                      content: DropdownButtonFormField(
+                        decoration: InputDecoration(
+                            label: Text(
+                                style: GoogleFonts.getFont('Saira'),
+                                'Miejsce przechowywania')),
+                        isExpanded: true,
+                        value: storageName,
+                        onChanged: (newProduct) {
+                          setState(() {
+                            storageName = newProduct!;
+                          });
+                        },
+                        items: <String>[
+                          'Lodówka',
+                          'Zamrażarka',
+                          'Szafka kuchenna',
+                          'Chemia',
+                          'Inne',
+                        ].map<DropdownMenuItem<String>>(
+                          (storageName) {
+                            return DropdownMenuItem<String>(
+                              value: storageName,
+                              child: Text(
+                                style: GoogleFonts.getFont('Saira'),
+                                storageName,
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'Cofnij',
+                              style: GoogleFonts.getFont('Saira',
+                                  color: Colors.black),
+                            )),
+                        BlocProvider(
+                          create: (context) => YourProductsCubit(
+                              PurchasedProductsRepository(
+                                  PurchasedProductsRemoteDataSource(),
+                                  UserRemoteDataSource())),
+                          child:
+                              BlocBuilder<YourProductsCubit, YourProductsState>(
+                            builder: (context, state) {
+                              return ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.black),
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      duration:
+                                          const Duration(milliseconds: 600),
+                                      content: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                              style: GoogleFonts.getFont(
+                                                  'Saira',
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                              'Produkt przeniesiony do \'$storageName\''),
+                                        ],
+                                      ),
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  );
+
+                                  context
+                                      .read<YourProductsCubit>()
+                                      .updateStorage(
+                                        storageName: storageName!,
+                                        documentID:
+                                            widget.purchasedProductsModel.id,
+                                      );
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                    style: GoogleFonts.getFont('Saira',
+                                        color: Colors.white),
+                                    'Dodaj'),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              });
+        },
+        child: const Icon(
+          Icons.read_more,
+          size: 14,
+        ),
       ),
     );
   }
