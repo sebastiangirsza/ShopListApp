@@ -59,7 +59,7 @@ class _ShopListPageState extends State<ShopListPage> {
                   return AlertDialog(
                     backgroundColor: const Color.fromARGB(255, 0, 63, 114),
                     content: SizedBox(
-                      height: 250,
+                      height: 270,
                       child: ListView(
                         physics: const ClampingScrollPhysics(),
                         children: [
@@ -149,7 +149,7 @@ class _ShopListPageState extends State<ShopListPage> {
                                 label: Text(
                                     style: GoogleFonts.getFont('Saira',
                                         fontSize: 12),
-                                    '')),
+                                    'Rodzaj opakowania')),
                             isExpanded: true,
                             value: productTypeName,
                             onChanged: (newProduct) {
@@ -160,7 +160,7 @@ class _ShopListPageState extends State<ShopListPage> {
                             items: <String>[
                               'sztuka',
                               'karton',
-                              'porcja (100g)',
+                              'porcja (50 g)',
                               'paczka',
                             ].map<DropdownMenuItem<String>>(
                               (productTypeName) {
@@ -199,7 +199,8 @@ class _ShopListPageState extends State<ShopListPage> {
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.black),
                               onPressed: productGroup == null ||
-                                      productName == null
+                                      productName == null ||
+                                      productTypeName == null
                                   ? null
                                   : () {
                                       context.read<AddCubit>().add(
@@ -231,6 +232,36 @@ class _ShopListPageState extends State<ShopListPage> {
                                         ),
                                       );
                                       Navigator.of(context).pop();
+                                      // showDialog(
+                                      //   context: context,
+                                      //   builder: (BuildContext context) {
+                                      //     return StatefulBuilder(builder:
+                                      //         (BuildContext context,
+                                      //             StateSetter setState) {
+                                      //       return AlertDialog(
+                                      //         content: PortionSize(
+                                      //           productTypeName:
+                                      //               productTypeName!,
+                                      //         ),
+                                      //         actions: [
+                                      //           TextButton(
+                                      //               onPressed: () {
+                                      //                 Navigator.of(context)
+                                      //                     .pop();
+                                      //               },
+                                      //               child: Text(
+                                      //                 'Cofnij',
+                                      //                 style:
+                                      //                     GoogleFonts.getFont(
+                                      //                         'Saira',
+                                      //                         color:
+                                      //                             Colors.white),
+                                      //               )),
+                                      //         ],
+                                      //       );
+                                      //     });
+                                      //   },
+                                      // );
                                     },
                               child: Text(
                                   style: GoogleFonts.getFont('Saira'),
@@ -397,3 +428,56 @@ class ProductsGroup extends StatelessWidget {
     );
   }
 }
+
+// class PortionSize extends StatefulWidget {
+//   const PortionSize({
+//     required this.productTypeName,
+//     Key? key,
+//   }) : super(key: key);
+
+//   final String productTypeName;
+
+//   @override
+//   State<PortionSize> createState() => _PortionSizeState();
+// }
+
+// class _PortionSizeState extends State<PortionSize> {
+//   int productPortion = 50;
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       height: 70,
+//       child: ListView(
+//         children: [
+//           (widget.productTypeName == 'porcja')
+//               ? Column(
+//                   children: [
+//                     const SizedBox(
+//                       height: 4,
+//                     ),
+//                     Text(
+//                         style: GoogleFonts.getFont('Saira', fontSize: 12),
+//                         'Wielkość porcji: '),
+//                     Padding(
+//                       padding: const EdgeInsets.all(5.0),
+//                       child: NumberPicker(
+//                         itemHeight: 24,
+//                         itemWidth: 60,
+//                         axis: Axis.horizontal,
+//                         value: productPortion,
+//                         step: 50,
+//                         minValue: 50,
+//                         maxValue: 10000,
+//                         itemCount: 3,
+//                         onChanged: (value) =>
+//                             setState(() => productPortion = value),
+//                       ),
+//                     ),
+//                   ],
+//                 )
+//               : Container(),
+//         ],
+//       ),
+//     );
+//   }
+// }

@@ -1,7 +1,4 @@
-import 'package:ShopListApp/app/home/pages/shop_list/categories/cubit/product_cubit.dart';
 import 'package:ShopListApp/app/models/purchased_product_model.dart';
-import 'package:ShopListApp/app/repositories/products_repositories.dart';
-import 'package:ShopListApp/data/remote_data_sources/product_remote_data_source.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -326,10 +323,19 @@ class _OneProductState extends State<_OneProduct> {
                         ),
                         Column(
                           children: [
-                            Text(
-                              '1 ${widget.purchasedProductsModel.productTypeName}',
-                              style: GoogleFonts.getFont('Saira', fontSize: 8),
-                            ),
+                            if (widget.purchasedProductsModel.productTypeName !=
+                                'porcja (50 g)')
+                              Text(
+                                '1 ${widget.purchasedProductsModel.productTypeName}',
+                                style:
+                                    GoogleFonts.getFont('Saira', fontSize: 8),
+                              )
+                            else
+                              Text(
+                                '1 porcja (${widget.purchasedProductsModel.productPortion.toString()} gram)',
+                                style:
+                                    GoogleFonts.getFont('Saira', fontSize: 8),
+                              ),
                           ],
                         ),
                         const SizedBox(

@@ -10,6 +10,7 @@ class PurchasedProductModel {
   final bool isDated;
   final List listaProcura;
   final String productTypeName;
+  final int productPortion;
 
   PurchasedProductModel({
     required this.id,
@@ -20,6 +21,7 @@ class PurchasedProductModel {
     required this.isDated,
     required this.listaProcura,
     required this.productTypeName,
+    required this.productPortion,
   });
 
   PurchasedProductModel.fromJson(
@@ -31,7 +33,8 @@ class PurchasedProductModel {
         storageName = (purchasedProducts['storage_name']),
         isDated = purchasedProducts['is_dated'],
         listaProcura = purchasedProducts['lista_procura'],
-        productTypeName = purchasedProducts['product_type_name'];
+        productTypeName = purchasedProducts['product_type_name'],
+        productPortion = purchasedProducts['product_portion'];
 
   String dateFormatted() {
     return DateFormat('dd/MM/yy').format(purchasedProductDate);

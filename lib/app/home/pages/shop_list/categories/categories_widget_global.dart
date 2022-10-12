@@ -9,6 +9,7 @@ import 'package:ShopListApp/app/repositories/purchased_products_repository.dart'
 import 'package:ShopListApp/data/remote_data_sources/product_remote_data_source.dart';
 import 'package:ShopListApp/data/remote_data_sources/purchased_product_remote_data_source.dart';
 import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class CategoriesWidget extends StatefulWidget {
   const CategoriesWidget({
@@ -317,6 +318,9 @@ class _AlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int productQuantity = 1;
+    int productPortion = 50;
+
     return BlocProvider(
       create: (context) => YourProductsCubit(PurchasedProductsRepository(
           PurchasedProductsRemoteDataSource(), UserRemoteDataSource()))
@@ -337,35 +341,100 @@ class _AlertDialog extends StatelessWidget {
                   'Wybierz miejsce przechowywania',
                   textAlign: TextAlign.center,
                 ),
-                content: DropdownButtonFormField(
-                  decoration: InputDecoration(
-                      label: Text(
-                          style: GoogleFonts.getFont('Saira'),
-                          'Miejsce przechowywania')),
-                  isExpanded: true,
-                  value: storageName,
-                  onChanged: (newProduct) {
-                    setState(() {
-                      storageName = newProduct!;
-                    });
-                  },
-                  items: <String>[
-                    'Lodówka',
-                    'Zamrażarka',
-                    'Szafka kuchenna',
-                    'Chemia',
-                    'Inne',
-                  ].map<DropdownMenuItem<String>>(
-                    (storageName) {
-                      return DropdownMenuItem<String>(
+                content: SizedBox(
+                  height: (productTypeName != 'porcja (50 g)') ? 130 : 180,
+                  child: ListView(
+                    children: [
+                      DropdownButtonFormField(
+                        decoration: InputDecoration(
+                            label: Text(
+                                style: GoogleFonts.getFont('Saira'),
+                                'Miejsce przechowywania')),
+                        isExpanded: true,
                         value: storageName,
-                        child: Text(
-                          style: GoogleFonts.getFont('Saira'),
-                          storageName,
-                        ),
-                      );
-                    },
-                  ).toList(),
+                        onChanged: (newProduct) {
+                          setState(() {
+                            storageName = newProduct!;
+                          });
+                        },
+                        items: <String>[
+                          'Lodówka',
+                          'Zamrażarka',
+                          'Szafka kuchenna',
+                          'Chemia',
+                          'Inne',
+                        ].map<DropdownMenuItem<String>>(
+                          (storageName) {
+                            return DropdownMenuItem<String>(
+                              value: storageName,
+                              child: Text(
+                                style: GoogleFonts.getFont('Saira'),
+                                storageName,
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      ),
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          (productTypeName != 'porcja (50 g)')
+                              ? Text(
+                                  style: GoogleFonts.getFont('Saira',
+                                      fontSize: 12),
+                                  'Kupiona ilość: ')
+                              : Text(
+                                  style: GoogleFonts.getFont('Saira',
+                                      fontSize: 12),
+                                  'Kupiona ilość porcji: '),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: NumberPicker(
+                              itemHeight: 24,
+                              itemWidth: 40,
+                              axis: Axis.horizontal,
+                              value: productQuantity,
+                              minValue: 1,
+                              maxValue: 100,
+                              itemCount: 5,
+                              onChanged: (value) =>
+                                  setState(() => productQuantity = value),
+                            ),
+                          ),
+                        ],
+                      ),
+                      (productTypeName != 'porcja (50 g)')
+                          ? Container()
+                          : Column(
+                              children: [
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                    style: GoogleFonts.getFont('Saira',
+                                        fontSize: 12),
+                                    'Wielkość porcji: '),
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: NumberPicker(
+                                    itemHeight: 24,
+                                    itemWidth: 60,
+                                    axis: Axis.horizontal,
+                                    value: productPortion,
+                                    step: 50,
+                                    minValue: 50,
+                                    maxValue: 10000,
+                                    itemCount: 3,
+                                    onChanged: (value) =>
+                                        setState(() => productPortion = value),
+                                  ),
+                                ),
+                              ],
+                            )
+                    ],
+                  ),
                 ),
                 actions: [
                   TextButton(
@@ -414,7 +483,7 @@ class _AlertDialog extends StatelessWidget {
                                 listaProcura.add(temp.toLowerCase());
                               }
                             }
-                            final int count = productModel.productQuantity;
+                            final int count = productQuantity;
 
                             for (var i = 0; i < count; i++) {
                               context.read<YourProductsCubit>().addYourProduct(
@@ -425,11 +494,13 @@ class _AlertDialog extends StatelessWidget {
                                     isDated,
                                     listaProcura,
                                     productTypeName,
+                                    productPortion,
                                   );
                             }
                             context
                                 .read<AddCubit>()
                                 .delete(documentID: productModel.id);
+
                             Navigator.of(context).pop();
                           },
                           child: Text(
