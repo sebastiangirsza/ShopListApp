@@ -52,13 +52,32 @@ class _RecipeDatailsState extends State<RecipeDatails> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: ListView(
             children: [
-              const Text('Potrzebne składniki:'),
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10)),
+                  color: Colors.green,
+                ),
+                margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                child: const Center(
+                  child: Text('Potrzebne składniki',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ),
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
                   color: Colors.white.withOpacity(0.5),
                 ),
-                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                 child: Text(widget.recipesModel.recipesProductName,
@@ -67,13 +86,32 @@ class _RecipeDatailsState extends State<RecipeDatails> {
                         fontSize: 18,
                         fontWeight: FontWeight.bold)),
               ),
-              const Text('Sposób przygotowania:'),
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10)),
+                  color: Colors.green,
+                ),
+                margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                child: const Center(
+                  child: Text('Sposób przygotowania',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                ),
+              ),
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
                   color: Colors.white.withOpacity(0.5),
                 ),
-                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: Text(widget.recipesModel.recipesMakeing,
@@ -89,7 +127,10 @@ class _RecipeDatailsState extends State<RecipeDatails> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Icon(Icons.arrow_circle_down_outlined),
+                    const Icon(
+                      Icons.arrow_circle_down_outlined,
+                      color: Colors.green,
+                    ),
                     Flexible(
                       flex: 1,
                       child: Row(
@@ -120,9 +161,9 @@ class _RecipeDatailsState extends State<RecipeDatails> {
                                   prefixIcon: Container(
                                     padding: const EdgeInsets.all(15),
                                     width: 18,
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.search,
-                                      color: Colors.grey,
+                                      color: Colors.green.shade200,
                                     ),
                                   )),
                               onChanged: (value) {
