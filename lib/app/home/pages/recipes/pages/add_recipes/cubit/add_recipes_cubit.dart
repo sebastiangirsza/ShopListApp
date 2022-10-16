@@ -16,12 +16,14 @@ class AddRecipesCubit extends Cubit<AddRecipesState> {
     String recipesName,
     String recipesProductName,
     String recipesMakeing,
+    String imageName,
   ) async {
     try {
       await _recipesRepository.add(
         recipesName,
         recipesProductName,
         recipesMakeing,
+        imageName,
       );
       emit(const AddRecipesState());
     } catch (error) {

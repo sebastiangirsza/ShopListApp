@@ -5,6 +5,7 @@ import 'package:ShopListApp/app/models/recipes_model.dart';
 import 'package:ShopListApp/app/repositories/recipes_repository.dart';
 import 'package:ShopListApp/data/remote_data_sources/recipes_remote_data_source.dart';
 import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
+import 'package:ShopListApp/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,8 +15,10 @@ class RecipesPage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  // final String imageName = 'Screenshot_20221015-200614_Facebook.jpg';
   @override
   Widget build(BuildContext context) {
+    final Storage storage = Storage();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -62,60 +65,74 @@ class RecipesPage extends StatelessWidget {
         child: BlocBuilder<RecipesCubit, RecipesState>(
           builder: (context, state) {
             final recipesModels = state.recipes;
-            return ListView(
-              children: [
-                for (final recipesModel in recipesModels) ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 10),
-                    child: InkWell(
-                      child: Container(
-                        height: 100,
-                        width: double.infinity,
-                        decoration: const BoxDecoration(
-                          color: Colors.black,
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(color: Colors.black, blurRadius: 15)
-                          ],
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                          image: DecorationImage(
-                            opacity: 180,
-                            image: NetworkImage(
-                                'https://images.pexels.com/photos/1618898/pexels-photo-1618898.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 25.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(recipesModel.recipesName,
-                                  style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                RecipeDatails(recipesModel: recipesModel),
-                            fullscreenDialog: true,
+
+            return ListView(shrinkWrap: true, children: [
+              for (final recipesModel in recipesModels) ...[
+                FutureBuilder(
+                    future: storage.downloadURL(recipesModel.imageName),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<String> snapshots) {
+                      if (snapshots.connectionState == ConnectionState.done &&
+                          snapshots.hasData) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10),
+                          child: InkWell(
+                            child: Container(
+                              height: 100,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                boxShadow: const <BoxShadow>[
+                                  BoxShadow(color: Colors.black, blurRadius: 15)
+                                ],
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                image: DecorationImage(
+                                    opacity: 100,
+                                    image: NetworkImage(
+                                      snapshots.data!,
+                                    ),
+                                    fit: BoxFit.cover),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 25.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(recipesModel.recipesName,
+                                        maxLines: 3,
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      RecipeDatails(recipesModel: recipesModel),
+                                  fullscreenDialog: true,
+                                ),
+                              );
+                            },
                           ),
                         );
-                      },
-                    ),
-                  ),
-                ]
+                      }
+                      if (snapshots.connectionState ==
+                              ConnectionState.waiting ||
+                          !snapshots.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return Container();
+                    }),
               ],
-            );
+            ]);
           },
         ),
       ),

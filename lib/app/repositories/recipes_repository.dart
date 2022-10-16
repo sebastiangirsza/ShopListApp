@@ -22,11 +22,13 @@ class RecipesRepository {
     String recipesName,
     String recipesProductName,
     String recipesMakeing,
+    String imageName,
   ) async {
     await _recipesRemoteDataSource.add(
       recipesName,
       recipesProductName,
       recipesMakeing,
+      imageName,
     );
   }
 }

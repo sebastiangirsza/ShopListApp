@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:ShopListApp/app/home/pages/recipes/pages/add_recipes/cubit/add_recipes_cubit.dart';
 import 'package:ShopListApp/app/repositories/recipes_repository.dart';
 import 'package:ShopListApp/data/remote_data_sources/recipes_remote_data_source.dart';
 import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
+import 'package:ShopListApp/storage_service.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class AddRecipesPage extends StatelessWidget {
   const AddRecipesPage({
@@ -36,7 +41,7 @@ class AddRecipesPage extends StatelessWidget {
               'Dodaj przepis',
               style: GoogleFonts.getFont('Saira', fontWeight: FontWeight.bold),
             ),
-            actions: [],
+            actions: const [],
           ),
           body: const _AddRecipesWidget()),
     );
@@ -54,17 +59,17 @@ class _AddRecipesWidget extends StatefulWidget {
 
 class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
   String? recipesName;
-  String? recipesProductNameOne;
-  String? recipesProductNameTwo;
-  String? recipesProductNameThree;
-  final TextEditingController recipesMakeing = TextEditingController();
+  final TextEditingController? recipesMakeing = TextEditingController();
   int quantityProducts = 1;
 
   final List<TextEditingController> _controller =
       List.generate(50, (i) => TextEditingController());
-
+  String? imageName;
+  var pickedImage;
   @override
   Widget build(BuildContext context) {
+    final Storage storage = Storage();
+
     int maxLines = 10;
 
     return BlocProvider(
@@ -73,25 +78,104 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
       child: BlocBuilder<AddRecipesCubit, AddRecipesState>(
         builder: (context, state) {
           return ListView(
+            shrinkWrap: true,
             children: [
+              // FutureBuilder(
+              //     future: storage.listFiles(),
+              //     builder: (BuildContext context,
+              //         AsyncSnapshot<firebase_storage.ListResult> snapshots) {
+              //       if (snapshots.connectionState == ConnectionState.done &&
+              //           snapshots.hasData) {
+              //         return Container(
+              //           height: 50,
+              //           child: ListView.builder(
+              //               scrollDirection: Axis.horizontal,
+              //               shrinkWrap: true,
+              //               itemCount: snapshots.data!.items.length,
+              //               itemBuilder: (BuildContext context, int index) {
+              //                 return ElevatedButton(
+              //                   onPressed: () {
+              //                     setState(() {
+              //                       imageName =
+              //                           snapshots.data!.items[index].name;
+              //                     });
+              //                   },
+              //                   child: Text(snapshots.data!.items[index].name),
+              //                 );
+              //               }),
+              //         );
+              //       }
+              //       if (snapshots.connectionState == ConnectionState.waiting ||
+              //           !snapshots.hasData) {
+              //         return const CircularProgressIndicator();
+              //       }
+              //       return Container();
+              //     }),
               const SizedBox(height: 15),
               Center(
                 child: SizedBox(
                   width: 120,
                   height: 100,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(color: Colors.green, blurRadius: 15)
-                        ],
-                      ),
-                      padding: const EdgeInsets.all(10),
-                      width: 120,
-                      alignment: Alignment.center,
-                      child: Image.asset('images/icon/add_photo_icon.png'),
-                    ),
+                  child: InkWell(
+                    onTap: () async {
+                      final result = await FilePicker.platform.pickFiles(
+                        allowMultiple: false,
+                        type: FileType.custom,
+                        allowedExtensions: ['png', 'jpg'],
+                      );
+
+                      if (result == null) {
+                        return null;
+                      }
+
+                      final path = result.files.single.path!;
+                      final fileName = result.files.single.name;
+
+                      // storage
+                      //     .uploadFile(path, fileName)
+                      //     .then((value) => print('Done'));
+                      setState(() {
+                        imageName = fileName;
+                      });
+                      setState(() {
+                        pickedImage = path;
+                      });
+                    },
+                    child: (pickedImage == null)
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(color: Colors.green, blurRadius: 15)
+                                ],
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              width: 120,
+                              alignment: Alignment.center,
+                              child:
+                                  Image.asset('images/icon/add_photo_icon.png'),
+                            ),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: FileImage(
+                                    File(pickedImage),
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                                boxShadow: const <BoxShadow>[
+                                  BoxShadow(color: Colors.green, blurRadius: 15)
+                                ],
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              width: 120,
+                              alignment: Alignment.center,
+                            ),
+                          ),
                   ),
                 ),
               ),
@@ -106,8 +190,8 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                 child: TextField(
+                    maxLength: 50,
                     decoration: const InputDecoration(
-                      // filled: true,
                       hintText: 'Przykład: Wrapy z piersią z kurczaka',
                       border: InputBorder.none,
                     ),
@@ -134,8 +218,9 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                           setState(() {
                             quantityProducts--;
                           });
-                        } else
+                        } else {
                           null;
+                        }
                       },
                       child: const Icon(Icons.remove)),
                   const SizedBox(width: 15),
@@ -172,7 +257,6 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                       TextField(
                         controller: _controller[i],
                         decoration: const InputDecoration(
-                          // filled: true,
                           hintText: 'Przykład: Pierś z kurczaka 250g',
                           border: InputBorder.none,
                         ),
@@ -193,38 +277,32 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                       const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                   height: maxLines * 24,
                   child: TextField(
-                    // onChanged: (newProduct) {
-                    //   setState(() {
-                    //     recipesMakeing = newProduct;
-                    //   });
-                    // },
                     controller: recipesMakeing,
                     maxLines: maxLines,
                     decoration: const InputDecoration(
-                        // filled: true,
                         border: InputBorder.none,
                         hintText:
                             'Przykład:\n1. Rozgrzej 10g oleju na patelni.\n2. Pokrój kurczaka na drobne kawałki.'),
                   )),
               IconButton(
-                  onPressed: () {
-                    List<String> textList = _controller
-                        .getRange(0, quantityProducts)
-                        .map((x) => x.text)
-                        .toList();
-                    context.read<AddRecipesCubit>().add(recipesName!,
-                        textList.join(",\n").toString(), recipesMakeing.text);
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: recipesName == null ||
+                          imageName == null ||
+                          recipesMakeing == null
+                      ? null
+                      : () {
+                          storage.uploadFile(pickedImage, imageName!);
+                          List<String> textList = _controller
+                              .getRange(0, quantityProducts)
+                              .map((x) => x.text)
+                              .toList();
+                          context.read<AddRecipesCubit>().add(
+                              recipesName!,
+                              textList.join(",\n").toString(),
+                              recipesMakeing!.text,
+                              imageName!);
+                          Navigator.of(context).pop();
+                        },
                   icon: const Icon(Icons.save_alt)),
-              Text(
-                _controller
-                    .getRange(0, quantityProducts)
-                    .map((e) => e.text)
-                    .toList()
-                    .join(",\n")
-                    .toString(),
-              ),
             ],
           );
         },
