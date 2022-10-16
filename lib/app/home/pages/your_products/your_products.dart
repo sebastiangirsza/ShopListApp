@@ -47,27 +47,36 @@ class YourProductsPage extends StatelessWidget {
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                        child: Container(
-                          height: 50,
-                          decoration: const BoxDecoration(
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(color: Colors.black, blurRadius: 15)
-                            ],
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Color.fromARGB(255, 0, 63, 114),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                  style: GoogleFonts.getFont('Saira',
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                  storageNames[index]),
-                              Icon(icon[index]),
-                            ],
-                          ),
+                        child: Row(
+                          children: [
+                            Icon(icon[index]),
+                            const SizedBox(width: 15),
+                            Expanded(
+                              child: Container(
+                                height: 50,
+                                decoration: const BoxDecoration(
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: Colors.black, blurRadius: 15)
+                                  ],
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  color: Color.fromARGB(255, 0, 63, 114),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        style: GoogleFonts.getFont('Saira',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                        storageNames[index]),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     )
