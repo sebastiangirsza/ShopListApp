@@ -20,19 +20,15 @@ class Storage {
     }
   }
 
-  Future<firebase_storage.ListResult> listFiles() async {
-    firebase_storage.ListResult result = await storage.ref('recipes').listAll();
-
-    result.items.forEach((firebase_storage.Reference ref) {
-      print('Found file: $ref');
-    });
-    return result;
-  }
-
   Future<String> downloadURL(String fileName) async {
-    String downloadURL =
-        await storage.ref('recipes/$fileName').getDownloadURL();
-
+    try {
+      String downloadURL =
+          await storage.ref('recipes/$fileName').getDownloadURL();
+      return downloadURL;
+    } catch (error) {
+      print(error);
+    }
+    String downloadURL = await storage.ref('white_screen.jpg').getDownloadURL();
     return downloadURL;
   }
 }
