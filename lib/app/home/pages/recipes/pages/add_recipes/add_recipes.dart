@@ -9,7 +9,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class AddRecipesPage extends StatelessWidget {
   const AddRecipesPage({
@@ -80,37 +79,6 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
           return ListView(
             shrinkWrap: true,
             children: [
-              // FutureBuilder(
-              //     future: storage.listFiles(),
-              //     builder: (BuildContext context,
-              //         AsyncSnapshot<firebase_storage.ListResult> snapshots) {
-              //       if (snapshots.connectionState == ConnectionState.done &&
-              //           snapshots.hasData) {
-              //         return Container(
-              //           height: 50,
-              //           child: ListView.builder(
-              //               scrollDirection: Axis.horizontal,
-              //               shrinkWrap: true,
-              //               itemCount: snapshots.data!.items.length,
-              //               itemBuilder: (BuildContext context, int index) {
-              //                 return ElevatedButton(
-              //                   onPressed: () {
-              //                     setState(() {
-              //                       imageName =
-              //                           snapshots.data!.items[index].name;
-              //                     });
-              //                   },
-              //                   child: Text(snapshots.data!.items[index].name),
-              //                 );
-              //               }),
-              //         );
-              //       }
-              //       if (snapshots.connectionState == ConnectionState.waiting ||
-              //           !snapshots.hasData) {
-              //         return const CircularProgressIndicator();
-              //       }
-              //       return Container();
-              //     }),
               const SizedBox(height: 15),
               Center(
                 child: SizedBox(
@@ -131,9 +99,6 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                       final path = result.files.single.path!;
                       final fileName = result.files.single.name;
 
-                      // storage
-                      //     .uploadFile(path, fileName)
-                      //     .then((value) => print('Done'));
                       setState(() {
                         imageName = fileName;
                       });
@@ -290,7 +255,10 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                           recipesMakeing == null
                       ? null
                       : () {
-                          storage.uploadFile(pickedImage, imageName!);
+                          context
+                              .read<AddRecipesCubit>()
+                              .uploadFile(pickedImage, imageName!);
+                          // storage.uploadFile(pickedImage, imageName!);
                           List<String> textList = _controller
                               .getRange(0, quantityProducts)
                               .map((x) => x.text)
