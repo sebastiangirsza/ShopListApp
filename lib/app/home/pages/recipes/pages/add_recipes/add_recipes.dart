@@ -4,7 +4,6 @@ import 'package:ShopListApp/app/home/pages/recipes/pages/add_recipes/cubit/add_r
 import 'package:ShopListApp/app/repositories/recipes_repository.dart';
 import 'package:ShopListApp/data/remote_data_sources/recipes_remote_data_source.dart';
 import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
-import 'package:ShopListApp/storage_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -67,7 +66,7 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
   var pickedImage;
   @override
   Widget build(BuildContext context) {
-    final Storage storage = Storage();
+    // final Storage storage = Storage();
 
     int maxLines = 10;
 

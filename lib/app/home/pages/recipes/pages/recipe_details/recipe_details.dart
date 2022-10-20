@@ -20,9 +20,11 @@ class RecipeDatails extends StatefulWidget {
 }
 
 class _RecipeDatailsState extends State<RecipeDatails> {
+  // final storage = Storage();
   String searchKey = '';
   @override
   Widget build(BuildContext context) {
+    String? fileName;
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -176,6 +178,42 @@ class _RecipeDatailsState extends State<RecipeDatails> {
                         ],
                       ),
                     ),
+                    // BlocProvider(
+                    //   create: (context) => RecipesImagesCubit()
+                    //     ..downloadURL('Screenshot_20221016-175440.jpg'),
+                    //   child:
+                    //       BlocBuilder<RecipesImagesCubit, RecipesImagesState>(
+                    //     builder: (context, state) {
+                    //       final image = state.downloadURL;
+                    //       return ListView(shrinkWrap: true, children: [
+                    //         Image.network(image, fit: BoxFit.cover),
+                    //       ]);
+                    //     },
+                    //   ),
+                    // ),
+                    // FutureBuilder(
+                    //     future: storage
+                    //         .downloadURL('Screenshot_20221016-175440.jpg'),
+                    //     builder: (BuildContext context,
+                    //         AsyncSnapshot<String> snapshots) {
+                    //       if (snapshots.connectionState ==
+                    //               ConnectionState.done &&
+                    //           snapshots.hasData) {
+                    //         return Container(
+                    //           height: 100,
+                    //           child: Image.network(
+                    //             snapshots.data!,
+                    //             fit: BoxFit.cover,
+                    //           ),
+                    //         );
+                    //       }
+                    //       if (snapshots.connectionState ==
+                    //               ConnectionState.waiting ||
+                    //           !snapshots.hasData) {
+                    //         return const CircularProgressIndicator();
+                    //       }
+                    //       return Container();
+                    //     }),
                     // Container(
                     //   height: 50,
                     //   width: 50,

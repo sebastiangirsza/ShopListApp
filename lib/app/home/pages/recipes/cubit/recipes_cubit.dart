@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:ShopListApp/app/models/recipes_model.dart';
 import 'package:ShopListApp/app/repositories/recipes_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'recipes_state.dart';
@@ -26,5 +28,16 @@ class RecipesCubit extends Cubit<RecipesState> {
   Future<void> close() {
     _streamSubscription?.cancel();
     return super.close();
+  }
+}
+
+class RecipesImagesCubit extends Cubit<RecipesImagesState> {
+  RecipesImagesCubit() : super(const RecipesImagesState(downloadURL: ''));
+
+  final FirebaseStorage storage = FirebaseStorage.instance;
+
+  Future<void> downloadURL(String fileName) async {
+    storage.ref('recipes/$fileName').getDownloadURL().then(
+        (downloadURL) => emit(RecipesImagesState(downloadURL: downloadURL)));
   }
 }

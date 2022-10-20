@@ -6,3 +6,10 @@ class RecipesState {
 
   const RecipesState({required this.recipes});
 }
+
+@immutable
+class RecipesImagesState {
+  final String downloadURL;
+
+  const RecipesImagesState({required this.downloadURL});
+}
