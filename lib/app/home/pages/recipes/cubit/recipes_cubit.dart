@@ -37,7 +37,12 @@ class RecipesImagesCubit extends Cubit<RecipesImagesState> {
   final FirebaseStorage storage = FirebaseStorage.instance;
 
   Future<void> downloadURL(String fileName) async {
-    storage.ref('recipes/$fileName').getDownloadURL().then(
-        (downloadURL) => emit(RecipesImagesState(downloadURL: downloadURL)));
+    try {
+      final downloadURL =
+          await storage.ref('recipes/$fileName').getDownloadURL();
+      emit(RecipesImagesState(downloadURL: downloadURL));
+    } catch (e) {
+      emit(const RecipesImagesState(downloadURL: ''));
+    }
   }
 }

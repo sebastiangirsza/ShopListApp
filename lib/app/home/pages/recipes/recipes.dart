@@ -70,7 +70,7 @@ class RecipesPage extends StatelessWidget {
                   child: BlocBuilder<RecipesImagesCubit, RecipesImagesState>(
                     builder: (context, state) {
                       final downloadURL = state.downloadURL;
-
+                      print(downloadURL);
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 10),
