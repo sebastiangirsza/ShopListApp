@@ -70,7 +70,6 @@ class RecipesPage extends StatelessWidget {
                   child: BlocBuilder<RecipesImagesCubit, RecipesImagesState>(
                     builder: (context, state) {
                       final downloadURL = state.downloadURL;
-                      print(downloadURL);
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 10),
@@ -98,30 +97,54 @@ class RecipesPage extends StatelessWidget {
                                 ),
                               ),
                               Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    height: 120,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      boxShadow: const <BoxShadow>[
-                                        BoxShadow(
-                                            color: Colors.black, blurRadius: 15)
-                                      ],
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(10),
-                                      ),
-                                      image: DecorationImage(
-                                          opacity: 100,
-                                          image: NetworkImage(
-                                            downloadURL,
+                                  (downloadURL.isEmpty)
+                                      ? Container(
+                                          height: 120,
+                                          width: double.infinity,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.black,
+                                              boxShadow: <BoxShadow>[
+                                                BoxShadow(
+                                                    color: Colors.black,
+                                                    blurRadius: 15)
+                                              ],
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10),
+                                              )),
+                                          child: const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                        )
+                                      : Container(
+                                          height: 120,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            boxShadow: const <BoxShadow>[
+                                              BoxShadow(
+                                                  color: Colors.black,
+                                                  blurRadius: 15)
+                                            ],
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                            image: (downloadURL.isNotEmpty)
+                                                ? DecorationImage(
+                                                    opacity: 100,
+                                                    image: NetworkImage(
+                                                      downloadURL,
+                                                    ),
+                                                    fit: BoxFit.cover)
+                                                : const DecorationImage(
+                                                    opacity: 100,
+                                                    image: AssetImage(
+                                                      'images/icon/photo_icon.png',
+                                                    ),
+                                                    fit: BoxFit.contain),
                                           ),
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
+                                        ),
                                   SizedBox(
                                     height: 65,
                                     width: double.infinity,

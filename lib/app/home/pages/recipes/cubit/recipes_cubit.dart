@@ -32,7 +32,10 @@ class RecipesCubit extends Cubit<RecipesState> {
 }
 
 class RecipesImagesCubit extends Cubit<RecipesImagesState> {
-  RecipesImagesCubit() : super(const RecipesImagesState(downloadURL: ''));
+  RecipesImagesCubit()
+      : super(
+          const RecipesImagesState(downloadURL: ''),
+        );
 
   final FirebaseStorage storage = FirebaseStorage.instance;
 
@@ -42,7 +45,7 @@ class RecipesImagesCubit extends Cubit<RecipesImagesState> {
           await storage.ref('recipes/$fileName').getDownloadURL();
       emit(RecipesImagesState(downloadURL: downloadURL));
     } catch (e) {
-      emit(const RecipesImagesState(downloadURL: ''));
+      FirebaseException(message: 'Image not found', plugin: '');
     }
   }
 }

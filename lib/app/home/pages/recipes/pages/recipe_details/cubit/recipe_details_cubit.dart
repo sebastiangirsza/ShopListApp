@@ -3,7 +3,6 @@ import 'package:ShopListApp/app/repositories/recipes_products_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:ShopListApp/app/models/purchased_product_model.dart';
-import 'package:ShopListApp/app/repositories/purchased_products_repository.dart';
 
 part 'recipe_details_state.dart';
 
