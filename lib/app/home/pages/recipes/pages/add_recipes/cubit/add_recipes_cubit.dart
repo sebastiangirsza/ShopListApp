@@ -31,7 +31,7 @@ class AddRecipesCubit extends Cubit<AddRecipesState> {
         recipesMakeing,
         imageName,
       );
-      emit(const AddRecipesState());
+      emit(const AddRecipesState(saved: true));
     } catch (error) {
       null;
     }
