@@ -62,7 +62,8 @@ class RecipesPage extends StatelessWidget {
         child: BlocBuilder<RecipesCubit, RecipesState>(
           builder: (context, state) {
             final recipesModels = state.recipes;
-            return ListView(shrinkWrap: true, children: [
+            return GridView
+                .count(shrinkWrap: true, crossAxisCount: 2, children: [
               for (final recipesModel in recipesModels) ...[
                 BlocProvider(
                   create: (context) =>
@@ -71,14 +72,11 @@ class RecipesPage extends StatelessWidget {
                     builder: (context, state) {
                       final downloadURL = state.downloadURL;
                       return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10),
+                        padding: const EdgeInsets.all(10),
                         child: InkWell(
                           child: Stack(
                             children: [
                               Container(
-                                height: 185,
-                                width: double.infinity,
                                 decoration: const BoxDecoration(
                                   color: Colors.white,
                                   boxShadow: <BoxShadow>[
@@ -145,26 +143,16 @@ class RecipesPage extends StatelessWidget {
                                                     fit: BoxFit.contain),
                                           ),
                                         ),
-                                  SizedBox(
-                                    height: 65,
-                                    width: double.infinity,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 25.0, bottom: 5),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(recipesModel.recipesName,
-                                              maxLines: 2,
-                                              style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Text(recipesModel.recipesName,
+                                          maxLines: 2,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold)),
                                     ),
                                   ),
                                 ],

@@ -24,7 +24,6 @@ class _RecipeDatailsState extends State<RecipeDatails> {
   String searchKey = '';
   @override
   Widget build(BuildContext context) {
-    String? fileName;
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
