@@ -1,3 +1,4 @@
+import 'package:ShopListApp/app/home/pages/your_products/pages/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ShopListApp/app/cubit/auth_cubit.dart';
 import 'package:ShopListApp/app/home/pages/recipes/recipes.dart';
 import 'package:ShopListApp/app/home/pages/shop_list/shop_list.dart';
-import 'package:ShopListApp/app/home/pages/your_products/your_products.dart';
 import 'package:ShopListApp/app/repositories/firebase_auth_repository.dart';
 import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
 
@@ -29,21 +29,23 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           return Container(
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.1, 0.5, 0.7, 0.9],
-                colors: [
-                  Color.fromARGB(255, 40, 40, 40),
-                  Color.fromARGB(255, 60, 60, 60),
-                  Color.fromARGB(255, 80, 80, 80),
-                  Color.fromARGB(255, 100, 100, 100),
-                ],
-              ),
+              // gradient: LinearGradient(
+              //   begin: Alignment.topCenter,
+              //   end: Alignment.bottomCenter,
+              //   stops: [0.1, 0.5, 0.7, 0.9],
+              //   colors: [
+              //     Color.fromARGB(255, 40, 40, 40),
+              //     Color.fromARGB(255, 60, 60, 60),
+              //     Color.fromARGB(255, 80, 80, 80),
+              //     Color.fromARGB(255, 100, 100, 100),
+              //   ],
+              // ),
+              color: Color.fromARGB(255, 200, 233, 255),
             ),
             child: Scaffold(
               backgroundColor: Colors.transparent,
               appBar: AppBar(
+                toolbarHeight: 65,
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.black,
                 leading: IconButton(
@@ -149,46 +151,51 @@ class _HomePageState extends State<HomePage> {
                   return const ShopListPage();
                 }
                 if (currentIndex == 1) {
-                  return const YourProductsPage();
+                  return const PurchasedProductsPage(
+                    storageName: 'Lodówka',
+                  );
                 }
                 if (currentIndex == 2) {
                   return const RecipesPage();
                 }
                 return Container();
               }),
-              bottomNavigationBar: BottomNavigationBar(
-                unselectedItemColor: Colors.black,
-                selectedItemColor: Colors.white,
-                selectedLabelStyle: GoogleFonts.getFont('Saira'),
-                unselectedLabelStyle: GoogleFonts.getFont('Saira'),
-                currentIndex: currentIndex,
-                onTap: (newIndex) {
-                  setState(() {
-                    currentIndex = newIndex;
-                  });
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.edit_note_rounded),
-                    label: 'Lista zakupów',
-                    backgroundColor: Color.fromARGB(255, 100, 100, 100),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.shopping_bag_outlined),
-                    label: 'Moje produkty',
-                    backgroundColor: Color.fromARGB(255, 100, 100, 100),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.dinner_dining),
-                    label: 'Przepisy',
-                    backgroundColor: Color.fromARGB(255, 100, 100, 100),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.liquor),
-                    label: 'Inne',
-                    backgroundColor: Color.fromARGB(255, 100, 100, 100),
-                  ),
-                ],
+              bottomNavigationBar: SizedBox(
+                height: 60,
+                child: BottomNavigationBar(
+                  unselectedItemColor: const Color.fromARGB(255, 200, 233, 255),
+                  selectedItemColor: Colors.white,
+                  selectedLabelStyle: GoogleFonts.getFont('Saira'),
+                  unselectedLabelStyle: GoogleFonts.getFont('Saira'),
+                  currentIndex: currentIndex,
+                  onTap: (newIndex) {
+                    setState(() {
+                      currentIndex = newIndex;
+                    });
+                  },
+                  items: const [
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.edit_note_rounded),
+                      label: 'Lista zakupów',
+                      backgroundColor: Color.fromARGB(255, 0, 63, 114),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.shopping_bag_outlined),
+                      label: 'Moje produkty',
+                      backgroundColor: Color.fromARGB(255, 0, 63, 114),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.dinner_dining),
+                      label: 'Przepisy',
+                      backgroundColor: Color.fromARGB(255, 0, 63, 114),
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.liquor),
+                      label: 'Inne',
+                      backgroundColor: Color.fromARGB(255, 0, 63, 114),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

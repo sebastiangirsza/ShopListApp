@@ -233,7 +233,7 @@ class _ProductsList extends StatelessWidget {
     return Container(
       decoration: (productModel.isChecked == false)
           ? const BoxDecoration(
-              color: Color.fromARGB(255, 60, 60, 60),
+              color: Color.fromARGB(255, 200, 233, 255),
               boxShadow: <BoxShadow>[
                 BoxShadow(color: Colors.black, blurRadius: 5)
               ],
@@ -252,7 +252,12 @@ class _ProductsList extends StatelessWidget {
             Flexible(
               child: Text(
                 productModel.productName,
-                style: GoogleFonts.getFont('Saira', fontSize: 15),
+                style: GoogleFonts.getFont(
+                  'Saira',
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Row(
@@ -260,7 +265,12 @@ class _ProductsList extends StatelessWidget {
               children: [
                 Text(
                   productModel.productQuantity.toString(),
-                  style: GoogleFonts.getFont('Saira', fontSize: 15),
+                  style: GoogleFonts.getFont(
+                    'Saira',
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(

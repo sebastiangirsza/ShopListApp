@@ -48,7 +48,7 @@ class _ShopListPageState extends State<ShopListPage> {
           style: ElevatedButton.styleFrom(
               shadowColor: Colors.black,
               elevation: 15,
-              backgroundColor: Colors.green,
+              backgroundColor: const Color.fromARGB(255, 0, 63, 114),
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(50)))),
           onPressed: () => showDialog(
@@ -232,36 +232,6 @@ class _ShopListPageState extends State<ShopListPage> {
                                         ),
                                       );
                                       Navigator.of(context).pop();
-                                      // showDialog(
-                                      //   context: context,
-                                      //   builder: (BuildContext context) {
-                                      //     return StatefulBuilder(builder:
-                                      //         (BuildContext context,
-                                      //             StateSetter setState) {
-                                      //       return AlertDialog(
-                                      //         content: PortionSize(
-                                      //           productTypeName:
-                                      //               productTypeName!,
-                                      //         ),
-                                      //         actions: [
-                                      //           TextButton(
-                                      //               onPressed: () {
-                                      //                 Navigator.of(context)
-                                      //                     .pop();
-                                      //               },
-                                      //               child: Text(
-                                      //                 'Cofnij',
-                                      //                 style:
-                                      //                     GoogleFonts.getFont(
-                                      //                         'Saira',
-                                      //                         color:
-                                      //                             Colors.white),
-                                      //               )),
-                                      //         ],
-                                      //       );
-                                      //     });
-                                      //   },
-                                      // );
                                     },
                               child: Text(
                                   style: GoogleFonts.getFont('Saira'),
@@ -327,9 +297,17 @@ class ProductsGroup extends StatelessWidget {
                       const SizedBox(height: 5),
                       Container(
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 0, 63, 114),
+                          color: Color.fromARGB(255, 255, 255, 255),
                           boxShadow: <BoxShadow>[
-                            BoxShadow(color: Colors.black, blurRadius: 15)
+                            BoxShadow(
+                                color: Colors.white,
+                                blurRadius: 1,
+                                offset: Offset(1, 1)),
+                            BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 2,
+                              offset: Offset(-4, -4),
+                            ),
                           ],
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
@@ -378,11 +356,10 @@ class ProductsGroup extends StatelessWidget {
                                                   child: Text(
                                                     productsNumber,
                                                     style: const TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 0, 63, 114),
+                                                      color: Colors.white,
                                                     ),
                                                   ),
-                                                )
+                                                ),
                                             ]),
                                         title: Row(
                                           mainAxisAlignment:
@@ -394,7 +371,8 @@ class ProductsGroup extends StatelessWidget {
                                               style: GoogleFonts.getFont(
                                                   'Saira',
                                                   fontSize: 20,
-                                                  color: Colors.white,
+                                                  color: const Color.fromARGB(
+                                                      255, 0, 63, 114),
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ],
@@ -428,56 +406,3 @@ class ProductsGroup extends StatelessWidget {
     );
   }
 }
-
-// class PortionSize extends StatefulWidget {
-//   const PortionSize({
-//     required this.productTypeName,
-//     Key? key,
-//   }) : super(key: key);
-
-//   final String productTypeName;
-
-//   @override
-//   State<PortionSize> createState() => _PortionSizeState();
-// }
-
-// class _PortionSizeState extends State<PortionSize> {
-//   int productPortion = 50;
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       height: 70,
-//       child: ListView(
-//         children: [
-//           (widget.productTypeName == 'porcja')
-//               ? Column(
-//                   children: [
-//                     const SizedBox(
-//                       height: 4,
-//                     ),
-//                     Text(
-//                         style: GoogleFonts.getFont('Saira', fontSize: 12),
-//                         'Wielkość porcji: '),
-//                     Padding(
-//                       padding: const EdgeInsets.all(5.0),
-//                       child: NumberPicker(
-//                         itemHeight: 24,
-//                         itemWidth: 60,
-//                         axis: Axis.horizontal,
-//                         value: productPortion,
-//                         step: 50,
-//                         minValue: 50,
-//                         maxValue: 10000,
-//                         itemCount: 3,
-//                         onChanged: (value) =>
-//                             setState(() => productPortion = value),
-//                       ),
-//                     ),
-//                   ],
-//                 )
-//               : Container(),
-//         ],
-//       ),
-//     );
-//   }
-// }
