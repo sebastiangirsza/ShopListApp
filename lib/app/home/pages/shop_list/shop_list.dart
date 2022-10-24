@@ -2,6 +2,7 @@ import 'package:ShopListApp/app/home/pages/shop_list/categories/categories_widge
 import 'package:ShopListApp/app/home/pages/shop_list/categories/cubit/product_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:ShopListApp/app/repositories/products_repositories.dart';
@@ -362,6 +363,16 @@ class ProductsGroup extends StatelessWidget {
       'Chemia',
       'Inne',
     ];
+
+    final categoriesIcon = [
+      'images/icons/vegetable_icon.svg',
+      'images/icons/meat_icon.svg',
+      'images/icons/bread_icon.svg',
+      'images/icons/dry_products_icon.svg',
+      'images/icons/dairy_icon.svg',
+      'images/icons/chemistry_icon.svg',
+      'images/icons/other_icon.svg',
+    ];
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -443,17 +454,30 @@ class ProductsGroup extends StatelessWidget {
                                                 ),
                                             ]),
                                         title: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
                                           children: [
-                                            const Icon(null),
-                                            Text(
-                                              categoriesName[index],
-                                              style: GoogleFonts.getFont(
-                                                  'Saira',
-                                                  fontSize: 22,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
+                                            SizedBox(
+                                              width: 25,
+                                              height: 25,
+                                              child: SvgPicture.asset(
+                                                categoriesIcon[index],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    categoriesName[index],
+                                                    style: GoogleFonts.getFont(
+                                                        'Saira',
+                                                        fontSize: 22,
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
