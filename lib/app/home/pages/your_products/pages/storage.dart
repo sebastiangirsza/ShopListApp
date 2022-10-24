@@ -21,17 +21,17 @@ class PurchasedProductsPage extends StatefulWidget {
 
 class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
   var currentIndex = 0;
+  var title = 'Lodówka';
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    var padding = MediaQuery.of(context).viewPadding;
-    double height1 = height - padding.top - padding.bottom - 130 - 55 - 100;
+    double height = (MediaQuery.of(context).size.height * 0.9) - 175;
+
     return ListView(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
+          padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -40,10 +40,13 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                   setState(() {
                     currentIndex = 0;
                   });
+                  setState(() {
+                    title = 'Lodówka';
+                  });
                 }),
                 child: Container(
                   height: 35,
-                  width: width * 0.18,
+                  width: width * 0.16,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: (currentIndex == 0)
@@ -60,10 +63,13 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                   setState(() {
                     currentIndex = 1;
                   });
+                  setState(() {
+                    title = 'Zamrażarka';
+                  });
                 }),
                 child: Container(
                   height: 35,
-                  width: width * 0.18,
+                  width: width * 0.16,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: (currentIndex == 1)
@@ -80,10 +86,13 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                   setState(() {
                     currentIndex = 2;
                   });
+                  setState(() {
+                    title = 'Szafka kuchenna';
+                  });
                 }),
                 child: Container(
                   height: 35,
-                  width: width * 0.18,
+                  width: width * 0.16,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: (currentIndex == 2)
@@ -100,10 +109,13 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                   setState(() {
                     currentIndex = 3;
                   });
+                  setState(() {
+                    title = 'Chemia';
+                  });
                 }),
                 child: Container(
                   height: 35,
-                  width: width * 0.18,
+                  width: width * 0.16,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: (currentIndex == 3)
@@ -120,10 +132,13 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                   setState(() {
                     currentIndex = 4;
                   });
+                  setState(() {
+                    title = 'Inne';
+                  });
                 }),
                 child: Container(
                   height: 35,
-                  width: width * 0.18,
+                  width: width * 0.16,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: (currentIndex == 4)
@@ -158,10 +173,21 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                   decoration: const BoxDecoration(
                     color: Colors.white,
                   ),
-                  height: height1,
+                  height: height,
                   child: Scaffold(
                     body: ListView(
                       children: [
+                        Center(
+                          child: Text(
+                            title,
+                            style: GoogleFonts.getFont(
+                              'Saira',
+                              color: const Color.fromARGB(255, 0, 63, 114),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
                         (currentIndex == 0)
                             ? const _List(storageName: 'Lodówka')
                             : (currentIndex == 1)

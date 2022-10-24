@@ -57,7 +57,9 @@ class _ShopListPageState extends State<ShopListPage> {
                 return StatefulBuilder(
                     builder: (BuildContext context, StateSetter setState) {
                   return AlertDialog(
-                    backgroundColor: const Color.fromARGB(255, 0, 63, 114),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                    backgroundColor: const Color.fromARGB(255, 200, 233, 255),
                     content: SizedBox(
                       height: 270,
                       child: ListView(
@@ -65,117 +67,186 @@ class _ShopListPageState extends State<ShopListPage> {
                         children: [
                           Text(
                             style: GoogleFonts.getFont('Saira',
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
                             'Dodaj produkt do listy',
                             textAlign: TextAlign.center,
                           ),
-                          DropdownButtonFormField(
-                            decoration: InputDecoration(
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              color: Colors.white.withOpacity(0.5),
+                            ),
+                            child: DropdownButtonFormField(
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
                                 label: Text(
-                                    style: GoogleFonts.getFont('Saira',
-                                        fontSize: 12),
-                                    'Kategoria')),
-                            isExpanded: true,
-                            value: productGroup,
-                            onChanged: (newProduct) {
-                              setState(() {
-                                productGroup = newProduct!;
-                              });
-                            },
-                            items: <String>[
-                              'Warzywa',
-                              'Mięso',
-                              'Pieczywo',
-                              'Suche produkty',
-                              'Nabiał',
-                              'Chemia',
-                              'Inne',
-                            ].map<DropdownMenuItem<String>>(
-                              (productGroup) {
-                                return DropdownMenuItem<String>(
-                                  value: productGroup,
-                                  child: Center(
-                                    child: Text(
-                                      style: GoogleFonts.getFont('Saira',
-                                          fontSize: 12),
-                                      productGroup,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ).toList(),
-                          ),
-                          TextField(
-                            style: GoogleFonts.getFont('Saira', fontSize: 12),
-                            decoration: InputDecoration(
-                                label: Text(
-                                    style: GoogleFonts.getFont('Saira',
-                                        fontSize: 12),
-                                    'Nazwa produktu')),
-                            onChanged: (newProduct) {
-                              setState(() {
-                                productName = newProduct;
-                              });
-                            },
-                            textAlign: TextAlign.center,
-                          ),
-                          Column(
-                            children: [
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Text(
+                                  'Kategoria',
                                   style: GoogleFonts.getFont('Saira',
-                                      fontSize: 12),
-                                  'Ilość: '),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: NumberPicker(
-                                  itemHeight: 24,
-                                  itemWidth: 40,
-                                  axis: Axis.horizontal,
-                                  value: productQuantity,
-                                  minValue: 1,
-                                  maxValue: 100,
-                                  itemCount: 5,
-                                  onChanged: (value) =>
-                                      setState(() => productQuantity = value),
+                                      fontSize: 12, color: Colors.black),
                                 ),
                               ),
-                            ],
+                              borderRadius: BorderRadius.circular(10),
+                              iconDisabledColor: Colors.black,
+                              iconEnabledColor: Colors.black,
+                              dropdownColor: Colors.white,
+                              isExpanded: true,
+                              value: productGroup,
+                              onChanged: (newProduct) {
+                                setState(() {
+                                  productGroup = newProduct!;
+                                });
+                              },
+                              items: <String>[
+                                'Warzywa',
+                                'Mięso',
+                                'Pieczywo',
+                                'Suche produkty',
+                                'Nabiał',
+                                'Chemia',
+                                'Inne',
+                              ].map<DropdownMenuItem<String>>(
+                                (productGroup) {
+                                  return DropdownMenuItem<String>(
+                                    value: productGroup,
+                                    child: Center(
+                                      child: Text(
+                                        style: GoogleFonts.getFont(
+                                          'Saira',
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                        ),
+                                        productGroup,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ).toList(),
+                            ),
                           ),
-                          DropdownButtonFormField(
-                            decoration: InputDecoration(
+                          const SizedBox(height: 2),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              color: Colors.white.withOpacity(0.5),
+                            ),
+                            child: TextField(
+                              style: GoogleFonts.getFont(
+                                'Saira',
+                                fontSize: 12,
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                labelStyle: GoogleFonts.getFont(
+                                  'Saira',
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                ),
+                                label: const Text(
+                                  'Nazwa produktu',
+                                ),
+                              ),
+                              onChanged: (newProduct) {
+                                setState(() {
+                                  productName = newProduct;
+                                });
+                              },
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              color: Colors.white.withOpacity(0.5),
+                            ),
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                    style: GoogleFonts.getFont('Saira',
+                                        fontSize: 12, color: Colors.black),
+                                    'Ilość: '),
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: NumberPicker(
+                                    textStyle: GoogleFonts.getFont('Saira',
+                                        fontSize: 16, color: Colors.black),
+                                    selectedTextStyle: GoogleFonts.getFont(
+                                        'Saira',
+                                        fontSize: 20,
+                                        color: const Color.fromARGB(
+                                            255, 0, 63, 114),
+                                        fontWeight: FontWeight.bold),
+                                    itemHeight: 24,
+                                    itemWidth: 40,
+                                    axis: Axis.horizontal,
+                                    value: productQuantity,
+                                    minValue: 1,
+                                    maxValue: 100,
+                                    itemCount: 5,
+                                    onChanged: (value) =>
+                                        setState(() => productQuantity = value),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              color: Colors.white.withOpacity(0.5),
+                            ),
+                            child: DropdownButtonFormField(
+                              decoration: InputDecoration(
                                 label: Text(
                                     style: GoogleFonts.getFont('Saira',
-                                        fontSize: 12),
-                                    'Rodzaj opakowania')),
-                            isExpanded: true,
-                            value: productTypeName,
-                            onChanged: (newProduct) {
-                              setState(() {
-                                productTypeName = newProduct!;
-                              });
-                            },
-                            items: <String>[
-                              'sztuka',
-                              'karton',
-                              'porcja (50 g)',
-                              'paczka',
-                            ].map<DropdownMenuItem<String>>(
-                              (productTypeName) {
-                                return DropdownMenuItem<String>(
-                                  value: productTypeName,
-                                  child: Center(
-                                    child: Text(
-                                      style: GoogleFonts.getFont('Saira',
-                                          fontSize: 12),
-                                      productTypeName,
-                                    ),
-                                  ),
-                                );
+                                        fontSize: 12, color: Colors.black),
+                                    'Rodzaj opakowania'),
+                                border: InputBorder.none,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                              iconDisabledColor: Colors.black,
+                              iconEnabledColor: Colors.black,
+                              dropdownColor: Colors.white,
+                              isExpanded: true,
+                              value: productTypeName,
+                              onChanged: (newProduct) {
+                                setState(() {
+                                  productTypeName = newProduct!;
+                                });
                               },
-                            ).toList(),
+                              items: <String>[
+                                'sztuka',
+                                'karton',
+                                'porcja (50 g)',
+                                'paczka',
+                              ].map<DropdownMenuItem<String>>(
+                                (productTypeName) {
+                                  return DropdownMenuItem<String>(
+                                    value: productTypeName,
+                                    child: Center(
+                                      child: Text(
+                                        style: GoogleFonts.getFont(
+                                          'Saira',
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                        ),
+                                        productTypeName,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ).toList(),
+                            ),
                           ),
                         ],
                       ),
@@ -183,12 +254,19 @@ class _ShopListPageState extends State<ShopListPage> {
                     actions: [
                       TextButton(
                           onPressed: () {
+                            setState(() {
+                              productGroup = null;
+                              productName = null;
+                              productQuantity = 1;
+                              productTypeName = null;
+                            });
                             Navigator.of(context).pop();
                           },
                           child: Text(
                             'Cofnij',
                             style: GoogleFonts.getFont('Saira',
-                                color: Colors.white),
+                                color: const Color.fromARGB(255, 0, 63, 114),
+                                fontWeight: FontWeight.bold),
                           )),
                       BlocProvider(
                         create: (context) => AddCubit(ProductsRepository(
@@ -210,6 +288,13 @@ class _ShopListPageState extends State<ShopListPage> {
                                             isChecked,
                                             productTypeName!,
                                           );
+                                      setState(() {
+                                        productGroup = null;
+                                        productName = null;
+                                        productQuantity = 1;
+                                        productTypeName = null;
+                                      });
+
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
@@ -300,14 +385,10 @@ class ProductsGroup extends StatelessWidget {
                           color: Color.fromARGB(255, 255, 255, 255),
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                                color: Colors.white,
-                                blurRadius: 1,
-                                offset: Offset(1, 1)),
-                            BoxShadow(
                               color: Colors.black,
                               blurRadius: 2,
-                              offset: Offset(-4, -4),
-                            ),
+                              offset: Offset(3, 3),
+                            )
                           ],
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
@@ -370,9 +451,8 @@ class ProductsGroup extends StatelessWidget {
                                               categoriesName[index],
                                               style: GoogleFonts.getFont(
                                                   'Saira',
-                                                  fontSize: 20,
-                                                  color: const Color.fromARGB(
-                                                      255, 0, 63, 114),
+                                                  fontSize: 22,
+                                                  color: Colors.black,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ],

@@ -104,7 +104,7 @@ class DismissibleWidgetState extends State<DismissibleWidget> {
                       ? const DecoratedBox(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Colors.green,
+                            color: Colors.white,
                           ),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -112,6 +112,14 @@ class DismissibleWidgetState extends State<DismissibleWidget> {
                               padding: EdgeInsets.only(left: 32.0),
                               child: Icon(
                                 Icons.done,
+                                color: Colors.green,
+                                shadows: [
+                                  Shadow(
+                                    offset: Offset(1.0, 1.0),
+                                    blurRadius: 4.0,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -119,7 +127,7 @@ class DismissibleWidgetState extends State<DismissibleWidget> {
                       : const DecoratedBox(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Colors.red,
+                            color: Colors.white,
                           ),
                           child: Align(
                             alignment: Alignment.centerLeft,
@@ -127,6 +135,14 @@ class DismissibleWidgetState extends State<DismissibleWidget> {
                               padding: EdgeInsets.only(left: 32.0),
                               child: Icon(
                                 Icons.remove_done,
+                                color: Colors.red,
+                                shadows: [
+                                  Shadow(
+                                    offset: Offset(1.0, 1.0),
+                                    blurRadius: 4.0,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                ],
                               ),
                             ),
                           ),

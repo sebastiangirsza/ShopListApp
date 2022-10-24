@@ -15,7 +15,6 @@ class RecipesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final Storage storage = Storage();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -24,7 +23,7 @@ class RecipesPage extends StatelessWidget {
             fullscreenDialog: true,
           ));
         },
-        backgroundColor: Colors.grey,
+        backgroundColor: const Color.fromARGB(255, 0, 63, 114),
         splashColor: Colors.black12,
         child: Stack(
           children: [
@@ -32,7 +31,7 @@ class RecipesPage extends StatelessWidget {
                 child: Icon(
               Icons.add,
               size: 50,
-              color: Colors.black12,
+              color: Color.fromARGB(255, 0, 80, 146),
             )),
             Center(
               child: Column(
@@ -42,12 +41,16 @@ class RecipesPage extends StatelessWidget {
                   Text(
                     'Dodaj',
                     style: GoogleFonts.getFont('Saira',
-                        fontSize: 10, fontWeight: FontWeight.bold),
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                   Text(
                     'przepis',
                     style: GoogleFonts.getFont('Saira',
-                        fontSize: 10, fontWeight: FontWeight.bold),
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ],
               ),
@@ -81,13 +84,10 @@ class RecipesPage extends StatelessWidget {
                                   color: Colors.white,
                                   boxShadow: <BoxShadow>[
                                     BoxShadow(
-                                        offset: Offset(2, 2),
-                                        color: Colors.white,
-                                        blurRadius: 3),
-                                    BoxShadow(
-                                        offset: Offset(-2, -2),
-                                        color: Colors.black,
-                                        blurRadius: 3),
+                                      color: Colors.black,
+                                      blurRadius: 2,
+                                      offset: Offset(3, 3),
+                                    )
                                   ],
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(10),

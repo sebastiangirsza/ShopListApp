@@ -23,21 +23,50 @@ class AddRecipesPage extends StatelessWidget {
           end: Alignment.bottomCenter,
           stops: [0.1, 0.5, 0.7, 0.9],
           colors: [
-            Color.fromARGB(255, 40, 40, 40),
-            Color.fromARGB(255, 60, 60, 60),
-            Color.fromARGB(255, 80, 80, 80),
-            Color.fromARGB(255, 100, 100, 100),
+            Color.fromARGB(255, 200, 233, 255),
+            Color.fromARGB(255, 213, 238, 255),
+            Color.fromARGB(255, 228, 244, 255),
+            Color.fromARGB(255, 244, 250, 255),
           ],
         ),
       ),
       child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            iconTheme: const IconThemeData(
+              color: Color.fromARGB(255, 200, 233, 255),
+              shadows: <Shadow>[
+                Shadow(
+                  offset: Offset(1.0, 1.0),
+                  blurRadius: 7.0,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+              ],
+            ),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(30),
+              ),
+            ),
+            elevation: 10,
+            scrolledUnderElevation: 10,
+            toolbarHeight: 60,
+            backgroundColor: Colors.white,
             foregroundColor: Colors.white,
             title: Text(
               'Dodaj przepis',
-              style: GoogleFonts.getFont('Saira', fontWeight: FontWeight.bold),
+              style: GoogleFonts.getFont(
+                'Saira',
+                fontWeight: FontWeight.bold,
+                color: const Color.fromARGB(255, 200, 233, 255),
+                shadows: <Shadow>[
+                  const Shadow(
+                    offset: Offset(1.0, 1.0),
+                    blurRadius: 7.0,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                ],
+              ),
             ),
             actions: const [],
           ),
@@ -115,7 +144,8 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                                 decoration: const BoxDecoration(
                                   boxShadow: <BoxShadow>[
                                     BoxShadow(
-                                        color: Colors.green, blurRadius: 15)
+                                        color: Color.fromARGB(255, 0, 63, 114),
+                                        blurRadius: 15)
                                   ],
                                 ),
                                 padding: const EdgeInsets.all(10),
@@ -137,7 +167,7 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                                   ),
                                   boxShadow: const <BoxShadow>[
                                     BoxShadow(
-                                        color: Colors.green, blurRadius: 15)
+                                        color: Colors.white, blurRadius: 15)
                                   ],
                                 ),
                                 padding: const EdgeInsets.all(10),
@@ -149,7 +179,15 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                const Center(child: Text('Nazwa potrawy')),
+                Center(
+                    child: Text(
+                  'Nazwa potrawy',
+                  style: GoogleFonts.getFont(
+                    'Saira',
+                    color: const Color.fromARGB(255, 0, 63, 114),
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -160,10 +198,14 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                   child: TextField(
+                      style: GoogleFonts.getFont('Saira',
+                          fontSize: 12, color: Colors.black),
                       maxLength: 50,
-                      decoration: const InputDecoration(
-                        hintText: 'Przykład: Wrapy z piersią z kurczaka',
+                      decoration: InputDecoration(
                         border: InputBorder.none,
+                        hintStyle: GoogleFonts.getFont('Saira',
+                            fontSize: 12, color: Colors.black),
+                        hintText: 'Przykład: Wrapy z piersią z kurczaka',
                       ),
                       onChanged: (newProduct) {
                         setState(() {
@@ -179,7 +221,8 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                         style: ElevatedButton.styleFrom(
                             shadowColor: Colors.black,
                             elevation: 15,
-                            backgroundColor: Colors.green,
+                            backgroundColor:
+                                const Color.fromARGB(255, 0, 63, 114),
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(50)))),
@@ -194,13 +237,22 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                         },
                         child: const Icon(Icons.remove)),
                     const SizedBox(width: 15),
-                    const Center(child: Text('Potrzebne produkty:')),
+                    Center(
+                        child: Text(
+                      'Potrzebne produkty:',
+                      style: GoogleFonts.getFont(
+                        'Saira',
+                        color: const Color.fromARGB(255, 0, 63, 114),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
                     const SizedBox(width: 15),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             shadowColor: Colors.black,
                             elevation: 15,
-                            backgroundColor: Colors.green,
+                            backgroundColor:
+                                const Color.fromARGB(255, 0, 63, 114),
                             shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(50)))),
@@ -225,17 +277,29 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                     child: Column(
                       children: [
                         TextField(
+                          style: GoogleFonts.getFont('Saira',
+                              fontSize: 12, color: Colors.black),
                           controller: _controller[i],
-                          decoration: const InputDecoration(
-                            hintText: 'Przykład: Pierś z kurczaka 250g',
+                          decoration: InputDecoration(
                             border: InputBorder.none,
+                            hintStyle: GoogleFonts.getFont('Saira',
+                                fontSize: 12, color: Colors.black),
+                            hintText: 'Przykład: Pierś z kurczaka 250g',
                           ),
                         ),
                       ],
                     ),
                   ),
                 const SizedBox(height: 15),
-                const Center(child: Text('Sposób przygotowania')),
+                Center(
+                    child: Text(
+                  'Sposób przygotowania',
+                  style: GoogleFonts.getFont(
+                    'Saira',
+                    color: const Color.fromARGB(255, 0, 63, 114),
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
                 Container(
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -247,10 +311,14 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                         const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                     height: maxLines * 24,
                     child: TextField(
+                      style: GoogleFonts.getFont('Saira',
+                          fontSize: 12, color: Colors.black),
                       controller: recipesMakeing,
                       maxLines: maxLines,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                           border: InputBorder.none,
+                          hintStyle: GoogleFonts.getFont('Saira',
+                              fontSize: 12, color: Colors.black),
                           hintText:
                               'Przykład:\n1. Rozgrzej 10g oleju na patelni.\n2. Pokrój kurczaka na drobne kawałki.'),
                     )),
@@ -274,7 +342,10 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                                 recipesMakeing!.text,
                                 imageName!);
                           },
-                    icon: const Icon(Icons.save_alt)),
+                    icon: const Icon(
+                      Icons.save_alt,
+                      color: Color.fromARGB(255, 0, 63, 114),
+                    )),
               ],
             );
           },
