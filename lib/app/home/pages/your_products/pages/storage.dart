@@ -39,8 +39,6 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                 onTap: (() {
                   setState(() {
                     currentIndex = 0;
-                  });
-                  setState(() {
                     title = 'Lodówka';
                   });
                 }),
@@ -62,8 +60,6 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                 onTap: (() {
                   setState(() {
                     currentIndex = 1;
-                  });
-                  setState(() {
                     title = 'Zamrażarka';
                   });
                 }),
@@ -85,8 +81,6 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                 onTap: (() {
                   setState(() {
                     currentIndex = 2;
-                  });
-                  setState(() {
                     title = 'Szafka kuchenna';
                   });
                 }),
@@ -100,7 +94,7 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                         : const Color.fromARGB(255, 0, 63, 114),
                   ),
                   child: const Icon(
-                    Icons.local_laundry_service_outlined,
+                    Icons.door_sliding_outlined,
                   ),
                 ),
               ),
@@ -108,8 +102,6 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                 onTap: (() {
                   setState(() {
                     currentIndex = 3;
-                  });
-                  setState(() {
                     title = 'Chemia';
                   });
                 }),
@@ -123,7 +115,7 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                         : const Color.fromARGB(255, 0, 63, 114),
                   ),
                   child: const Icon(
-                    Icons.door_sliding_outlined,
+                    Icons.local_laundry_service_outlined,
                   ),
                 ),
               ),
@@ -131,8 +123,6 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                 onTap: (() {
                   setState(() {
                     currentIndex = 4;
-                  });
-                  setState(() {
                     title = 'Inne';
                   });
                 }),
@@ -270,7 +260,6 @@ class _OneProduct extends StatefulWidget {
 
 class _OneProductState extends State<_OneProduct> {
   var isDated = true;
-  DateTime? purchasedProductDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -341,93 +330,9 @@ class _OneProductState extends State<_OneProduct> {
                                                 context: context,
                                                 builder:
                                                     (BuildContext builder) {
-                                                  return CupertinoPopupSurface(
-                                                    child: Container(
-                                                        color: Colors.grey,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        width: double.infinity,
-                                                        height: 150,
-                                                        child:
-                                                            Column(children: [
-                                                          Text(
-                                                            'Wybierz termin ważności',
-                                                            style: GoogleFonts
-                                                                .getFont(
-                                                              'Saira',
-                                                              fontSize: 20,
-                                                              color:
-                                                                  Colors.black,
-                                                              decoration:
-                                                                  TextDecoration
-                                                                      .none,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                          ),
-                                                          ElevatedButton(
-                                                            style: ElevatedButton
-                                                                .styleFrom(
-                                                                    backgroundColor:
-                                                                        Colors.grey[
-                                                                            800]),
-                                                            onPressed:
-                                                                () async {
-                                                              final DateTime? newDate = await showDatePicker(
-                                                                  context:
-                                                                      context,
-                                                                  initialDate:
-                                                                      DateTime
-                                                                          .now(),
-                                                                  firstDate:
-                                                                      DateTime
-                                                                          .now(),
-                                                                  lastDate:
-                                                                      DateTime(
-                                                                          2100));
-                                                              if (newDate !=
-                                                                      null &&
-                                                                  newDate !=
-                                                                      purchasedProductDate) {
-                                                                setState(() {
-                                                                  purchasedProductDate =
-                                                                      newDate;
-                                                                });
-                                                              }
-                                                            },
-                                                            child: const Icon(Icons
-                                                                .calendar_month),
-                                                          ),
-                                                          TextButton(
-                                                            onPressed: () {
-                                                              context.read<YourProductsCubit>().isDated(
-                                                                  isDated: true,
-                                                                  documentID: widget
-                                                                      .purchasedProductsModel
-                                                                      .id,
-                                                                  purchasedProductDate:
-                                                                      purchasedProductDate!);
-
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                            },
-                                                            child: Text(
-                                                              'Zapisz',
-                                                              style: GoogleFonts
-                                                                  .getFont(
-                                                                'Saira',
-                                                                fontSize: 15,
-                                                                color: Colors
-                                                                    .black,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ])),
+                                                  return CupertinoPopupSurfaceWidget(
+                                                    purchasedProductsModel: widget
+                                                        .purchasedProductsModel,
                                                   );
                                                 });
                                           },
@@ -518,6 +423,90 @@ class _OneProductState extends State<_OneProduct> {
   }
 }
 
+class CupertinoPopupSurfaceWidget extends StatefulWidget {
+  const CupertinoPopupSurfaceWidget({
+    required this.purchasedProductsModel,
+    Key? key,
+  }) : super(key: key);
+  final PurchasedProductModel purchasedProductsModel;
+
+  @override
+  State<CupertinoPopupSurfaceWidget> createState() =>
+      _CupertinoPopupSurfaceWidgetState();
+}
+
+class _CupertinoPopupSurfaceWidgetState
+    extends State<CupertinoPopupSurfaceWidget> {
+  DateTime? purchasedProductDate = DateTime.now();
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => YourProductsCubit(PurchasedProductsRepository(
+          PurchasedProductsRemoteDataSource(), UserRemoteDataSource())),
+      child: BlocBuilder<YourProductsCubit, YourProductsState>(
+        builder: (context, state) {
+          return CupertinoPopupSurface(
+            child: Container(
+                color: const Color.fromARGB(255, 200, 233, 255),
+                alignment: Alignment.center,
+                width: double.infinity,
+                height: 150,
+                child: Column(children: [
+                  Text(
+                    'Wybierz termin ważności',
+                    style: GoogleFonts.getFont(
+                      'Saira',
+                      fontSize: 20,
+                      color: Colors.black,
+                      decoration: TextDecoration.none,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 0, 63, 114),
+                    ),
+                    onPressed: () async {
+                      final DateTime? newDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime(2100));
+                      if (newDate != null && newDate != purchasedProductDate) {
+                        setState(() {
+                          purchasedProductDate = newDate;
+                        });
+                      }
+                    },
+                    child: const Icon(Icons.calendar_month),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context.read<YourProductsCubit>().isDated(
+                          isDated: true,
+                          documentID: widget.purchasedProductsModel.id,
+                          purchasedProductDate: purchasedProductDate!);
+
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'Zapisz',
+                      style: GoogleFonts.getFont(
+                        'Saira',
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ])),
+          );
+        },
+      ),
+    );
+  }
+}
+
 class _UpdateStorageWidget extends StatelessWidget {
   const _UpdateStorageWidget({
     Key? key,
@@ -543,42 +532,61 @@ class _UpdateStorageWidget extends StatelessWidget {
                 return StatefulBuilder(
                   builder: (BuildContext context, StateSetter setState) {
                     return AlertDialog(
-                      backgroundColor: const Color.fromARGB(255, 0, 63, 114),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(15.0))),
+                      backgroundColor: const Color.fromARGB(255, 200, 233, 255),
                       title: Text(
                         style: GoogleFonts.getFont('Saira',
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold, color: Colors.black),
                         'Wybierz nowe miejsce przechowywania',
                         textAlign: TextAlign.center,
                       ),
-                      content: DropdownButtonFormField(
-                        decoration: InputDecoration(
-                            label: Text(
-                                style: GoogleFonts.getFont('Saira'),
-                                'Miejsce przechowywania')),
-                        isExpanded: true,
-                        value: storageName,
-                        onChanged: (newProduct) {
-                          setState(() {
-                            storageName = newProduct!;
-                          });
-                        },
-                        items: <String>[
-                          'Lodówka',
-                          'Zamrażarka',
-                          'Szafka kuchenna',
-                          'Chemia',
-                          'Inne',
-                        ].map<DropdownMenuItem<String>>(
-                          (storageName) {
-                            return DropdownMenuItem<String>(
-                              value: storageName,
-                              child: Text(
-                                style: GoogleFonts.getFont('Saira'),
-                                storageName,
-                              ),
-                            );
+                      content: Container(
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          color: Colors.white.withOpacity(0.5),
+                        ),
+                        child: DropdownButtonFormField(
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              label: Text(
+                                  style: GoogleFonts.getFont('Saira',
+                                      color: Colors.black, fontSize: 12),
+                                  'Miejsce przechowywania')),
+                          borderRadius: BorderRadius.circular(10),
+                          iconDisabledColor: Colors.black,
+                          iconEnabledColor: Colors.black,
+                          dropdownColor: Colors.white,
+                          isExpanded: true,
+                          value: storageName,
+                          onChanged: (newProduct) {
+                            setState(() {
+                              storageName = newProduct!;
+                            });
                           },
-                        ).toList(),
+                          items: <String>[
+                            'Lodówka',
+                            'Zamrażarka',
+                            'Szafka kuchenna',
+                            'Chemia',
+                            'Inne',
+                          ].map<DropdownMenuItem<String>>(
+                            (storageName) {
+                              return DropdownMenuItem<String>(
+                                value: storageName,
+                                child: Center(
+                                  child: Text(
+                                    style: GoogleFonts.getFont('Saira',
+                                        color: Colors.black, fontSize: 12),
+                                    storageName,
+                                  ),
+                                ),
+                              );
+                            },
+                          ).toList(),
+                        ),
                       ),
                       actions: [
                         TextButton(

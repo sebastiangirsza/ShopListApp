@@ -360,10 +360,12 @@ class _AlertDialog extends StatelessWidget {
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return AlertDialog(
-                backgroundColor: const Color.fromARGB(255, 0, 63, 114),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                backgroundColor: const Color.fromARGB(255, 200, 233, 255),
                 title: Text(
-                  style:
-                      GoogleFonts.getFont('Saira', fontWeight: FontWeight.bold),
+                  style: GoogleFonts.getFont('Saira',
+                      fontWeight: FontWeight.bold, color: Colors.black),
                   'Wybierz miejsce przechowywania',
                   textAlign: TextAlign.center,
                 ),
@@ -371,35 +373,51 @@ class _AlertDialog extends StatelessWidget {
                   height: (productTypeName != 'porcja (50 g)') ? 130 : 180,
                   child: ListView(
                     children: [
-                      DropdownButtonFormField(
-                        decoration: InputDecoration(
-                            label: Text(
-                                style: GoogleFonts.getFont('Saira'),
-                                'Miejsce przechowywania')),
-                        isExpanded: true,
-                        value: storageName,
-                        onChanged: (newProduct) {
-                          setState(() {
-                            storageName = newProduct!;
-                          });
-                        },
-                        items: <String>[
-                          'Lodówka',
-                          'Zamrażarka',
-                          'Szafka kuchenna',
-                          'Chemia',
-                          'Inne',
-                        ].map<DropdownMenuItem<String>>(
-                          (storageName) {
-                            return DropdownMenuItem<String>(
-                              value: storageName,
-                              child: Text(
-                                style: GoogleFonts.getFont('Saira'),
-                                storageName,
-                              ),
-                            );
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          color: Colors.white.withOpacity(0.5),
+                        ),
+                        child: DropdownButtonFormField(
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              label: Text(
+                                  style: GoogleFonts.getFont('Saira',
+                                      color: Colors.black, fontSize: 12),
+                                  'Miejsce przechowywania')),
+                          borderRadius: BorderRadius.circular(10),
+                          iconDisabledColor: Colors.black,
+                          iconEnabledColor: Colors.black,
+                          dropdownColor: Colors.white,
+                          isExpanded: true,
+                          value: storageName,
+                          onChanged: (newProduct) {
+                            setState(() {
+                              storageName = newProduct!;
+                            });
                           },
-                        ).toList(),
+                          items: <String>[
+                            'Lodówka',
+                            'Zamrażarka',
+                            'Szafka kuchenna',
+                            'Chemia',
+                            'Inne',
+                          ].map<DropdownMenuItem<String>>(
+                            (storageName) {
+                              return DropdownMenuItem<String>(
+                                value: storageName,
+                                child: Center(
+                                  child: Text(
+                                    style: GoogleFonts.getFont('Saira',
+                                        color: Colors.black, fontSize: 12),
+                                    storageName,
+                                  ),
+                                ),
+                              );
+                            },
+                          ).toList(),
+                        ),
                       ),
                       Column(
                         children: [
@@ -409,15 +427,21 @@ class _AlertDialog extends StatelessWidget {
                           (productTypeName != 'porcja (50 g)')
                               ? Text(
                                   style: GoogleFonts.getFont('Saira',
-                                      fontSize: 12),
+                                      fontSize: 12, color: Colors.black),
                                   'Kupiona ilość: ')
                               : Text(
                                   style: GoogleFonts.getFont('Saira',
-                                      fontSize: 12),
+                                      fontSize: 12, color: Colors.black),
                                   'Kupiona ilość porcji: '),
                           Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: NumberPicker(
+                              textStyle: GoogleFonts.getFont('Saira',
+                                  fontSize: 16, color: Colors.black),
+                              selectedTextStyle: GoogleFonts.getFont('Saira',
+                                  fontSize: 20,
+                                  color: const Color.fromARGB(255, 0, 63, 114),
+                                  fontWeight: FontWeight.bold),
                               itemHeight: 24,
                               itemWidth: 40,
                               axis: Axis.horizontal,
@@ -440,7 +464,7 @@ class _AlertDialog extends StatelessWidget {
                                 ),
                                 Text(
                                     style: GoogleFonts.getFont('Saira',
-                                        fontSize: 12),
+                                        fontSize: 12, color: Colors.black),
                                     'Wielkość porcji: '),
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
