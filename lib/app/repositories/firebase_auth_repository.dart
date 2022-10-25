@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:ShopListApp/app/models/user_model.dart';
-import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
+
+import 'package:shoplistapp/app/models/user_model.dart';
+import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 class FirebaseAuthRespository {
   FirebaseAuthRespository(this._userRemoteDataSource);

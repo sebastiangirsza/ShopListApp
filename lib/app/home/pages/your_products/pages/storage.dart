@@ -1,12 +1,12 @@
-import 'package:ShopListApp/app/models/purchased_product_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ShopListApp/app/home/pages/your_products/cubit/your_products_cubit.dart';
-import 'package:ShopListApp/app/repositories/purchased_products_repository.dart';
-import 'package:ShopListApp/data/remote_data_sources/purchased_product_remote_data_source.dart';
-import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
+import 'package:shoplistapp/app/home/pages/your_products/cubit/your_products_cubit.dart';
+import 'package:shoplistapp/app/models/purchased_product_model.dart';
+import 'package:shoplistapp/app/repositories/purchased_products_repository.dart';
+import 'package:shoplistapp/data/remote_data_sources/purchased_product_remote_data_source.dart';
+import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 class PurchasedProductsPage extends StatefulWidget {
   const PurchasedProductsPage({

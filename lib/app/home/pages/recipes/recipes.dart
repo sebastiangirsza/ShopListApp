@@ -1,12 +1,12 @@
-import 'package:ShopListApp/app/home/pages/recipes/cubit/recipes_cubit.dart';
-import 'package:ShopListApp/app/home/pages/recipes/pages/add_recipes/add_recipes.dart';
-import 'package:ShopListApp/app/home/pages/recipes/pages/recipe_details/recipe_details.dart';
-import 'package:ShopListApp/app/repositories/recipes_repository.dart';
-import 'package:ShopListApp/data/remote_data_sources/recipes_remote_data_source.dart';
-import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shoplistapp/app/home/pages/recipes/cubit/recipes_cubit.dart';
+import 'package:shoplistapp/app/home/pages/recipes/pages/add_recipes/add_recipes.dart';
+import 'package:shoplistapp/app/home/pages/recipes/pages/recipe_details/recipe_details.dart';
+import 'package:shoplistapp/app/repositories/recipes_repository.dart';
+import 'package:shoplistapp/data/remote_data_sources/recipes_remote_data_source.dart';
+import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 class RecipesPage extends StatelessWidget {
   const RecipesPage({
@@ -118,30 +118,20 @@ class RecipesPage extends StatelessWidget {
                                           height: 120,
                                           width: double.infinity,
                                           decoration: BoxDecoration(
-                                            color: Colors.black,
-                                            boxShadow: const <BoxShadow>[
-                                              BoxShadow(
-                                                  color: Colors.black,
-                                                  blurRadius: 15)
-                                            ],
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(10),
-                                            ),
-                                            image: (downloadURL.isNotEmpty)
-                                                ? DecorationImage(
-                                                    opacity: 100,
-                                                    image: NetworkImage(
-                                                      downloadURL,
-                                                    ),
-                                                    fit: BoxFit.cover)
-                                                : const DecorationImage(
-                                                    opacity: 100,
-                                                    image: AssetImage(
-                                                      'images/icon/photo_icon.png',
-                                                    ),
-                                                    fit: BoxFit.contain),
-                                          ),
+                                              boxShadow: const <BoxShadow>[
+                                                BoxShadow(
+                                                    color: Colors.black,
+                                                    blurRadius: 15)
+                                              ],
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(10),
+                                              ),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    downloadURL,
+                                                  ),
+                                                  fit: BoxFit.cover)),
                                         ),
                                   Padding(
                                     padding: const EdgeInsets.all(5.0),

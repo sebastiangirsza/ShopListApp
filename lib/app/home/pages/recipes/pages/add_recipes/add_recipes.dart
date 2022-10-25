@@ -1,13 +1,12 @@
 import 'dart:io';
-
-import 'package:ShopListApp/app/home/pages/recipes/pages/add_recipes/cubit/add_recipes_cubit.dart';
-import 'package:ShopListApp/app/repositories/recipes_repository.dart';
-import 'package:ShopListApp/data/remote_data_sources/recipes_remote_data_source.dart';
-import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shoplistapp/app/home/pages/recipes/pages/add_recipes/cubit/add_recipes_cubit.dart';
+import 'package:shoplistapp/app/repositories/recipes_repository.dart';
+import 'package:shoplistapp/data/remote_data_sources/recipes_remote_data_source.dart';
+import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 class AddRecipesPage extends StatelessWidget {
   const AddRecipesPage({
@@ -124,7 +123,7 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                         );
 
                         if (result == null) {
-                          return null;
+                          return;
                         }
 
                         final path = result.files.single.path!;

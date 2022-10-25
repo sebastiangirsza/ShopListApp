@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'package:ShopListApp/app/repositories/recipes_products_repository.dart';
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-import 'package:ShopListApp/app/models/purchased_product_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoplistapp/app/models/purchased_product_model.dart';
+import 'package:shoplistapp/app/repositories/recipes_products_repository.dart';
 
 part 'recipe_details_state.dart';
 

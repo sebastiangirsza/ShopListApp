@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:ShopListApp/app/models/recipes_model.dart';
-import 'package:ShopListApp/app/repositories/recipes_repository.dart';
-import 'package:bloc/bloc.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoplistapp/app/models/recipes_model.dart';
+import 'package:shoplistapp/app/repositories/recipes_repository.dart';
 
 part 'recipes_state.dart';
 
@@ -45,7 +44,7 @@ class RecipesImagesCubit extends Cubit<RecipesImagesState> {
           await storage.ref('recipes/$fileName').getDownloadURL();
       emit(RecipesImagesState(downloadURL: downloadURL));
     } catch (e) {
-      FirebaseException(message: 'Image not found', plugin: '');
+      FirebaseException(message: e.toString(), plugin: '');
     }
   }
 }

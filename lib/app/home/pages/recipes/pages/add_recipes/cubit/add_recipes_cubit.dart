@@ -1,10 +1,11 @@
-import 'package:ShopListApp/app/repositories/recipes_repository.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:shoplistapp/app/repositories/recipes_repository.dart';
 
 part 'add_recipes_state.dart';
 
@@ -46,7 +47,7 @@ class AddRecipesCubit extends Cubit<AddRecipesState> {
     try {
       await storage.ref('recipes/$fileName').putFile(file);
     } on firebase_core.FirebaseException catch (e) {
-      print(e);
+      FirebaseException(message: e.toString(), plugin: '');
     }
   }
 }

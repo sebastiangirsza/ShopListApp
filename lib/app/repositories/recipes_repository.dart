@@ -1,6 +1,6 @@
-import 'package:ShopListApp/app/models/recipes_model.dart';
-import 'package:ShopListApp/data/remote_data_sources/recipes_remote_data_source.dart';
-import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
+import 'package:shoplistapp/app/models/recipes_model.dart';
+import 'package:shoplistapp/data/remote_data_sources/recipes_remote_data_source.dart';
+import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 class RecipesRepository {
   RecipesRepository(this._recipesRemoteDataSource, this._userRemoteDataSource);

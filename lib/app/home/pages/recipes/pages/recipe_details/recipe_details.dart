@@ -1,11 +1,11 @@
-import 'package:ShopListApp/app/home/pages/recipes/pages/recipe_details/cubit/recipe_details_cubit.dart';
-import 'package:ShopListApp/app/models/recipes_model.dart';
-import 'package:ShopListApp/app/repositories/recipes_products_repository.dart';
-import 'package:ShopListApp/data/remote_data_sources/recipes_product_remote_data_source.dart';
-import 'package:ShopListApp/data/remote_data_sources/user_remote_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shoplistapp/app/home/pages/recipes/pages/recipe_details/cubit/recipe_details_cubit.dart';
+import 'package:shoplistapp/app/models/recipes_model.dart';
+import 'package:shoplistapp/app/repositories/recipes_products_repository.dart';
+import 'package:shoplistapp/data/remote_data_sources/recipes_product_remote_data_source.dart';
+import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 class RecipeDatails extends StatefulWidget {
   const RecipeDatails({
@@ -47,7 +47,6 @@ class _RecipeDatailsState extends State<RecipeDatails> {
             widget.recipesModel.recipesName,
             style: GoogleFonts.getFont('Saira', fontWeight: FontWeight.bold),
           ),
-          actions: [],
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),

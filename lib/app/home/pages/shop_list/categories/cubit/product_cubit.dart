@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
+
 import 'package:flutter/material.dart';
-import 'package:ShopListApp/app/models/product_model.dart';
-import 'package:ShopListApp/app/repositories/products_repositories.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoplistapp/app/models/product_model.dart';
+import 'package:shoplistapp/app/repositories/products_repositories.dart';
 
 part 'product_state.dart';
 
