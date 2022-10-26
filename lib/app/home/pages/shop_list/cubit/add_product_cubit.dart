@@ -1,38 +1,13 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoplistapp/app/models/product_model.dart';
 import 'package:shoplistapp/app/repositories/products_repositories.dart';
 
-part 'product_state.dart';
+part 'add_product_state.dart';
 
-class ProductCubit extends Cubit<ProductState> {
-  ProductCubit(this._productsRepository)
-      : super(const ProductState(products: []));
-
-  StreamSubscription? _streamSubscription;
-
-  final ProductsRepository _productsRepository;
-
-  Future<void> products({required String productGroup}) async {
-    _streamSubscription =
-        _productsRepository.getProductsStream(productGroup).listen((products) {
-      emit(ProductState(products: products));
-    });
-  }
-
-  @override
-  Future<void> close() {
-    _streamSubscription?.cancel();
-    return super.close();
-  }
-}
-
-class AddCubit extends Cubit<AddState> {
-  AddCubit(this._productsRepository)
+class AddProductCubit extends Cubit<AddProductState> {
+  AddProductCubit(this._productsRepository)
       : super(
-          const AddState(),
+          const AddProductState(),
         );
 
   final ProductsRepository _productsRepository;
@@ -52,7 +27,7 @@ class AddCubit extends Cubit<AddState> {
         isChecked,
         productTypeName,
       );
-      emit(const AddState());
+      emit(const AddProductState());
     } catch (error) {
       null;
     }
@@ -67,7 +42,7 @@ class AddCubit extends Cubit<AddState> {
         isChecked,
         documentID,
       );
-      emit(const AddState());
+      emit(const AddProductState());
     } catch (error) {
       null;
     }
