@@ -90,6 +90,7 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
 
   final List<TextEditingController> _controller =
       List.generate(50, (i) => TextEditingController());
+  final downloadURL = 'www';
   String? imageName;
   String? pickedImage;
   @override
@@ -330,7 +331,7 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                             context
                                 .read<AddRecipesCubit>()
                                 .uploadFile(pickedImage!, imageName!);
-                            // storage.uploadFile(pickedImage, imageName!);
+
                             List<String> textList = _controller
                                 .getRange(0, quantityProducts)
                                 .map((x) => x.text)
@@ -339,7 +340,8 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                                 recipesName!,
                                 textList.join(",\n").toString(),
                                 recipesMakeing!.text,
-                                imageName!);
+                                imageName!,
+                                downloadURL);
                           },
                     icon: const Icon(
                       Icons.save_alt,

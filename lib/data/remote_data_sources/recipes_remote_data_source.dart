@@ -18,6 +18,7 @@ class RecipesRemoteDataSource {
     String recipesProductName,
     String recipesMakeing,
     String imageName,
+    String downloadURL,
   ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 
@@ -30,6 +31,7 @@ class RecipesRemoteDataSource {
       'recipes_product_name': recipesProductName,
       'recipes_makeing': recipesMakeing,
       'image_name': imageName,
+      'download_url': downloadURL,
     });
   }
 }

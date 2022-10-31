@@ -65,106 +65,111 @@ class RecipesPage extends StatelessWidget {
         child: BlocBuilder<RecipesCubit, RecipesState>(
           builder: (context, state) {
             final recipesModels = state.recipes;
-            return GridView
-                .count(shrinkWrap: true, crossAxisCount: 2, children: [
-              for (final recipesModel in recipesModels) ...[
-                BlocProvider(
-                  create: (context) =>
-                      RecipesImagesCubit()..downloadURL(recipesModel.imageName),
-                  child: BlocBuilder<RecipesImagesCubit, RecipesImagesState>(
-                    builder: (context, state) {
-                      final downloadURL = state.downloadURL;
-                      return Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: InkWell(
-                          child: Stack(
-                            children: [
-                              Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: <BoxShadow>[
-                                    BoxShadow(
-                                      color: Colors.black,
-                                      blurRadius: 2,
-                                      offset: Offset(3, 3),
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
+
+            return GridView.count(
+                shrinkWrap: true,
+                crossAxisCount: 2,
+                children: [
+                  for (final recipesModel in recipesModels) ...[
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: InkWell(
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    blurRadius: 2,
+                                    offset: Offset(3, 3),
+                                  )
+                                ],
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
                                 ),
                               ),
-                              Column(
-                                children: [
-                                  (downloadURL.isEmpty)
-                                      ? Container(
-                                          height: 120,
-                                          width: double.infinity,
-                                          decoration: const BoxDecoration(
-                                              color: Colors.black,
-                                              boxShadow: <BoxShadow>[
-                                                BoxShadow(
-                                                    color: Colors.black,
-                                                    blurRadius: 15)
-                                              ],
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
-                                              )),
-                                          child: const Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                        )
-                                      : Container(
-                                          height: 120,
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                              boxShadow: const <BoxShadow>[
-                                                BoxShadow(
-                                                    color: Colors.black,
-                                                    blurRadius: 15)
-                                              ],
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                Radius.circular(10),
-                                              ),
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                    downloadURL,
-                                                  ),
-                                                  fit: BoxFit.cover)),
-                                        ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(recipesModel.recipesName,
-                                          maxLines: 2,
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold)),
-                                    ),
+                            ),
+                            Column(
+                              children: [
+                                (recipesModel.downloadURL == 'www')
+                                    ? Container(
+                                        height: 120,
+                                        width: double.infinity,
+                                        decoration: const BoxDecoration(
+                                            color: Colors.black,
+                                            boxShadow: <BoxShadow>[
+                                              BoxShadow(
+                                                  color: Colors.black,
+                                                  blurRadius: 15)
+                                            ],
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                    'https://firebasestorage.googleapis.com/v0/b/shop-list-sm.appspot.com/o/white_screen.jpg?alt=media&token=1389efdb-c134-4229-9298-818618c29a96'),
+                                                fit: BoxFit.cover)),
+                                        child: Center(
+                                            child: Text(
+                                          'Image not found',
+                                          style: GoogleFonts.getFont(
+                                            'Saira',
+                                            color: const Color.fromARGB(
+                                                255, 0, 63, 114),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
+                                      )
+                                    : Container(
+                                        height: 120,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                            boxShadow: const <BoxShadow>[
+                                              BoxShadow(
+                                                  color: Colors.black,
+                                                  blurRadius: 15)
+                                            ],
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                  recipesModel.downloadURL,
+                                                ),
+                                                fit: BoxFit.cover)),
+                                      ),
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(recipesModel.recipesName,
+                                        maxLines: 2,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold)),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    RecipeDatails(recipesModel: recipesModel),
-                                fullscreenDialog: true,
-                              ),
-                            );
-                          },
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ]);
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  RecipeDatails(recipesModel: recipesModel),
+                              fullscreenDialog: true,
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ]);
           },
         ),
       ),

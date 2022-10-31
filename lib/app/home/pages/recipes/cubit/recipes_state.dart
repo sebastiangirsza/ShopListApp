@@ -3,13 +3,10 @@ part of 'recipes_cubit.dart';
 @immutable
 class RecipesState {
   final List<RecipesModel> recipes;
+  final Status status;
 
-  const RecipesState({required this.recipes});
-}
-
-@immutable
-class RecipesImagesState {
-  final String downloadURL;
-
-  const RecipesImagesState({required this.downloadURL});
+  const RecipesState({
+    required this.recipes,
+    this.status = Status.initial,
+  });
 }

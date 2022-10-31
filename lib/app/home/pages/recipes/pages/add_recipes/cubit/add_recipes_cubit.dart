@@ -24,6 +24,7 @@ class AddRecipesCubit extends Cubit<AddRecipesState> {
     String recipesProductName,
     String recipesMakeing,
     String imageName,
+    String downloadURL,
   ) async {
     try {
       await _recipesRepository.add(
@@ -31,6 +32,7 @@ class AddRecipesCubit extends Cubit<AddRecipesState> {
         recipesProductName,
         recipesMakeing,
         imageName,
+        downloadURL,
       );
       emit(const AddRecipesState(saved: true));
     } catch (error) {
