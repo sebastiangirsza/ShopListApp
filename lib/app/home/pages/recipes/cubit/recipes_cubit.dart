@@ -18,21 +18,26 @@ class RecipesCubit extends Cubit<RecipesState> {
   final RecipesRepository _recipesRepository;
 
   Future<void> recipes() async {
-    _streamSubscription =
-        _recipesRepository.getRecipesStream().listen((recipes) async {
-      emit(RecipesState(recipes: recipes));
-      for (final recipe in recipes) {
-        try {
-          final yourDownloadURL =
-              await storage.ref('recipes/${recipe.imageName}').getDownloadURL();
-          recipes[recipes.indexWhere((element) => element.id == recipe.id)] =
-              recipe.copyWith(downloadURL: yourDownloadURL);
-        } catch (e) {
-          FirebaseException(message: e.toString(), plugin: '');
+    emit(const RecipesState(recipes: [], status: Status.loading));
+    try {
+      _streamSubscription =
+          _recipesRepository.getRecipesStream().listen((recipes) async {
+        for (final recipe in recipes) {
+          try {
+            final yourDownloadURL = await storage
+                .ref('recipes/${recipe.imageName}')
+                .getDownloadURL();
+            recipes[recipes.indexWhere((element) => element.id == recipe.id)] =
+                recipe.copyWith(downloadURL: yourDownloadURL);
+          } catch (e) {
+            FirebaseException(message: e.toString(), plugin: '');
+          }
         }
-      }
-      emit(RecipesState(recipes: recipes));
-    });
+        emit(RecipesState(recipes: recipes, status: Status.success));
+      });
+    } catch (error) {
+      emit(const RecipesState(recipes: [], status: Status.error));
+    }
   }
 
   @override
