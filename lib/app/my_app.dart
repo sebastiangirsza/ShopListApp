@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shoplistapp/app/cubit/auth_cubit.dart';
 import 'package:shoplistapp/app/home/home_page.dart';
 import 'package:shoplistapp/app/login/login_page.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.transparent,
         canvasColor: const Color.fromARGB(255, 2, 116, 209),
       ),
-      home: const SplashScreen(),
+      home: const RootPage(),
     );
   }
 }
@@ -37,7 +38,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreen extends State<SplashScreen> {
-  int splashtime = 0;
+  int splashtime = 3;
 
   @override
   void initState() {
@@ -60,10 +61,10 @@ class _SplashScreen extends State<SplashScreen> {
                 end: Alignment.bottomCenter,
                 stops: [0.1, 0.5, 0.7, 0.9],
                 colors: [
-                  Color.fromARGB(255, 40, 40, 40),
-                  Color.fromARGB(255, 60, 60, 60),
-                  Color.fromARGB(255, 80, 80, 80),
-                  Color.fromARGB(255, 100, 100, 100),
+                  Color.fromARGB(255, 200, 233, 255),
+                  Color.fromARGB(255, 213, 238, 255),
+                  Color.fromARGB(255, 228, 244, 255),
+                  Color.fromARGB(255, 244, 250, 255),
                 ],
               ),
             ),
@@ -75,20 +76,35 @@ class _SplashScreen extends State<SplashScreen> {
                     padding: const EdgeInsets.all(25.0),
                     child: ClipOval(
                       child: AnimatedSize(
-                        // clipBehavior: Clip.antiAlias,
+                        clipBehavior: Clip.antiAlias,
                         curve: Curves.decelerate,
-                        duration: const Duration(seconds: 1),
+                        duration: const Duration(seconds: 3),
                         child: ClipOval(
                             child: Image.asset('images/icon/app_icon_2.png')),
                       ),
                     ),
                   ),
                   Container(
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
                     margin: const EdgeInsets.only(top: 30),
-                    child: const Text(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(
                       'Shop List App',
-                      style: TextStyle(
+                      style: GoogleFonts.getFont(
+                        'Saira',
                         fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 200, 233, 255),
+                        shadows: <Shadow>[
+                          const Shadow(
+                            offset: Offset(1.0, 1.0),
+                            blurRadius: 7.0,
+                            color: Color.fromARGB(255, 0, 0, 0),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -99,14 +115,22 @@ class _SplashScreen extends State<SplashScreen> {
                       children: [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text('by Sebastian Girsza',
-                                style: TextStyle(
-                                  color: Colors.black,
+                          children: [
+                            Text(
+                              'by Sebastian Girsza',
+                              style: GoogleFonts.getFont('Saira',
                                   fontSize: 20,
-                                )),
-                            SizedBox(height: 15),
-                            Text('version 1.0.0'),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 15),
+                            Text(
+                              'version 1.0.0',
+                              style: GoogleFonts.getFont('Saira',
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ],
                         )
                       ],

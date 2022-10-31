@@ -48,7 +48,7 @@ class _FloatingActionButtonWidgetState
                   content: SizedBox(
                     height: 270,
                     child: ListView(
-                      physics: const ClampingScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
                         Text(
                           style: GoogleFonts.getFont('Saira',

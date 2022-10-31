@@ -20,7 +20,6 @@ class RecipeDatails extends StatefulWidget {
 }
 
 class _RecipeDatailsState extends State<RecipeDatails> {
-  // final storage = Storage();
   String searchKey = '';
   @override
   Widget build(BuildContext context) {
@@ -31,10 +30,10 @@ class _RecipeDatailsState extends State<RecipeDatails> {
           end: Alignment.bottomCenter,
           stops: [0.1, 0.5, 0.7, 0.9],
           colors: [
-            Color.fromARGB(255, 40, 40, 40),
-            Color.fromARGB(255, 60, 60, 60),
-            Color.fromARGB(255, 80, 80, 80),
-            Color.fromARGB(255, 100, 100, 100),
+            Color.fromARGB(255, 200, 233, 255),
+            Color.fromARGB(255, 213, 238, 255),
+            Color.fromARGB(255, 228, 244, 255),
+            Color.fromARGB(255, 244, 250, 255),
           ],
         ),
       ),
@@ -57,32 +56,46 @@ class _RecipeDatailsState extends State<RecipeDatails> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10)),
-                  color: Colors.green,
+                  color: Color.fromARGB(255, 0, 63, 114),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 2,
+                      offset: Offset(3, 3),
+                    )
+                  ],
                 ),
                 margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                child: const Center(
+                child: Center(
                   child: Text('Potrzebne składniki',
-                      style: TextStyle(
+                      style: GoogleFonts.getFont('Saira',
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
                 ),
               ),
               Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10)),
-                  color: Colors.white.withOpacity(0.5),
+                  color: Colors.white,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 2,
+                      offset: Offset(3, 3),
+                    )
+                  ],
                 ),
                 margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                 child: Text(widget.recipesModel.recipesProductName,
-                    style: const TextStyle(
-                        color: Colors.white,
+                    style: GoogleFonts.getFont('Saira',
+                        color: Colors.black,
                         fontSize: 18,
                         fontWeight: FontWeight.bold)),
               ),
@@ -91,33 +104,47 @@ class _RecipeDatailsState extends State<RecipeDatails> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10)),
-                  color: Colors.green,
+                  color: Color.fromARGB(255, 0, 63, 114),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 2,
+                      offset: Offset(3, 3),
+                    )
+                  ],
                 ),
                 margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                child: const Center(
+                child: Center(
                   child: Text('Sposób przygotowania',
-                      style: TextStyle(
+                      style: GoogleFonts.getFont('Saira',
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
                 ),
               ),
               Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10)),
-                  color: Colors.white.withOpacity(0.5),
+                  color: Colors.white,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 2,
+                      offset: Offset(3, 3),
+                    )
+                  ],
                 ),
                 margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: Text(widget.recipesModel.recipesMakeing,
                     textAlign: TextAlign.justify,
-                    style: const TextStyle(
-                        color: Colors.white,
+                    style: GoogleFonts.getFont('Saira',
+                        color: Colors.black,
                         fontSize: 15,
                         fontWeight: FontWeight.bold)),
               ),
@@ -129,16 +156,20 @@ class _RecipeDatailsState extends State<RecipeDatails> {
                   children: [
                     const Icon(
                       Icons.arrow_circle_down_outlined,
-                      color: Colors.green,
+                      color: Color.fromARGB(255, 0, 63, 114),
                     ),
                     Flexible(
                       flex: 1,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Flexible(
+                          Flexible(
                             child: Text(
                               'Sprawdź czy posiadasz potrzebne składniki:',
+                              style: GoogleFonts.getFont('Saira',
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                               textAlign: TextAlign.end,
                             ),
                           ),
@@ -156,14 +187,16 @@ class _RecipeDatailsState extends State<RecipeDatails> {
                                       borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide.none),
                                   hintText: 'Wyszukaj potrzebne produkty',
-                                  hintStyle: const TextStyle(
+                                  hintStyle: GoogleFonts.getFont('Saira',
                                       color: Colors.grey, fontSize: 12),
                                   prefixIcon: Container(
                                     padding: const EdgeInsets.all(15),
                                     width: 18,
                                     child: Icon(
                                       Icons.search,
-                                      color: Colors.green.shade200,
+                                      color:
+                                          const Color.fromARGB(255, 0, 63, 114)
+                                              .withOpacity(0.5),
                                     ),
                                   )),
                               onChanged: (value) {
@@ -176,60 +209,6 @@ class _RecipeDatailsState extends State<RecipeDatails> {
                         ],
                       ),
                     ),
-                    // BlocProvider(
-                    //   create: (context) => RecipesImagesCubit()
-                    //     ..downloadURL('Screenshot_20221016-175440.jpg'),
-                    //   child:
-                    //       BlocBuilder<RecipesImagesCubit, RecipesImagesState>(
-                    //     builder: (context, state) {
-                    //       final image = state.downloadURL;
-                    //       return ListView(shrinkWrap: true, children: [
-                    //         Image.network(image, fit: BoxFit.cover),
-                    //       ]);
-                    //     },
-                    //   ),
-                    // ),
-                    // FutureBuilder(
-                    //     future: storage
-                    //         .downloadURL('Screenshot_20221016-175440.jpg'),
-                    //     builder: (BuildContext context,
-                    //         AsyncSnapshot<String> snapshots) {
-                    //       if (snapshots.connectionState ==
-                    //               ConnectionState.done &&
-                    //           snapshots.hasData) {
-                    //         return Container(
-                    //           height: 100,
-                    //           child: Image.network(
-                    //             snapshots.data!,
-                    //             fit: BoxFit.cover,
-                    //           ),
-                    //         );
-                    //       }
-                    //       if (snapshots.connectionState ==
-                    //               ConnectionState.waiting ||
-                    //           !snapshots.hasData) {
-                    //         return const CircularProgressIndicator();
-                    //       }
-                    //       return Container();
-                    //     }),
-                    // Container(
-                    //   height: 50,
-                    //   width: 50,
-                    //   margin: const EdgeInsets.symmetric(horizontal: 10),
-                    //   child: ClipRRect(
-                    //     borderRadius: BorderRadius.circular(100.0),
-                    //     child: Container(
-                    //       decoration: const BoxDecoration(
-                    //         boxShadow: <BoxShadow>[
-                    //           BoxShadow(color: Colors.white, blurRadius: 15)
-                    //         ],
-                    //       ),
-                    //       child: Image.asset(
-                    //         'images/icon/list_search_icon.png',
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -269,12 +248,32 @@ class _SearchResults extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 15),
-                      color: Colors.grey,
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 2,
+                            offset: Offset(3, 3),
+                          )
+                        ],
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(purchasedProduct.purchasedProductName),
-                          Text(purchasedProduct.storageName),
+                          Text(
+                            purchasedProduct.purchasedProductName,
+                            style: GoogleFonts.getFont('Saira',
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            purchasedProduct.storageName,
+                            style: GoogleFonts.getFont('Saira',
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
                     ),

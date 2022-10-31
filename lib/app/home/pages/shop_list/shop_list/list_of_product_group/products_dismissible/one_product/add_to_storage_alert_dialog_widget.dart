@@ -21,7 +21,6 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int productQuantity = 1;
     int productPortion = 50;
 
     return BlocProvider(
@@ -31,7 +30,7 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
       child: BlocBuilder<YourProductsCubit, YourProductsState>(
         builder: (context, state) {
           String? storageName;
-
+          int productQuantity = productModel.productQuantity;
           bool isDated = false;
           String productTypeName = productModel.productTypeName;
           return StatefulBuilder(
@@ -48,7 +47,7 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
                 ),
                 content: SizedBox(
                   height: (productTypeName != 'porcja (50 g)') ? 130 : 180,
-                  child: ListView(
+                  child: Column(
                     children: [
                       Container(
                         decoration: BoxDecoration(
@@ -146,6 +145,14 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: NumberPicker(
+                                    textStyle: GoogleFonts.getFont('Saira',
+                                        fontSize: 16, color: Colors.black),
+                                    selectedTextStyle: GoogleFonts.getFont(
+                                        'Saira',
+                                        fontSize: 20,
+                                        color: const Color.fromARGB(
+                                            255, 0, 63, 114),
+                                        fontWeight: FontWeight.bold),
                                     itemHeight: 24,
                                     itemWidth: 60,
                                     axis: Axis.horizontal,
