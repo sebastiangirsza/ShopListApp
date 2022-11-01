@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoplistapp/app/repositories/products_repositories.dart';
+import 'package:shoplistapp/app/repositories/product_repository.dart';
 
 part 'add_product_state.dart';
 

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoplistapp/app/models/product_model.dart';
-import 'package:shoplistapp/app/repositories/products_repositories.dart';
+import 'package:shoplistapp/app/repositories/product_repository.dart';
 
 part 'product_state.dart';
 
