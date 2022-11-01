@@ -59,7 +59,7 @@ class _ProductDismissibleWidgetState extends State<ProductDismissibleWidget> {
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 32.0),
                                         child: Icon(
-                                          Icons.done,
+                                          Icons.shopping_cart,
                                           color: Colors.green,
                                           shadows: [
                                             Shadow(
@@ -84,7 +84,7 @@ class _ProductDismissibleWidgetState extends State<ProductDismissibleWidget> {
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 32.0),
                                         child: Icon(
-                                          Icons.remove_done,
+                                          Icons.remove_shopping_cart,
                                           color: Colors.red,
                                           shadows: [
                                             Shadow(
@@ -102,7 +102,7 @@ class _ProductDismissibleWidgetState extends State<ProductDismissibleWidget> {
                               decoration: BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
-                                color: Colors.red,
+                                color: Colors.transparent,
                               ),
                               child: Align(
                                 alignment: Alignment.centerRight,
@@ -110,6 +110,14 @@ class _ProductDismissibleWidgetState extends State<ProductDismissibleWidget> {
                                   padding: EdgeInsets.only(right: 32.0),
                                   child: Icon(
                                     Icons.delete_outline,
+                                    color: Colors.red,
+                                    shadows: [
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 4.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -138,12 +146,10 @@ class _ProductDismissibleWidgetState extends State<ProductDismissibleWidget> {
                                 );
                               } else {
                                 context.read<AddProductCubit>().isChecked(
-                                    isChecked: isChecked,
+                                    isChecked: !productModel.isChecked,
                                     documentID: productModel.id);
-                                setState(() {
-                                  isChecked = !isChecked;
-                                });
-                                (isChecked == false)
+
+                                (productModel.isChecked == false)
                                     ? ScaffoldMessenger.of(context)
                                         .showSnackBar(
                                         SnackBar(
