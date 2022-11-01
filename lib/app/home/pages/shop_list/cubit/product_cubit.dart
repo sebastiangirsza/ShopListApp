@@ -22,6 +22,14 @@ class ProductCubit extends Cubit<ProductState> {
     });
   }
 
+  Future<void> productsQuantity({required String productGroup}) async {
+    _streamSubscription = _productsRepository
+        .getProductsQuantityStream(productGroup)
+        .listen((products) {
+      emit(ProductState(products: products));
+    });
+  }
+
   @override
   Future<void> close() {
     _streamSubscription?.cancel();

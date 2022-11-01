@@ -18,6 +18,19 @@ class ProductsRepository {
             .toList());
   }
 
+  Stream<List<ProductModel>> getProductsQuantityStream(String productGroup) {
+    final userID = _userRemoteDataSource.getUserID();
+    if (userID == null) {
+      throw Exception('Użytkownik nie jest zalogowany');
+    }
+    return _productRemoteDataSource.getProductsStream().map((querySnapshots) =>
+        querySnapshots.docs
+            .map((products) => ProductModel.fromJson(products))
+            .where((item) => item.productGroup == productGroup)
+            .where((element) => element.isChecked == false)
+            .toList());
+  }
+
   Future<void> add(
     String productGroup,
     String productName,
