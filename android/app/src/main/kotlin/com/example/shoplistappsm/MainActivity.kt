@@ -1,4 +1,4 @@
-package com.sebastiangirsza.ShopListApp
+package com.sebastiangirsza.shoplistappsm
 
 import io.flutter.embedding.android.FlutterActivity
 

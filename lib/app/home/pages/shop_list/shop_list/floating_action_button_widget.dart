@@ -286,17 +286,23 @@ class _FloatingActionButtonWidgetState
                                       SnackBar(
                                         duration:
                                             const Duration(milliseconds: 600),
-                                        content: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                                style: GoogleFonts.getFont(
-                                                    'Saira',
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white),
-                                                'Produkt dodany do listy'),
-                                          ],
+                                        content: SizedBox(
+                                          height: 30,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  style: GoogleFonts.getFont(
+                                                      'Saira',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                  'Produkt dodany do listy'),
+                                            ],
+                                          ),
                                         ),
                                         backgroundColor: Colors.green,
                                       ),

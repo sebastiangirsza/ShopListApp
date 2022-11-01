@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  cell_calendar:
+    dependency: "direct main"
+    description:
+      name: cell_calendar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.0"
   characters:
     dependency: transitive
     description:
@@ -345,6 +352,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  motion_tab_bar_v2:
+    dependency: "direct main"
+    description:
+      name: motion_tab_bar_v2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.6"
   nested:
     dependency: transitive
     description:

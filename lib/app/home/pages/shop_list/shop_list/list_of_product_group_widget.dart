@@ -44,7 +44,7 @@ class ListOfProductsGroupWidget extends StatelessWidget {
       shrinkWrap: true,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 50.0, top: 15),
+          padding: const EdgeInsets.only(bottom: 65.0, top: 15),
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -127,6 +127,8 @@ class ListOfProductsGroupWidget extends StatelessWidget {
                                         height: 25,
                                         child: SvgPicture.asset(
                                           categoriesIcon[index],
+                                          color: const Color.fromARGB(
+                                              255, 0, 63, 114),
                                         ),
                                       ),
                                       Expanded(

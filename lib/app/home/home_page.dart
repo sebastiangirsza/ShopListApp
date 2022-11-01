@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:shoplistapp/app/cubit/auth_cubit.dart';
 import 'package:shoplistapp/app/home/pages/recipes/recipes.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list_page.dart';
@@ -87,81 +88,36 @@ class _HomePageState extends State<HomePage> {
                 }
                 return Container();
               }),
-              bottomNavigationBar: SizedBox(
-                height: 60,
-                child: BottomNavigationBar(
-                  unselectedItemColor: Colors.white,
-                  selectedItemColor: Colors.black,
-                  selectedLabelStyle: GoogleFonts.getFont(
-                    'Saira',
-                    fontWeight: FontWeight.bold,
-                  ),
-                  unselectedLabelStyle: GoogleFonts.getFont('Saira'),
-                  currentIndex: currentIndex,
-                  onTap: (newIndex) {
-                    setState(() {
-                      currentIndex = newIndex;
-                    });
-                  },
-                  items: const [
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.edit_note_rounded,
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(0.5, 0.5),
-                            blurRadius: 3.0,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ],
-                      ),
-                      label: 'Lista zakupów',
-                      backgroundColor: Color.fromARGB(255, 200, 233, 255),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.shopping_bag_outlined,
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(0.5, 0.5),
-                            blurRadius: 3.0,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ],
-                      ),
-                      label: 'Moje produkty',
-                      backgroundColor: Color.fromARGB(255, 200, 233, 255),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.dinner_dining,
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(0.5, 0.5),
-                            blurRadius: 3.0,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ],
-                      ),
-                      label: 'Przepisy',
-                      backgroundColor: Color.fromARGB(255, 200, 233, 255),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.liquor,
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(0.5, 0.5),
-                            blurRadius: 3.0,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ],
-                      ),
-                      label: 'Inne',
-                      backgroundColor: Color.fromARGB(255, 200, 233, 255),
-                    ),
-                  ],
+              bottomNavigationBar: MotionTabBar(
+                initialSelectedTab: 'Lista zakupów',
+                labels: const [
+                  'Lista zakupów',
+                  'Moje produkty',
+                  'Przepisy',
+                  'Kalendarz',
+                ],
+                icons: const [
+                  Icons.edit_note_rounded,
+                  Icons.shopping_bag_outlined,
+                  Icons.dinner_dining,
+                  Icons.calendar_month,
+                ],
+                onTabItemSelected: (newIndex) {
+                  setState(() {
+                    currentIndex = newIndex;
+                  });
+                },
+                tabSize: 35,
+                tabBarHeight: 45,
+                textStyle: GoogleFonts.getFont(
+                  color: Colors.black,
+                  'Saira',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 9,
                 ),
+                tabSelectedColor: Colors.black,
+                tabIconColor: Colors.black,
+                tabBarColor: const Color.fromARGB(255, 200, 233, 255),
               ),
             ),
           );

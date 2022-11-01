@@ -77,6 +77,7 @@ class RecipesPage extends StatelessWidget {
               case Status.success:
                 final recipesModels = state.recipes;
                 return GridView.count(
+                    padding: const EdgeInsets.only(bottom: 75),
                     shrinkWrap: true,
                     crossAxisCount: 2,
                     children: [

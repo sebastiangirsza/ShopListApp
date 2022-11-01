@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '812465192951',
     projectId: 'shop-list-sm',
     storageBucket: 'shop-list-sm.appspot.com',
-    iosClientId: '812465192951-qprpcqe1mjoaip1ltk7fgpk8nd052sh8.apps.googleusercontent.com',
-    iosBundleId: 'com.sebastiangirsza.shoplistappsm',
+    iosClientId:
+        '812465192951-qprpcqe1mjoaip1ltk7fgpk8nd052sh8.apps.googleusercontent.com',
+    iosBundleId: 'com.sebastiangirsza.shoplistappsmsm',
   );
 }
