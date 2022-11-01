@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:shoplistapp/app/home/pages/your_products/cubit/your_products_cubit.dart';
 import 'package:shoplistapp/app/models/purchased_product_model.dart';
 import 'package:shoplistapp/app/repositories/purchased_products_repository.dart';
@@ -450,7 +451,7 @@ class _CupertinoPopupSurfaceWidgetState
                 color: const Color.fromARGB(255, 200, 233, 255),
                 alignment: Alignment.center,
                 width: double.infinity,
-                height: 150,
+                height: 170,
                 child: Column(children: [
                   Text(
                     'Wybierz termin ważności',
@@ -462,24 +463,36 @@ class _CupertinoPopupSurfaceWidgetState
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 0, 63, 114),
-                    ),
-                    onPressed: () async {
-                      final DateTime? newDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(2100));
-                      if (newDate != null && newDate != purchasedProductDate) {
-                        setState(() {
-                          purchasedProductDate = newDate;
-                        });
-                      }
-                    },
-                    child: const Icon(Icons.calendar_month),
+                  const SizedBox(
+                    height: 10,
                   ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 0, 63, 114),
+                      ),
+                      onPressed: () async {
+                        final DateTime? newDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2100));
+                        if (newDate != null &&
+                            newDate != purchasedProductDate) {
+                          setState(() {
+                            purchasedProductDate = newDate;
+                          });
+                        }
+                      },
+                      child: Text(
+                        DateFormat('dd/MM/yy').format(purchasedProductDate!),
+                        style: GoogleFonts.getFont(
+                          'Saira',
+                          decoration: TextDecoration.none,
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
                   TextButton(
                     onPressed: () {
                       context.read<YourProductsCubit>().isDated(

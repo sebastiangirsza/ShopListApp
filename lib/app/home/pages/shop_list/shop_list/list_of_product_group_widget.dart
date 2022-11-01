@@ -17,21 +17,27 @@ class ListOfProductsGroupWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final categoriesName = [
       'Warzywa',
+      'Owoce',
       'Mięso',
       'Pieczywo',
       'Suche produkty',
       'Nabiał',
       'Chemia',
+      'Przekąski',
+      'Napoje',
       'Inne',
     ];
 
     final categoriesIcon = [
       'images/icons/vegetable_icon.svg',
+      'images/icons/fruits_icon.svg',
       'images/icons/meat_icon.svg',
       'images/icons/bread_icon.svg',
       'images/icons/dry_products_icon.svg',
       'images/icons/dairy_icon.svg',
       'images/icons/chemistry_icon.svg',
+      'images/icons/snacks_icon.svg',
+      'images/icons/drinks_icon.svg',
       'images/icons/other_icon.svg',
     ];
     return ListView(

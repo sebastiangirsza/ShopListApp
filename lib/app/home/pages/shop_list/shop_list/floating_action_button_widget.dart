@@ -84,11 +84,14 @@ class _FloatingActionButtonWidgetState
                             },
                             items: <String>[
                               'Warzywa',
+                              'Owoce',
                               'Mięso',
                               'Pieczywo',
                               'Suche produkty',
                               'Nabiał',
                               'Chemia',
+                              'Przekąski',
+                              'Napoje',
                               'Inne',
                             ].map<DropdownMenuItem<String>>(
                               (productGroup) {
