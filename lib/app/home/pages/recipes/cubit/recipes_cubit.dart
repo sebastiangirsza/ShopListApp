@@ -7,11 +7,13 @@ import 'package:shoplistapp/app/core/enums.dart';
 import 'package:shoplistapp/app/models/recipes_model.dart';
 import 'package:shoplistapp/app/repositories/recipes_repository.dart';
 import 'package:shoplistapp/app/repositories/user_repository.dart';
+import 'package:shoplistapp/data/remote_data_sources/storage_remote_data_source.dart';
 
 part 'recipes_state.dart';
 
 class RecipesCubit extends Cubit<RecipesState> {
-  RecipesCubit(this._recipesRepository, this._userRepository)
+  RecipesCubit(this._recipesRepository, this._userRepository,
+      this._storageRemoteDataSource)
       : super(const RecipesState(
           recipes: [],
           status: Status.initial,
@@ -21,6 +23,7 @@ class RecipesCubit extends Cubit<RecipesState> {
   final FirebaseStorage storage = FirebaseStorage.instance;
   final RecipesRepository _recipesRepository;
   final UserRespository _userRepository;
+  final StorageRemoteDataSource _storageRemoteDataSource;
 
   Future<void> recipes() async {
     emit(const RecipesState(
@@ -34,14 +37,12 @@ class RecipesCubit extends Cubit<RecipesState> {
         (recipes) async {
           for (final recipe in recipes) {
             try {
-              final yourDownloadURL = await storage
-                  .ref('$userID/recipes/${recipe.imageName}')
-                  .getDownloadURL();
-              recipes[recipes.indexWhere(
-                (element) => element.id == recipe.id,
-              )] = recipe.copyWith(
-                downloadURL: yourDownloadURL,
-              );
+              final yourDownloadURL = await _storageRemoteDataSource
+                  .downloadURL(userID: userID, imageName: recipe.imageName);
+
+              recipes[recipes
+                      .indexWhere((element) => element.id == recipe.id)] =
+                  recipe.copyWith(downloadURL: yourDownloadURL);
             } catch (e) {
               FirebaseException(message: e.toString(), plugin: '');
             }

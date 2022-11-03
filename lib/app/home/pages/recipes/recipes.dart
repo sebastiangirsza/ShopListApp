@@ -9,6 +9,7 @@ import 'package:shoplistapp/app/home/pages/recipes/pages/recipe_details/recipe_d
 import 'package:shoplistapp/app/repositories/recipes_repository.dart';
 import 'package:shoplistapp/app/repositories/user_repository.dart';
 import 'package:shoplistapp/data/remote_data_sources/recipes_remote_data_source.dart';
+import 'package:shoplistapp/data/remote_data_sources/storage_remote_data_source.dart';
 import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 class RecipesPage extends StatelessWidget {
@@ -65,7 +66,8 @@ class RecipesPage extends StatelessWidget {
         create: (context) => RecipesCubit(
             RecipesRepository(
                 RecipesRemoteDataSource(), UserRemoteDataSource()),
-            UserRespository(UserRemoteDataSource()))
+            UserRespository(UserRemoteDataSource()),
+            StorageRemoteDataSource())
           ..recipes(),
         child: BlocBuilder<RecipesCubit, RecipesState>(
           builder: (context, state) {

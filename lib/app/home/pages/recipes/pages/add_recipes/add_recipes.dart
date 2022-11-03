@@ -330,14 +330,14 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                             recipesMakeing == null
                         ? null
                         : () {
-                            context
-                                .read<AddRecipesCubit>()
-                                .uploadFile(pickedImage!, imageName!);
-
                             List<String> textList = _controller
                                 .getRange(0, quantityProducts)
                                 .map((x) => x.text)
                                 .toList();
+                            context
+                                .read<AddRecipesCubit>()
+                                .uploadFile(pickedImage!, imageName!);
+
                             context.read<AddRecipesCubit>().add(
                                 recipesName!,
                                 textList.join(",\n").toString(),
