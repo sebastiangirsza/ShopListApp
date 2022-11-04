@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoplistapp/app/home/pages/recipes/pages/add_recipes/cubit/add_recipes_cubit.dart';
 import 'package:shoplistapp/app/repositories/recipes_repository.dart';
+import 'package:shoplistapp/app/repositories/storage_repository.dart';
 import 'package:shoplistapp/app/repositories/user_repository.dart';
 import 'package:shoplistapp/data/remote_data_sources/recipes_remote_data_source.dart';
+import 'package:shoplistapp/data/remote_data_sources/storage_remote_data_source.dart';
 import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 class AddRecipesPage extends StatelessWidget {
@@ -100,7 +102,8 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
     return BlocProvider(
       create: (context) => AddRecipesCubit(
           RecipesRepository(RecipesRemoteDataSource(), UserRemoteDataSource()),
-          UserRespository(UserRemoteDataSource())),
+          UserRespository(UserRemoteDataSource()),
+          StorageRepository(StorageRemoteDataSource())),
       child: BlocListener<AddRecipesCubit, AddRecipesState>(
         listener: (context, state) {
           if (state.saved) {
@@ -334,16 +337,18 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                                 .getRange(0, quantityProducts)
                                 .map((x) => x.text)
                                 .toList();
-                            context
-                                .read<AddRecipesCubit>()
-                                .uploadFile(pickedImage!, imageName!);
+                            // context
+                            //     .read<AddRecipesCubit>()
+                            //     .uploadFile(pickedImage!, imageName!);
 
-                            context.read<AddRecipesCubit>().add(
+                            context.read<AddRecipesCubit>().addRecipe(
                                 recipesName!,
                                 textList.join(",\n").toString(),
                                 recipesMakeing!.text,
                                 imageName!,
-                                downloadURL);
+                                downloadURL,
+                                pickedImage!,
+                                imageName!);
                           },
                     icon: const Icon(
                       Icons.save_alt,

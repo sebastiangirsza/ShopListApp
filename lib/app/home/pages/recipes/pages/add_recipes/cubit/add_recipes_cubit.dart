@@ -1,33 +1,38 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:shoplistapp/app/repositories/recipes_repository.dart';
+import 'package:shoplistapp/app/repositories/storage_repository.dart';
 import 'package:shoplistapp/app/repositories/user_repository.dart';
 
 part 'add_recipes_state.dart';
 
 class AddRecipesCubit extends Cubit<AddRecipesState> {
-  AddRecipesCubit(this._recipesRepository, this._userRepository)
-      : super(
+  AddRecipesCubit(
+    this._recipesRepository,
+    this._userRepository,
+    this._storageRepository,
+  ) : super(
           const AddRecipesState(),
         );
 
   final RecipesRepository _recipesRepository;
-  final firebase_storage.FirebaseStorage storage =
-      firebase_storage.FirebaseStorage.instance;
   final UserRespository _userRepository;
+  final StorageRepository _storageRepository;
 
-  Future<void> add(
+  Future<void> addRecipe(
     String recipesName,
     String recipesProductName,
     String recipesMakeing,
     String imageName,
     String downloadURL,
+    String filePath,
+    String fileName,
   ) async {
+    final user = await _userRepository.getUserID();
+    final userID = user!.uid;
+    File file = File(filePath);
     try {
       await _recipesRepository.add(
         recipesName,
@@ -36,24 +41,27 @@ class AddRecipesCubit extends Cubit<AddRecipesState> {
         imageName,
         downloadURL,
       );
+      await _storageRepository.putFile(userID, fileName, file);
+      // await storage.ref('$userID/recipes/$fileName').putFile(file);
       emit(const AddRecipesState(saved: true));
     } catch (error) {
-      null;
-    }
-  }
-
-  Future<void> uploadFile(
-    String filePath,
-    String fileName,
-  ) async {
-    final user = await _userRepository.getUserID();
-    final userID = user!.uid;
-    File file = File(filePath);
-
-    try {
-      await storage.ref('$userID/recipes/$fileName').putFile(file);
-    } on firebase_core.FirebaseException catch (e) {
-      FirebaseException(message: e.toString(), plugin: '');
+      print(error.toString());
     }
   }
 }
+
+//   Future<void> uploadFile(
+//     String filePath,
+//     String fileName,
+//   ) async {
+//     final user = await _userRepository.getUserID();
+//     final userID = user!.uid;
+//     File file = File(filePath);
+
+//     try {
+//       await storage.ref('$userID/recipes/$fileName').putFile(file);
+//     } on firebase_core.FirebaseException catch (e) {
+//       FirebaseException(message: e.toString(), plugin: '');
+//     }
+//   }
+// }
