@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:shoplistapp/app/cubit/auth_cubit.dart';
+import 'package:shoplistapp/app/home/pages/calendar/calendar.dart';
 import 'package:shoplistapp/app/home/pages/recipes/recipes.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list_page.dart';
 import 'package:shoplistapp/app/home/pages/your_products/pages/storage.dart';
@@ -86,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                 if (currentIndex == 2) {
                   return const RecipesPage();
                 }
-                return Container();
+                return const ShoppingPage();
               }),
               bottomNavigationBar: MotionTabBar(
                 initialSelectedTab: 'Lista zakupów',

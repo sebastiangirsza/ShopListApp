@@ -1,125 +1,166 @@
 import 'package:flutter/material.dart';
 import 'package:cell_calendar/cell_calendar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoplistapp/app/home/pages/calendar/addShopping/add_page.dart';
+import 'package:shoplistapp/app/home/pages/calendar/cubit/shopping_cubit.dart';
 import 'package:shoplistapp/app/home/pages/calendar/sample_event.dart';
+import 'package:shoplistapp/app/models/item_model.dart';
+import 'package:shoplistapp/app/repositories/items_repository.dart';
+import 'package:shoplistapp/data/remote_data_sources/items_remote_data_source.dart';
+import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
-class CalendarPage extends StatelessWidget {
-  const CalendarPage({
+class ShoppingPage extends StatelessWidget {
+  const ShoppingPage({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-        child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.black,
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 2,
-                  offset: Offset(3, 3),
-                )
-              ],
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            child: const CellCalendarWidget()),
+    return BlocProvider(
+      create: (context) => HomeCubit(
+          ItemsRepository(ItemsRemoteDataSource(), UserRemoteDataSource()))
+        ..start(),
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          final itemModels = state.items;
+          return ListView(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const AddPage(),
+                        fullscreenDialog: true,
+                      ),
+                    );
+                  },
+                  child: const Icon(Icons.add)),
+              for (final itemModel in itemModels)
+                Dismissible(
+                  key: ValueKey(itemModel.id),
+                  background: const DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                    ),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 32.0),
+                        child: Icon(
+                          Icons.delete,
+                        ),
+                      ),
+                    ),
+                  ),
+                  confirmDismiss: (direction) async {
+                    // only from right to left
+                    return direction == DismissDirection.endToStart;
+                  },
+                  onDismissed: (direction) {
+                    // context.read<HomeCubit>().remove(documentID: itemModel.id);
+                  },
+                  child: _ListViewItem(
+                    itemModel: itemModel,
+                  ),
+                ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class CellCalendarWidget extends StatelessWidget {
-  const CellCalendarWidget({
+class _ListViewItem extends StatelessWidget {
+  const _ListViewItem({
     Key? key,
+    required this.itemModel,
   }) : super(key: key);
+
+  final ItemModel itemModel;
 
   @override
   Widget build(BuildContext context) {
-    final samplesEvents = sampleEvents();
-    final cellCalendarPageController = CellCalendarPageController();
-    return CellCalendar(
-      cellCalendarPageController: cellCalendarPageController,
-      events: samplesEvents,
-      daysOfTheWeekBuilder: (dayIndex) {
-        final labels = ["S", "M", "T", "W", "T", "F", "S"];
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 4.0),
-          child: Text(
-            labels[dayIndex],
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        );
+    return InkWell(
+      onTap: () {
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (context) => DetailsPage(id: itemModel.id),
+        //   ),
+        // );
       },
-      monthYearLabelBuilder: (datetime) {
-        final year = datetime!.year.toString();
-        final month = datetime.month.monthName;
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Row(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 30,
+        ),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.black12,
+          ),
+          child: Column(
             children: [
-              const SizedBox(width: 16),
-              Text(
-                "$month  $year",
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+              Container(
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      itemModel.imageURL,
+                    ),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-              const Spacer(),
-              IconButton(
-                padding: EdgeInsets.zero,
-                icon: const Icon(Icons.calendar_today),
-                onPressed: () {
-                  cellCalendarPageController.animateToDate(
-                    DateTime.now(),
-                    curve: Curves.linear,
-                    duration: const Duration(milliseconds: 300),
-                  );
-                },
-              )
-            ],
-          ),
-        );
-      },
-      onCellTapped: (date) {
-        final eventsOnTheDate = samplesEvents.where((event) {
-          final eventDate = event.eventDate;
-          return eventDate.year == date.year &&
-              eventDate.month == date.month &&
-              eventDate.day == date.day;
-        }).toList();
-        showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-                  title: Text("${date.month.monthName} ${date.day}"),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: eventsOnTheDate
-                        .map(
-                          (event) => Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(4),
-                            margin: const EdgeInsets.only(bottom: 12),
-                            color: event.eventBackgroundColor,
-                            child: Text(
-                              event.eventName,
-                              style: TextStyle(color: event.eventTextColor),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            itemModel.title,
+                            style: const TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        )
-                        .toList(),
+                          const SizedBox(height: 10),
+                          Text(
+                            itemModel.releaseDateFormatted(),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ));
-      },
-      onPageChanged: (firstDate, lastDate) {
-        /// Called when the page was changed
-        /// Fetch additional events by using the range between [firstDate] and [lastDate] if you want
-      },
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white70,
+                    ),
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Text(
+                          itemModel.daysLeft(),
+                          style: const TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Text('days left'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
