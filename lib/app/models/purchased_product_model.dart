@@ -39,4 +39,8 @@ class PurchasedProductModel {
   String dateFormatted() {
     return DateFormat('dd/MM/yy').format(purchasedProductDate);
   }
+
+  int daysLeft() {
+    return purchasedProductDate.difference(DateTime.now()).inDays.toInt();
+  }
 }

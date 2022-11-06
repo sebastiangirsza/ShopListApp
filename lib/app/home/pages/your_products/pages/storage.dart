@@ -26,7 +26,6 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     double height = (MediaQuery.of(context).size.height * 0.9) - 175;
 
     return ListView(
@@ -36,111 +35,14 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              InkWell(
-                onTap: (() {
-                  setState(() {
-                    currentIndex = 0;
-                    title = 'Lodówka';
-                  });
-                }),
-                child: Container(
-                  height: 35,
-                  width: width * 0.16,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: (currentIndex == 0)
-                        ? Colors.blue
-                        : const Color.fromARGB(255, 0, 63, 114),
-                  ),
-                  child: const Icon(
-                    Icons.kitchen_outlined,
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: (() {
-                  setState(() {
-                    currentIndex = 1;
-                    title = 'Zamrażarka';
-                  });
-                }),
-                child: Container(
-                  height: 35,
-                  width: width * 0.16,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: (currentIndex == 1)
-                        ? Colors.blue
-                        : const Color.fromARGB(255, 0, 63, 114),
-                  ),
-                  child: const Icon(
-                    Icons.ac_unit_rounded,
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: (() {
-                  setState(() {
-                    currentIndex = 2;
-                    title = 'Szafka kuchenna';
-                  });
-                }),
-                child: Container(
-                  height: 35,
-                  width: width * 0.16,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: (currentIndex == 2)
-                        ? Colors.blue
-                        : const Color.fromARGB(255, 0, 63, 114),
-                  ),
-                  child: const Icon(
-                    Icons.door_sliding_outlined,
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: (() {
-                  setState(() {
-                    currentIndex = 3;
-                    title = 'Chemia';
-                  });
-                }),
-                child: Container(
-                  height: 35,
-                  width: width * 0.16,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: (currentIndex == 3)
-                        ? Colors.blue
-                        : const Color.fromARGB(255, 0, 63, 114),
-                  ),
-                  child: const Icon(
-                    Icons.local_laundry_service_outlined,
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: (() {
-                  setState(() {
-                    currentIndex = 4;
-                    title = 'Inne';
-                  });
-                }),
-                child: Container(
-                  height: 35,
-                  width: width * 0.16,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: (currentIndex == 4)
-                        ? Colors.blue
-                        : const Color.fromARGB(255, 0, 63, 114),
-                  ),
-                  child: const Icon(
-                    Icons.more_horiz_outlined,
-                  ),
-                ),
-              ),
+              storageInkWell(0, 'Lodówka', const Icon(Icons.kitchen_outlined)),
+              storageInkWell(
+                  1, 'Zamrażarka', const Icon(Icons.ac_unit_rounded)),
+              storageInkWell(2, 'Szafka kuchenna',
+                  const Icon(Icons.door_sliding_outlined)),
+              storageInkWell(3, 'Chemia',
+                  const Icon(Icons.local_laundry_service_outlined)),
+              storageInkWell(4, 'Inne', const Icon(Icons.more_horiz_outlined)),
             ],
           ),
         ),
@@ -165,34 +67,31 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                     color: Colors.white,
                   ),
                   height: height,
-                  child: Scaffold(
-                    body: ListView(
-                      children: [
-                        Center(
-                          child: Text(
-                            title,
-                            style: GoogleFonts.getFont(
-                              'Saira',
-                              color: const Color.fromARGB(255, 0, 63, 114),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                  child: ListView(
+                    children: [
+                      Center(
+                        child: Text(
+                          title,
+                          style: GoogleFonts.getFont(
+                            'Saira',
+                            color: const Color.fromARGB(255, 0, 63, 114),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
                           ),
                         ),
-                        (currentIndex == 0)
-                            ? const _List(storageName: 'Lodówka')
-                            : (currentIndex == 1)
-                                ? const _List(storageName: 'Zamrażarka')
-                                : (currentIndex == 2)
-                                    ? const _List(
-                                        storageName: 'Szafka kuchenna')
-                                    : (currentIndex == 3)
-                                        ? const _List(storageName: 'Chemia')
-                                        : (currentIndex == 4)
-                                            ? const _List(storageName: 'Inne')
-                                            : Container(),
-                      ],
-                    ),
+                      ),
+                      (currentIndex == 0)
+                          ? const _List(storageName: 'Lodówka')
+                          : (currentIndex == 1)
+                              ? const _List(storageName: 'Zamrażarka')
+                              : (currentIndex == 2)
+                                  ? const _List(storageName: 'Szafka kuchenna')
+                                  : (currentIndex == 3)
+                                      ? const _List(storageName: 'Chemia')
+                                      : (currentIndex == 4)
+                                          ? const _List(storageName: 'Inne')
+                                          : Container(),
+                    ],
                   ),
                 ),
               ),
@@ -200,6 +99,30 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget storageInkWell(int index, String titles, Icon icon) {
+    double width = MediaQuery.of(context).size.width;
+
+    return InkWell(
+      onTap: (() {
+        setState(() {
+          currentIndex = index;
+          title = titles;
+        });
+      }),
+      child: Container(
+        height: 35,
+        width: width * 0.16,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: (currentIndex == index)
+              ? Colors.blue
+              : const Color.fromARGB(255, 0, 63, 114),
+        ),
+        child: icon,
+      ),
     );
   }
 }
@@ -281,20 +204,25 @@ class _OneProductState extends State<_OneProduct> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
               child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 200, 233, 255),
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: const <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 2,
-                      offset: Offset(3, 3),
-                    )
-                  ],
-                ),
+                decoration: (widget.purchasedProductsModel.storageName !=
+                        'Zamrażarka')
+                    ? (widget.purchasedProductsModel.isDated == true)
+                        ? (widget.purchasedProductsModel.daysLeft() < 0)
+                            ? daysLeftColors(
+                                const Color.fromARGB(255, 255, 17, 0))
+                            : (widget.purchasedProductsModel.daysLeft() >= 0 &&
+                                    widget.purchasedProductsModel.daysLeft() <=
+                                        3)
+                                ? daysLeftColors(
+                                    const Color.fromARGB(255, 255, 245, 150))
+                                : daysLeftColors(
+                                    const Color.fromARGB(255, 143, 255, 147))
+                        : daysLeftColors(
+                            const Color.fromARGB(255, 200, 233, 255))
+                    : daysLeftColors(Colors.blue),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 15.0,
+                    horizontal: 5.0,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -319,7 +247,7 @@ class _OneProductState extends State<_OneProduct> {
                               Column(children: [
                                 (widget.purchasedProductsModel.isDated == false)
                                     ? SizedBox(
-                                        width: 80,
+                                        width: 85,
                                         child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:
@@ -342,7 +270,7 @@ class _OneProductState extends State<_OneProduct> {
                                         ),
                                       )
                                     : SizedBox(
-                                        width: 80,
+                                        width: 85,
                                         child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor:
@@ -358,55 +286,62 @@ class _OneProductState extends State<_OneProduct> {
                                                         .purchasedProductsModel
                                                         .id,
                                                     purchasedProductDate:
-                                                        DateTime(2000),
+                                                        DateTime(2101),
                                                   );
                                               setState(() {
                                                 isDated = !isDated;
                                               });
                                             },
-                                            child: Text(
-                                              widget.purchasedProductsModel
-                                                  .dateFormatted(),
-                                              style: GoogleFonts.getFont(
-                                                'Saira',
-                                                fontSize: 10,
-                                                color: Colors.white,
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                (widget.purchasedProductsModel
+                                                            .storageName ==
+                                                        'Zamrażarka')
+                                                    ? const Icon(
+                                                        Icons.ac_unit_rounded,
+                                                        size: 11)
+                                                    : const Icon(null, size: 0),
+                                                Text(
+                                                  widget.purchasedProductsModel
+                                                      .dateFormatted(),
+                                                  style: GoogleFonts.getFont(
+                                                    'Saira',
+                                                    fontSize: 10,
+                                                    color: Colors.white,
+                                                    decoration:
+                                                        TextDecoration.none,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
                                             )),
                                       ),
                               ]),
                             ],
                           ),
-                          Column(
-                            children: [
-                              if (widget
-                                      .purchasedProductsModel.productTypeName !=
-                                  'porcja (50 g)')
-                                Text(
-                                  '1 ${widget.purchasedProductsModel.productTypeName}',
-                                  style: GoogleFonts.getFont(
-                                    'Saira',
-                                    fontSize: 8,
-                                    color:
-                                        const Color.fromARGB(255, 0, 63, 114),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                              else
-                                Text(
-                                  '1 porcja (${widget.purchasedProductsModel.productPortion.toString()} gram)',
-                                  style: GoogleFonts.getFont(
-                                    'Saira',
-                                    fontSize: 8,
-                                    color:
-                                        const Color.fromARGB(255, 0, 63, 114),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                            ],
-                          ),
+                          if (widget.purchasedProductsModel.productTypeName !=
+                              'porcja (50 g)')
+                            Text(
+                              '1 ${widget.purchasedProductsModel.productTypeName}',
+                              style: GoogleFonts.getFont(
+                                'Saira',
+                                fontSize: 8,
+                                color: const Color.fromARGB(255, 0, 63, 114),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          else
+                            Text(
+                              '1 porcja (${widget.purchasedProductsModel.productPortion.toString()} gram)',
+                              style: GoogleFonts.getFont(
+                                'Saira',
+                                fontSize: 8,
+                                color: const Color.fromARGB(255, 0, 63, 114),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           const SizedBox(
                             height: 5,
                           )
@@ -422,6 +357,20 @@ class _OneProductState extends State<_OneProduct> {
       ),
     );
   }
+}
+
+BoxDecoration daysLeftColors(Color elementColor) {
+  return BoxDecoration(
+    color: elementColor,
+    borderRadius: BorderRadius.circular(15),
+    boxShadow: const <BoxShadow>[
+      BoxShadow(
+        color: Colors.black,
+        blurRadius: 2,
+        offset: Offset(3, 3),
+      )
+    ],
+  );
 }
 
 class CupertinoPopupSurfaceWidget extends StatefulWidget {
@@ -463,6 +412,18 @@ class _CupertinoPopupSurfaceWidgetState
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  // (widget.purchasedProductsModel.storageName == 'Zamrażarka')
+                  //     ? Text(
+                  //         'Data ważności produktów przechowywanych w zamrażarce może się wydłużyć',
+                  //         style: GoogleFonts.getFont(
+                  //           'Saira',
+                  //           fontSize: 8,
+                  //           color: Colors.black,
+                  //           decoration: TextDecoration.none,
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //       )
+                  //     : const Text(''),
                   const SizedBox(
                     height: 10,
                   ),
@@ -474,7 +435,7 @@ class _CupertinoPopupSurfaceWidgetState
                         final DateTime? newDate = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
-                            firstDate: DateTime.now(),
+                            firstDate: DateTime(1999), //chwilowo
                             lastDate: DateTime(2100));
                         if (newDate != null &&
                             newDate != purchasedProductDate) {

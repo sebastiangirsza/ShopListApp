@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cell_calendar/cell_calendar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoplistapp/app/home/pages/calendar/addShopping/add_page.dart';
 import 'package:shoplistapp/app/home/pages/calendar/cubit/shopping_cubit.dart';
-import 'package:shoplistapp/app/home/pages/calendar/sample_event.dart';
 import 'package:shoplistapp/app/models/item_model.dart';
 import 'package:shoplistapp/app/repositories/items_repository.dart';
 import 'package:shoplistapp/data/remote_data_sources/items_remote_data_source.dart';
