@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -24,6 +25,7 @@ class _FloatingActionButtonWidgetState
   String? productTypeName;
   int productQuantity = 1;
   bool isChecked = false;
+  int quantityGram = 0;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -46,7 +48,7 @@ class _FloatingActionButtonWidgetState
                       borderRadius: BorderRadius.all(Radius.circular(15.0))),
                   backgroundColor: const Color.fromARGB(255, 200, 233, 255),
                   content: SizedBox(
-                    height: 270,
+                    height: (productTypeName != null) ? 275 : 220,
                     child: ListView(
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
@@ -57,11 +59,35 @@ class _FloatingActionButtonWidgetState
                           textAlign: TextAlign.center,
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                            color: Colors.white.withOpacity(0.5),
+                          decoration: boxDecoration(),
+                          child: TextField(
+                            style: GoogleFonts.getFont(
+                              'Saira',
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              labelStyle: GoogleFonts.getFont(
+                                'Saira',
+                                fontSize: 12,
+                                color: Colors.black,
+                              ),
+                              label: const Text(
+                                'Nazwa produktu',
+                              ),
+                            ),
+                            onChanged: (newProduct) {
+                              setState(() {
+                                productName = newProduct;
+                              });
+                            },
+                            textAlign: TextAlign.center,
                           ),
+                        ),
+                        const SizedBox(height: 2),
+                        Container(
+                          decoration: boxDecoration(),
                           child: DropdownButtonFormField(
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -114,84 +140,7 @@ class _FloatingActionButtonWidgetState
                         ),
                         const SizedBox(height: 2),
                         Container(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                            color: Colors.white.withOpacity(0.5),
-                          ),
-                          child: TextField(
-                            style: GoogleFonts.getFont(
-                              'Saira',
-                              fontSize: 12,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              labelStyle: GoogleFonts.getFont(
-                                'Saira',
-                                fontSize: 12,
-                                color: Colors.black,
-                              ),
-                              label: const Text(
-                                'Nazwa produktu',
-                              ),
-                            ),
-                            onChanged: (newProduct) {
-                              setState(() {
-                                productName = newProduct;
-                              });
-                            },
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                            color: Colors.white.withOpacity(0.5),
-                          ),
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                  style: GoogleFonts.getFont('Saira',
-                                      fontSize: 12, color: Colors.black),
-                                  'Ilość: '),
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: NumberPicker(
-                                  textStyle: GoogleFonts.getFont('Saira',
-                                      fontSize: 16, color: Colors.black),
-                                  selectedTextStyle: GoogleFonts.getFont(
-                                      'Saira',
-                                      fontSize: 20,
-                                      color:
-                                          const Color.fromARGB(255, 0, 63, 114),
-                                      fontWeight: FontWeight.bold),
-                                  itemHeight: 24,
-                                  itemWidth: 40,
-                                  axis: Axis.horizontal,
-                                  value: productQuantity,
-                                  minValue: 1,
-                                  maxValue: 100,
-                                  itemCount: 5,
-                                  onChanged: (value) =>
-                                      setState(() => productQuantity = value),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                            color: Colors.white.withOpacity(0.5),
-                          ),
+                          decoration: boxDecoration(),
                           child: DropdownButtonFormField(
                             decoration: InputDecoration(
                               label: Text(
@@ -209,12 +158,15 @@ class _FloatingActionButtonWidgetState
                             onChanged: (newProduct) {
                               setState(() {
                                 productTypeName = newProduct!;
+                                (productTypeName != 'gramy')
+                                    ? quantityGram = -1
+                                    : quantityGram = 0;
                               });
                             },
                             items: <String>[
                               'sztuka',
                               'karton',
-                              'porcja (50 g)',
+                              'gramy',
                               'paczka',
                             ].map<DropdownMenuItem<String>>(
                               (productTypeName) {
@@ -235,6 +187,89 @@ class _FloatingActionButtonWidgetState
                             ).toList(),
                           ),
                         ),
+                        const SizedBox(height: 2),
+                        (productTypeName != null)
+                            ? (productTypeName != 'gramy')
+                                ? Container(
+                                    decoration: boxDecoration(),
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                        Text(
+                                            style: GoogleFonts.getFont('Saira',
+                                                fontSize: 12,
+                                                color: Colors.black),
+                                            'Ilość: '),
+                                        Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: NumberPicker(
+                                            textStyle: GoogleFonts.getFont(
+                                                'Saira',
+                                                fontSize: 16,
+                                                color: Colors.black),
+                                            selectedTextStyle:
+                                                GoogleFonts.getFont('Saira',
+                                                    fontSize: 20,
+                                                    color: const Color.fromARGB(
+                                                        255, 0, 63, 114),
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                            itemHeight: 24,
+                                            itemWidth: 40,
+                                            axis: Axis.horizontal,
+                                            value: productQuantity,
+                                            minValue: 1,
+                                            maxValue: 100,
+                                            itemCount: 5,
+                                            onChanged: (value) => setState(() {
+                                              productQuantity = value;
+                                            }),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Container(
+                                    decoration: boxDecoration(),
+                                    child: TextField(
+                                      style: GoogleFonts.getFont(
+                                        'Saira',
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                      ),
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        labelStyle: GoogleFonts.getFont(
+                                          'Saira',
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                        ),
+                                        label: const Text(
+                                          'Ilość gram',
+                                        ),
+                                      ),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                      onChanged: (newQuantityGram) {
+                                        final quantityGrams =
+                                            int.tryParse(newQuantityGram);
+                                        setState(
+                                          () {
+                                            quantityGram =
+                                                (quantityGrams == null)
+                                                    ? 0
+                                                    : quantityGrams;
+                                          },
+                                        );
+                                      },
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                            : Container(height: 0),
                       ],
                     ),
                   ),
@@ -246,6 +281,7 @@ class _FloatingActionButtonWidgetState
                             productName = null;
                             productQuantity = 1;
                             productTypeName = null;
+                            quantityGram = 0;
                           });
                           Navigator.of(context).pop();
                         },
@@ -265,21 +301,23 @@ class _FloatingActionButtonWidgetState
                                 backgroundColor: Colors.black),
                             onPressed: productGroup == null ||
                                     productName == null ||
-                                    productTypeName == null
+                                    productTypeName == null ||
+                                    quantityGram == 0
                                 ? null
                                 : () {
                                     context.read<AddProductCubit>().add(
-                                          productGroup!,
-                                          productName!,
-                                          productQuantity,
-                                          isChecked,
-                                          productTypeName!,
-                                        );
+                                        productGroup!,
+                                        productName!,
+                                        productQuantity,
+                                        isChecked,
+                                        productTypeName!,
+                                        quantityGram);
                                     setState(() {
                                       productGroup = null;
                                       productName = null;
                                       productQuantity = 1;
                                       productTypeName = null;
+                                      quantityGram = 0;
                                     });
 
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -332,6 +370,13 @@ class _FloatingActionButtonWidgetState
           ],
         ),
       ),
+    );
+  }
+
+  BoxDecoration boxDecoration() {
+    return BoxDecoration(
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
+      color: Colors.white.withOpacity(0.5),
     );
   }
 }

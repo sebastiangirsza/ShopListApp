@@ -7,6 +7,7 @@ class ProductModel {
   final int productQuantity;
   final bool isChecked;
   final String productTypeName;
+  final int quantityGram;
 
   ProductModel({
     required this.id,
@@ -15,6 +16,7 @@ class ProductModel {
     required this.productQuantity,
     required this.isChecked,
     required this.productTypeName,
+    required this.quantityGram,
   });
 
   ProductModel.fromJson(QueryDocumentSnapshot<Map<String, dynamic>> products)
@@ -23,5 +25,6 @@ class ProductModel {
         productQuantity = products['product_quantity'],
         id = products.id,
         isChecked = products['product_check'],
-        productTypeName = products['product_type_name'];
+        productTypeName = products['product_type_name'],
+        quantityGram = products['quantity_gram'];
 }

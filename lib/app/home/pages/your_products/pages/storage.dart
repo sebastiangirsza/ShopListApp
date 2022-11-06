@@ -322,7 +322,7 @@ class _OneProductState extends State<_OneProduct> {
                             ],
                           ),
                           if (widget.purchasedProductsModel.productTypeName !=
-                              'porcja (50 g)')
+                              'gramy')
                             Text(
                               '1 ${widget.purchasedProductsModel.productTypeName}',
                               style: GoogleFonts.getFont(
@@ -435,7 +435,7 @@ class _CupertinoPopupSurfaceWidgetState
                         final DateTime? newDate = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
-                            firstDate: DateTime(1999), //chwilowo
+                            firstDate: DateTime.now(),
                             lastDate: DateTime(2100));
                         if (newDate != null &&
                             newDate != purchasedProductDate) {

@@ -37,6 +37,7 @@ class ProductsRepository {
     int productQuantity,
     bool isChecked,
     String productTypeName,
+    int quantityGram,
   ) async {
     final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {
@@ -48,6 +49,7 @@ class ProductsRepository {
       productQuantity,
       isChecked,
       productTypeName,
+      quantityGram,
     );
   }
 

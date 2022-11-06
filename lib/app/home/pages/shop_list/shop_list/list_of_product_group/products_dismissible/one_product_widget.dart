@@ -47,10 +47,13 @@ class OneProductWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  productModel.productQuantity.toString(),
+                  (productModel.productTypeName != 'gramy')
+                      ? productModel.productQuantity.toString()
+                      : '${productModel.quantityGram.toString()} g',
                   style: GoogleFonts.getFont(
                     'Saira',
-                    fontSize: 15,
+                    fontSize:
+                        (productModel.productTypeName == 'gramy') ? 8 : 15,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),

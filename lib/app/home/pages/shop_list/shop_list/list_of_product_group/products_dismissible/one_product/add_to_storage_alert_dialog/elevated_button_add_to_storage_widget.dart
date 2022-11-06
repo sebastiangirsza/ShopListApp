@@ -36,52 +36,55 @@ class ElevatedButtonAddToStorageWidget extends StatelessWidget {
           DateTime? productDate = DateTime(2100);
           return ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  duration: const Duration(milliseconds: 600),
-                  content: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                          style: GoogleFonts.getFont('Saira',
-                              fontWeight: FontWeight.bold, color: Colors.white),
-                          'Produkt dodany do \'$storageName\''),
-                    ],
-                  ),
-                  backgroundColor: Colors.green,
-                ),
-              );
-              List<String> listaProcura = [];
-              String temp = "";
-              for (var i = 0; i < productModel.productName.length; i++) {
-                if (productModel.productName[i] == " ") {
-                  temp = "";
-                } else {
-                  temp = temp + productModel.productName[i];
-                  listaProcura.add(temp.toLowerCase());
-                }
-              }
-              final int count = productQuantity;
-
-              for (var i = 0; i < count; i++) {
-                context.read<YourProductsCubit>().addYourProduct(
-                      productModel.productGroup,
-                      productModel.productName,
-                      productDate,
-                      storageName!,
-                      isDated,
-                      listaProcura,
-                      productTypeName,
-                      productPortion,
+            onPressed: storageName == null || productPortion == 0
+                ? null
+                : () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        duration: const Duration(milliseconds: 600),
+                        content: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                                style: GoogleFonts.getFont('Saira',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                                'Produkt dodany do \'$storageName\''),
+                          ],
+                        ),
+                        backgroundColor: Colors.green,
+                      ),
                     );
-              }
-              context
-                  .read<AddProductCubit>()
-                  .delete(documentID: productModel.id);
+                    List<String> listaProcura = [];
+                    String temp = "";
+                    for (var i = 0; i < productModel.productName.length; i++) {
+                      if (productModel.productName[i] == " ") {
+                        temp = "";
+                      } else {
+                        temp = temp + productModel.productName[i];
+                        listaProcura.add(temp.toLowerCase());
+                      }
+                    }
+                    final int count = productQuantity;
 
-              Navigator.of(context).pop();
-            },
+                    for (var i = 0; i < count; i++) {
+                      context.read<YourProductsCubit>().addYourProduct(
+                            productModel.productGroup,
+                            productModel.productName,
+                            productDate,
+                            storageName!,
+                            isDated,
+                            listaProcura,
+                            productTypeName,
+                            productPortion,
+                          );
+                    }
+                    context
+                        .read<AddProductCubit>()
+                        .delete(documentID: productModel.id);
+
+                    Navigator.of(context).pop();
+                  },
             child: Text(
                 style: GoogleFonts.getFont('Saira', color: Colors.white),
                 'Dodaj'),

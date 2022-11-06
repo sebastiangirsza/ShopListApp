@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -21,7 +22,7 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int productPortion = 50;
+    int quantityGram = 0;
 
     return BlocProvider(
       create: (context) => YourProductsCubit(PurchasedProductsRepository(
@@ -46,7 +47,7 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 content: SizedBox(
-                  height: (productTypeName != 'porcja (50 g)') ? 130 : 180,
+                  height: (productTypeName != 'gramy') ? 130 : 180,
                   child: Column(
                     children: [
                       Container(
@@ -69,9 +70,15 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
                           isExpanded: true,
                           value: storageName,
                           onChanged: (newProduct) {
-                            setState(() {
-                              storageName = newProduct!;
-                            });
+                            (productModel.productTypeName != 'gramy')
+                                ? setState(() {
+                                    quantityGram = -1;
+                                    storageName = newProduct!;
+                                  })
+                                : setState(() {
+                                    quantityGram = 0;
+                                    storageName = newProduct!;
+                                  });
                           },
                           items: <String>[
                             'Lodówka',
@@ -100,7 +107,7 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
                           const SizedBox(
                             height: 4,
                           ),
-                          (productTypeName != 'porcja (50 g)')
+                          (productTypeName != 'gramy')
                               ? Text(
                                   style: GoogleFonts.getFont('Saira',
                                       fontSize: 12, color: Colors.black),
@@ -131,40 +138,50 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      (productTypeName != 'porcja (50 g)')
+                      (productTypeName != 'gramy')
                           ? Container()
                           : Column(
                               children: [
                                 const SizedBox(
-                                  height: 4,
+                                  height: 3,
                                 ),
-                                Text(
-                                    style: GoogleFonts.getFont('Saira',
-                                        fontSize: 12, color: Colors.black),
-                                    'Wielkość porcji: '),
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: NumberPicker(
-                                    textStyle: GoogleFonts.getFont('Saira',
-                                        fontSize: 16, color: Colors.black),
-                                    selectedTextStyle: GoogleFonts.getFont(
+                                Container(
+                                  decoration: boxDecoration(),
+                                  child: TextField(
+                                    style: GoogleFonts.getFont(
+                                      'Saira',
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                    ),
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      labelStyle: GoogleFonts.getFont(
                                         'Saira',
-                                        fontSize: 20,
-                                        color: const Color.fromARGB(
-                                            255, 0, 63, 114),
-                                        fontWeight: FontWeight.bold),
-                                    itemHeight: 24,
-                                    itemWidth: 60,
-                                    axis: Axis.horizontal,
-                                    value: productPortion,
-                                    step: 50,
-                                    minValue: 50,
-                                    maxValue: 10000,
-                                    itemCount: 3,
-                                    onChanged: (value) =>
-                                        setState(() => productPortion = value),
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                      ),
+                                      label: const Text(
+                                        'Wielkość porcji: ',
+                                      ),
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    onChanged: (newQuantityGram) {
+                                      final quantityGrams =
+                                          int.tryParse(newQuantityGram);
+                                      setState(
+                                        () {
+                                          quantityGram = (quantityGrams == null)
+                                              ? 0
+                                              : quantityGrams;
+                                        },
+                                      );
+                                    },
+                                    textAlign: TextAlign.center,
                                   ),
-                                ),
+                                )
                               ],
                             )
                     ],
@@ -186,13 +203,20 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
                       productQuantity: productQuantity,
                       isDated: isDated,
                       productTypeName: productTypeName,
-                      productPortion: productPortion),
+                      productPortion: quantityGram),
                 ],
               );
             },
           );
         },
       ),
+    );
+  }
+
+  BoxDecoration boxDecoration() {
+    return BoxDecoration(
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
+      color: Colors.white.withOpacity(0.5),
     );
   }
 }
