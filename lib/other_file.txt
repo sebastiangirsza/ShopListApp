@@ -1,0 +1,263 @@
+const Color.fromARGB(255, 200, 233, 255), //jasny niebieski
+const Color.fromARGB(255, 0, 63, 114), //ciemny niebieski
+
+
+
+BottomNavigationBar(
+                    unselectedItemColor: Colors.white,
+                    selectedItemColor: Colors.black,
+                    selectedLabelStyle: GoogleFonts.getFont(
+                      'Saira',
+                      fontWeight: FontWeight.bold,
+                    ),
+                    unselectedLabelStyle: GoogleFonts.getFont('Saira'),
+                    currentIndex: currentIndex,
+                    onTap: (newIndex) {
+                      setState(() {
+                        currentIndex = newIndex;
+                      });
+                    },
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.edit_note_rounded,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(0.5, 0.5),
+                              blurRadius: 3.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ],
+                        ),
+                        label: 'Lista zakupów',
+                        backgroundColor: Color.fromARGB(255, 200, 233, 255),
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.shopping_bag_outlined,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(0.5, 0.5),
+                              blurRadius: 3.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ],
+                        ),
+                        label: 'Moje produkty',
+                        backgroundColor: Color.fromARGB(255, 200, 233, 255),
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.dinner_dining,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(0.5, 0.5),
+                              blurRadius: 3.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ],
+                        ),
+                        label: 'Przepisy',
+                        backgroundColor: Color.fromARGB(255, 200, 233, 255),
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.liquor,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(0.5, 0.5),
+                              blurRadius: 3.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ],
+                        ),
+                        label: 'Inne',
+                        backgroundColor: Color.fromARGB(255, 200, 233, 255),
+                      ),
+                    ],
+                  ),
+
+
+
+
+                  InkWell(
+                      onTap: () => showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(builder:
+                                (BuildContext context, StateSetter setState) {
+                              return AlertDialog(
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(15.0))),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 200, 233, 255),
+                                  content: SizedBox(
+                                    height: 270,
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: (pickedImage == null)
+                                              ? ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0),
+                                                  child: Container(
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      boxShadow: <BoxShadow>[
+                                                        BoxShadow(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    0,
+                                                                    63,
+                                                                    114),
+                                                            blurRadius: 15)
+                                                      ],
+                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    alignment: Alignment.center,
+                                                    child: Image.asset(
+                                                        'images/icon/add_photo_icon.png'),
+                                                  ),
+                                                )
+                                              : ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                        image: FileImage(
+                                                          File(pickedImage!),
+                                                        ),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                      boxShadow: const <
+                                                          BoxShadow>[
+                                                        BoxShadow(
+                                                            color: Colors.white,
+                                                            blurRadius: 15)
+                                                      ],
+                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    alignment: Alignment.center,
+                                                  ),
+                                                ),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            final result = await FilePicker
+                                                .platform
+                                                .pickFiles(
+                                              allowMultiple: false,
+                                              type: FileType.custom,
+                                              allowedExtensions: ['png', 'jpg'],
+                                            );
+
+                                            if (result == null) {
+                                              return;
+                                            }
+
+                                            final path =
+                                                result.files.single.path!;
+                                            final fileName =
+                                                result.files.single.name;
+
+                                            setState(() {
+                                              imageName = fileName;
+                                            });
+                                            setState(() {
+                                              pickedImage = path;
+                                            });
+                                          },
+                                          child: (pickedImage == null)
+                                              ? const Text('Wybierz obrazek')
+                                              : Text('Wybierz inny obrazek'),
+                                        ),
+                                        BlocProvider(
+                                          create: (context) => AddRecipesCubit(
+                                              RecipesRepository(
+                                                  RecipesRemoteDataSource(),
+                                                  UserRemoteDataSource()),
+                                              UserRespository(
+                                                  UserRemoteDataSource()),
+                                              StorageRepository(
+                                                  StorageRemoteDataSource())),
+                                          child: BlocBuilder<AddRecipesCubit,
+                                              AddRecipesState>(
+                                            builder: (context, state) {
+                                              return ElevatedButton(
+                                                onPressed: () async {
+                                                  context
+                                                      .read<AddRecipesCubit>()
+                                                      .uploadFile(pickedImage!,
+                                                          imageName!);
+
+                                                  setState(
+                                                    () {
+                                                      pickedImages =
+                                                          pickedImage;
+                                                    },
+                                                  );
+                                                  setState(
+                                                    () {
+                                                      saved = true;
+                                                    },
+                                                  );
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('Zapisz'),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ));
+                            });
+                          }),
+                      child: (saved == false)
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: Color.fromARGB(255, 0, 63, 114),
+                                        blurRadius: 15)
+                                  ],
+                                ),
+                                padding: const EdgeInsets.all(10),
+                                width: 120,
+                                alignment: Alignment.center,
+                                child: Image.asset(
+                                    'images/icon/add_photo_icon.png'),
+                              ),
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: FileImage(
+                                      File(pickedImage!),
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  boxShadow: const <BoxShadow>[
+                                    BoxShadow(
+                                        color: Colors.white, blurRadius: 15)
+                                  ],
+                                ),
+                                padding: const EdgeInsets.all(10),
+                                width: 120,
+                                alignment: Alignment.center,
+                              ),
+                            ),
+                    ),

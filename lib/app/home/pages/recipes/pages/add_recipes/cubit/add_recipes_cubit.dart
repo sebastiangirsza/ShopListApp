@@ -34,6 +34,7 @@ class AddRecipesCubit extends Cubit<AddRecipesState> {
     final userID = user!.uid;
     File file = File(filePath);
     try {
+      await _storageRepository.putFile(userID, fileName, file);
       await _recipesRepository.add(
         recipesName,
         recipesProductName,
@@ -41,8 +42,9 @@ class AddRecipesCubit extends Cubit<AddRecipesState> {
         imageName,
         downloadURL,
       );
-      await _storageRepository.putFile(userID, fileName, file);
-      // await storage.ref('$userID/recipes/$fileName').putFile(file);
+
+      // await Future.delayed(Duration(seconds: 3));
+
       emit(const AddRecipesState(saved: true));
     } catch (error) {
       print(error.toString());
