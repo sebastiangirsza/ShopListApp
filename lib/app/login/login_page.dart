@@ -139,130 +139,138 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 8, color: Colors.red),
                           ),
                         ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 0, 63, 114),
-                    ),
-                    onPressed: () async {
-                      setState(() {
-                        notMatch = null;
-                        errorMessage = null;
-                        emailMessage = null;
-                      });
+                  ListView(
+                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 0, 63, 114),
+                        ),
+                        onPressed: () async {
+                          setState(() {
+                            notMatch = null;
+                            errorMessage = null;
+                            emailMessage = null;
+                          });
 
-                      if (isCreatingAccount == true) {
-                        try {
-                          if (!email1Reg
-                                  .hasMatch(widget.emailController.text) ||
-                              !email2Reg
-                                  .hasMatch(widget.emailController.text)) {
-                            setState(() {
-                              emailMessage = 'Nieprawidłowy format email';
-                            });
+                          if (isCreatingAccount == true) {
+                            try {
+                              if (!email1Reg
+                                      .hasMatch(widget.emailController.text) ||
+                                  !email2Reg
+                                      .hasMatch(widget.emailController.text)) {
+                                setState(() {
+                                  emailMessage = 'Nieprawidłowy format email';
+                                });
+                              } else {
+                                setState(() {
+                                  emailMessage = null;
+                                });
+                              }
+                              if (widget.passwordController.text.length < 6 ||
+                                  !numReg.hasMatch(
+                                      widget.passwordController.text) ||
+                                  !specialReg.hasMatch(
+                                      widget.passwordController.text) ||
+                                  !letterReg.hasMatch(
+                                      widget.passwordController.text)) {
+                                setState(() {
+                                  errorMessage =
+                                      'Hasło musi zawierać minimum 6 znaków, litery, cyfry oraz znaki spacjalne ( @\$#.*!%^&()€;:\\?,/=+<> )';
+                                });
+                              } else {
+                                setState(() {
+                                  errorMessage = null;
+                                });
+                              }
+                              if (widget.passwordController.text !=
+                                  widget.confirmPasswordController.text) {
+                                setState(() {
+                                  notMatch = 'Hasła są rózne';
+                                });
+                              } else {
+                                setState(() {
+                                  notMatch = null;
+                                });
+                              }
+
+                              if (notMatch == null &&
+                                  errorMessage == null &&
+                                  emailMessage == null) {
+                                context.read<AuthCubit>().createUser(
+                                      email: widget.emailController.text,
+                                      password: widget.passwordController.text,
+                                    );
+                                // dispose();
+                              }
+                            } catch (error) {
+                              const Text('ERROR');
+                            }
                           } else {
-                            setState(() {
-                              emailMessage = null;
-                            });
+                            try {
+                              context.read<AuthCubit>().logIn(
+                                    email: widget.emailController.text,
+                                    password: widget.passwordController.text,
+                                  );
+                            } catch (error) {
+                              print(error.toString());
+                            }
                           }
-                          if (widget.passwordController.text.length < 6 ||
-                              !numReg
-                                  .hasMatch(widget.passwordController.text) ||
-                              !specialReg
-                                  .hasMatch(widget.passwordController.text) ||
-                              !letterReg
-                                  .hasMatch(widget.passwordController.text)) {
+                        },
+                        child: Text(isCreatingAccount == true
+                            ? 'Utwórz konto'
+                            : 'Zaloguj się'),
+                      ),
+                      if (isCreatingAccount == false) ...[
+                        TextButton(
+                          onPressed: () {
                             setState(() {
-                              errorMessage =
-                                  'Hasło musi zawierać minimum 6 znaków, litery, cyfry oraz znaki spacjalne ( @\$#.*!%^&()€;:\\?,/=+<> )';
+                              isCreatingAccount = true;
+                              widget.passwordController.clear();
+                              widget.confirmPasswordController.clear();
+                              obscureText1 = true;
+                              obscureText2 = true;
                             });
-                          } else {
+                          },
+                          child: Text(
+                            'Utwórz konto',
+                            style: GoogleFonts.getFont(
+                              'Saira',
+                              color: const Color.fromARGB(255, 0, 63, 114),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                      if (isCreatingAccount == true) ...[
+                        TextButton(
+                          onPressed: () {
                             setState(() {
-                              errorMessage = null;
-                            });
-                          }
-                          if (widget.passwordController.text !=
-                              widget.confirmPasswordController.text) {
-                            setState(() {
-                              notMatch = 'Hasła są rózne';
-                            });
-                          } else {
-                            setState(() {
+                              isCreatingAccount = false;
                               notMatch = null;
+                              errorMessage = null;
+                              widget.passwordController.clear();
+                              widget.confirmPasswordController.clear();
+                              emailMessage = null;
+                              obscureText1 = true;
+                              obscureText2 = true;
                             });
-                          }
-
-                          if (notMatch == null &&
-                              errorMessage == null &&
-                              emailMessage == null) {
-                            context.read<AuthCubit>().createUser(
-                                  email: widget.emailController.text,
-                                  password: widget.passwordController.text,
-                                );
-                            dispose();
-                          }
-                        } catch (error) {
-                          const Text('ERROR');
-                        }
-                      } else {
-                        try {
-                          context.read<AuthCubit>().logIn(
-                                email: widget.emailController.text,
-                                password: widget.passwordController.text,
-                              );
-                        } catch (error) {
-                          print(error.toString());
-                        }
-                      }
-                    },
-                    child: Text(isCreatingAccount == true
-                        ? 'Utwórz konto'
-                        : 'Zaloguj się'),
+                          },
+                          child: Text(
+                            'Masz już konto?',
+                            style: GoogleFonts.getFont(
+                              'Saira',
+                              color: const Color.fromARGB(255, 0, 63, 114),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
-                  if (isCreatingAccount == false) ...[
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          isCreatingAccount = true;
-                          widget.passwordController.clear();
-                          widget.confirmPasswordController.clear();
-                          obscureText1 = true;
-                          obscureText2 = true;
-                        });
-                      },
-                      child: Text(
-                        'Utwórz konto',
-                        style: GoogleFonts.getFont(
-                          'Saira',
-                          color: const Color.fromARGB(255, 0, 63, 114),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                  if (isCreatingAccount == true) ...[
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          isCreatingAccount = false;
-                          notMatch = null;
-                          errorMessage = null;
-                          widget.passwordController.clear();
-                          widget.confirmPasswordController.clear();
-                          emailMessage = null;
-                          obscureText1 = true;
-                          obscureText2 = true;
-                        });
-                      },
-                      child: Text(
-                        'Masz już konto?',
-                        style: GoogleFonts.getFont(
-                          'Saira',
-                          color: const Color.fromARGB(255, 0, 63, 114),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
                 ],
               ),
             ),
