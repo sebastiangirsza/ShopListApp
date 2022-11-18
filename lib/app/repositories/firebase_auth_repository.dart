@@ -45,19 +45,15 @@ class FirebaseAuthRespository {
     required String email,
     required String password,
   }) async {
-    try {
-      await _userRemoteDataSource.getInstance().signInWithEmailAndPassword(
-            email: email,
-            password: password,
-          );
-      final user = _userRemoteDataSource.currentUser();
-      if (user != null) {
-        return UserModel.fromFirebase(user);
-      } else {
-        throw Exception();
-      }
-    } catch (error) {
-      throw Exception(error.toString());
+    await _userRemoteDataSource.getInstance().signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+    final user = _userRemoteDataSource.currentUser();
+    if (user != null) {
+      return UserModel.fromFirebase(user);
+    } else {
+      throw Exception();
     }
   }
 

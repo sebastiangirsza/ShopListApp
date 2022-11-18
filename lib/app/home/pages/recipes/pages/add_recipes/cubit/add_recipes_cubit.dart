@@ -43,27 +43,9 @@ class AddRecipesCubit extends Cubit<AddRecipesState> {
         downloadURL,
       );
 
-      // await Future.delayed(Duration(seconds: 3));
-
       emit(const AddRecipesState(saved: true));
     } catch (error) {
-      print(error.toString());
+      throw Exception(error.toString());
     }
   }
 }
-
-//   Future<void> uploadFile(
-//     String filePath,
-//     String fileName,
-//   ) async {
-//     final user = await _userRepository.getUserID();
-//     final userID = user!.uid;
-//     File file = File(filePath);
-
-//     try {
-//       await storage.ref('$userID/recipes/$fileName').putFile(file);
-//     } on firebase_core.FirebaseException catch (e) {
-//       FirebaseException(message: e.toString(), plugin: '');
-//     }
-//   }
-// }

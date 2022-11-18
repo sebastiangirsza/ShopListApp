@@ -17,8 +17,8 @@ class AddPage extends StatefulWidget {
 }
 
 class _AddPageState extends State<AddPage> {
-  String? _imageURL;
-  String? _title;
+  // String? _imageURL;
+  // String? _title;
   DateTime? _releaseDate;
 
   @override
@@ -98,12 +98,12 @@ class _AddPageState extends State<AddPage> {
                 body: _AddPageBody(
                   onTitleChanged: (newValue) {
                     setState(() {
-                      _title = newValue;
+                      // _title = newValue;
                     });
                   },
                   onImageUrlChanged: (newValue) {
                     setState(() {
-                      _imageURL = newValue;
+                      // _imageURL = newValue;
                     });
                   },
                   onDateChanged: (newValue) {

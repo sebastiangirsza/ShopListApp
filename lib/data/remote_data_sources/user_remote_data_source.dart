@@ -12,4 +12,19 @@ class UserRemoteDataSource {
   FirebaseAuth getInstance() {
     return FirebaseAuth.instance;
   }
+
+  // Future<UserCredential> logIn({email, password}) {
+  //   return FirebaseAuth.instance.signInWithEmailAndPassword(
+  //     email: email,
+  //     password: password,
+  //   );
+  // }
+
+  bool emailVerified() {
+    return FirebaseAuth.instance.currentUser!.emailVerified;
+  }
+
+  Future<void> sendEmailVerification() {
+    return FirebaseAuth.instance.currentUser!.sendEmailVerification();
+  }
 }

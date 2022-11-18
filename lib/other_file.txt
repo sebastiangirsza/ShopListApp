@@ -261,3 +261,58 @@ BottomNavigationBar(
                               ),
                             ),
                     ),
+
+
+
+
+            @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  Future checkEmailVerified() async {
+    await FirebaseAuth.instance.currentUser!.reload();
+
+    setState(() {
+      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+    });
+
+    if (isEmailVerified) timer?.cancel();
+  }
+
+  Future sendVerificationEmail() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser!;
+      await user.sendEmailVerification();
+
+      setState(() => canResendEmail = false);
+      await Future.delayed(const Duration(seconds: 1));
+      setState(() => canResendEmail = true);
+    } catch (error) {
+      if (error.toString() ==
+          '[firebase_auth/too-many-requests] We have blocked all requests from this device due to unusual activity. Try again later.') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              textAlign: TextAlign.center,
+              'Email został wysłany ponownie. Jeśli go nie otrzymałeś poczekaj trochę lub spróbuj ponownie później.',
+              style: GoogleFonts.getFont(
+                'Saira',
+                fontSize: 12,
+                color: const Color.fromARGB(255, 0, 63, 114),
+              ),
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              error.toString(),
+            ),
+          ),
+        );
+      }
+    }
+  }  

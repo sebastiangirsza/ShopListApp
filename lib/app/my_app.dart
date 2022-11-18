@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -151,21 +150,52 @@ class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          AuthCubit(FirebaseAuthRespository(UserRemoteDataSource()))..start(),
+      create: (context) => AuthCubit(
+        FirebaseAuthRespository(UserRemoteDataSource()),
+        UserRemoteDataSource(),
+      )..start(),
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           final user = state.user;
+
           if (user == null) {
             return LoginPage();
           }
-          return const VerifyEmailPage();
+          return BlocProvider(
+            create: (context) => VerificationCubit(UserRemoteDataSource()),
+            child: BlocBuilder<VerificationCubit, VerificationState>(
+              builder: (context, state) {
+                return BlocListener<VerificationCubit, VerificationState>(
+                  listener: (context, state) {
+                    if (state.sent == true) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content:
+                              Text('Wystąpił błąd. Spróbuj ponownie później.'),
+                        ),
+                      );
+                    }
+                    if (state.sent == false) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'Email z linkiem aktywacyjnym został wysłany.'),
+                        ),
+                      );
+                    }
+                  },
+                  child: const VerifyEmailPage(),
+                );
+              },
+            ),
+          );
         },
       ),
     );
   }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({
     Key? key,
@@ -178,50 +208,20 @@ class VerifyEmailPage extends StatefulWidget {
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
   bool isEmailVerified = false;
   bool canResendEmail = false;
-  Timer? timer;
 
   @override
   void initState() {
     super.initState();
-    isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+
+    isEmailVerified = context.read<AuthCubit>().isEmailVerified();
 
     if (!isEmailVerified) {
-      sendVerificationEmail();
+      context.read<VerificationCubit>().sendVerificationEmail();
 
-      timer = Timer.periodic(
-        const Duration(seconds: 3),
-        (_) => checkEmailVerified(),
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
-  }
-
-  Future checkEmailVerified() async {
-    await FirebaseAuth.instance.currentUser!.reload();
-
-    setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    });
-
-    if (isEmailVerified) timer?.cancel();
-  }
-
-  Future sendVerificationEmail() async {
-    try {
-      final user = FirebaseAuth.instance.currentUser!;
-      await user.sendEmailVerification();
-
-      setState(() => canResendEmail = false);
-      await Future.delayed(const Duration(seconds: 5));
-      setState(() => canResendEmail = true);
-    } catch (error) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.toString())));
+      setState(() {
+        canResendEmail = true;
+      });
+      context.read<AuthCubit>().checkEmailVerified(isEmailVerified);
     }
   }
 
@@ -244,66 +244,71 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
           ),
           child: Scaffold(
             body: Center(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50.0),
-              child: Container(
-                constraints: const BoxConstraints(
-                  maxHeight: double.infinity,
-                ),
-                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Colors.white,
-                  boxShadow: const <BoxShadow>[
-                    BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 3,
-                        offset: Offset(3, 3))
-                  ],
-                ),
-                child: ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    Text(
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.getFont('Saira',
-                          fontSize: 12,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                child: Container(
+                  constraints: const BoxConstraints(
+                    maxHeight: double.infinity,
+                  ),
+                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
                           color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                      'Na podany adres e-mail został\nwysłany link aktywacyjny.\nWejdź w niego aby kontynuować.',
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 0, 63, 114)),
-                      onPressed: () {
-                        canResendEmail ? sendVerificationEmail() : null;
-                      },
-                      icon: const Icon(Icons.email, size: 32),
-                      label: Text(
-                        'Wyślij email z linkiem aktywacyjnym ponownie',
+                          blurRadius: 3,
+                          offset: Offset(3, 3))
+                    ],
+                  ),
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      Text(
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.getFont('Saira',
-                            fontSize: 10,
-                            color: Colors.white,
+                            fontSize: 12,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold),
+                        'Na podany adres e-mail został\nwysłany link aktywacyjny.\nWejdź w niego aby kontynuować.',
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () => FirebaseAuth.instance.signOut(),
-                      child: Text(
-                        'Anuluj',
-                        style: GoogleFonts.getFont('Saira',
-                            fontSize: 10,
-                            color: const Color.fromARGB(255, 0, 63, 114),
-                            fontWeight: FontWeight.bold),
+                      const SizedBox(height: 10),
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 0, 63, 114)),
+                        onPressed: () {
+                          context
+                              .read<VerificationCubit>()
+                              .sendVerificationEmail();
+                        },
+                        icon: const Icon(Icons.email, size: 32),
+                        label: Text(
+                          'Wyślij email z linkiem aktywacyjnym ponownie',
+                          style: GoogleFonts.getFont('Saira',
+                              fontSize: 10,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    )
-                  ],
+                      TextButton(
+                        onPressed: () {
+                          context.read<AuthCubit>().logOut();
+                        },
+                        child: Text(
+                          'Anuluj',
+                          style: GoogleFonts.getFont('Saira',
+                              fontSize: 10,
+                              color: const Color.fromARGB(255, 0, 63, 114),
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            )),
+            ),
           ),
         );
 }

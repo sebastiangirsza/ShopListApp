@@ -18,14 +18,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  @override
-  void dispose() {
-    widget.emailController.dispose();
-    widget.passwordController.dispose();
-    widget.confirmPasswordController.dispose();
-    print('Dispose used');
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   widget.emailController.dispose();
+  //   widget.passwordController.dispose();
+  //   widget.confirmPasswordController.dispose();
+  //   print('Dispose used');
+  //   super.dispose();
+  // }
 
   var isCreatingAccount = false;
 
@@ -204,20 +204,15 @@ class _LoginPageState extends State<LoginPage> {
                                       email: widget.emailController.text,
                                       password: widget.passwordController.text,
                                     );
-                                // dispose();
                               }
                             } catch (error) {
                               const Text('ERROR');
                             }
                           } else {
-                            try {
-                              context.read<AuthCubit>().logIn(
-                                    email: widget.emailController.text,
-                                    password: widget.passwordController.text,
-                                  );
-                            } catch (error) {
-                              print(error.toString());
-                            }
+                            context.read<AuthCubit>().logIn(
+                                  email: widget.emailController.text,
+                                  password: widget.passwordController.text,
+                                );
                           }
                         },
                         child: Text(isCreatingAccount == true
