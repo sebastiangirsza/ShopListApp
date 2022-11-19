@@ -59,42 +59,45 @@ class OneProductWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 10),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 0, 63, 114),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                  ),
-                  onPressed: () {
-                    (productModel.isChecked == true)
-                        ? showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              return AddToStorageAlertDialogWidget(
-                                  productModel: productModel);
-                            })
-                        : ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              duration: const Duration(milliseconds: 600),
-                              content: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                      style: GoogleFonts.getFont('Saira',
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                      'Produkt nie został kupiony'),
-                                ],
+                SizedBox(
+                  width: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 0, 63, 114),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                    ),
+                    onPressed: () {
+                      (productModel.isChecked == true)
+                          ? showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return AddToStorageAlertDialogWidget(
+                                    productModel: productModel);
+                              })
+                          : ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: const Duration(milliseconds: 600),
+                                content: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        style: GoogleFonts.getFont('Saira',
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                        'Produkt nie został kupiony'),
+                                  ],
+                                ),
+                                backgroundColor: Colors.blue,
                               ),
-                              backgroundColor: Colors.blue,
-                            ),
-                          );
-                  },
-                  child: const Icon(
-                      size: 17,
-                      color: Colors.white,
-                      Icons.shopping_bag_outlined),
+                            );
+                    },
+                    child: const Icon(
+                        size: 17,
+                        color: Colors.white,
+                        Icons.shopping_bag_outlined),
+                  ),
                 ),
               ],
             )

@@ -46,9 +46,13 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
                   'Wybierz miejsce przechowywania',
                   textAlign: TextAlign.center,
                 ),
-                content: SizedBox(
-                  height: (productTypeName != 'gramy') ? 130 : 180,
-                  child: Column(
+                content: Container(
+                  constraints: const BoxConstraints(
+                    maxHeight: double.infinity,
+                  ),
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     children: [
                       Container(
                         decoration: BoxDecoration(

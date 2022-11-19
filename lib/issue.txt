@@ -1,0 +1,9 @@
+++1. Kategoria mrożonki, dania gotowe, sosy
+++2. Kolory list_icon
+++3. Dodowanie produktu z poziomu kategorii
+4. Zmiana ilości produktów do kupienia
+++5. Opakowanie butelki, słoiki
+6. Usuwanie przepisów
+7. Storage spiżarnia
+8. Zmiana ilości w storage
+++9. SVG ikony do nawych kategorii

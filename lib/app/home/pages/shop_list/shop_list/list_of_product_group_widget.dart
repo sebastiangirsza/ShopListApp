@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/cubit/product_cubit.dart';
+import 'package:shoplistapp/app/home/pages/shop_list/shop_list/add_button_widget.dart';
+import 'package:shoplistapp/app/home/pages/shop_list/shop_list/floating_action_button_widget.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list/list_of_product_group/products_dismissible_widget.dart';
 import 'package:shoplistapp/app/repositories/product_repository.dart';
 import 'package:shoplistapp/data/remote_data_sources/product_remote_data_source.dart';
@@ -25,6 +27,9 @@ class ListOfProductsGroupWidget extends StatelessWidget {
       'Chemia',
       'Przekąski',
       'Napoje',
+      'Mrożonki',
+      'Dania gotowe',
+      'Sosy',
       'Inne',
     ];
 
@@ -38,6 +43,9 @@ class ListOfProductsGroupWidget extends StatelessWidget {
       'images/icons/chemistry_icon.svg',
       'images/icons/snacks_icon.svg',
       'images/icons/drinks_icon.svg',
+      'images/icons/frosty_icon.svg',
+      'images/icons/pizza_icon.svg',
+      'images/icons/sauce_icon.svg',
       'images/icons/other_icon.svg',
     ];
     return ListView(
@@ -95,26 +103,28 @@ class ListOfProductsGroupWidget extends StatelessWidget {
                                             productsNumber != '0')
                                           Image.asset(
                                             'images/list_icon/list_empty.png',
-                                            width: 20,
+                                            width: 21,
                                           )
                                         else if (productsCheckedNumber == '0' &&
                                             productsNumber == '0')
                                           Image.asset(
                                             'images/list_icon/list_empty.png',
-                                            width: 20,
+                                            width: 21,
                                           )
                                         else
                                           Image.asset(
                                             'images/list_icon/list_check.png',
-                                            width: 20,
+                                            width: 21,
                                           ),
                                         if (productsCheckedNumber != '0')
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 5.0),
+                                            padding: const EdgeInsets.only(
+                                                left: 1, top: 5.0),
                                             child: Text(
                                               productsCheckedNumber,
-                                              style: const TextStyle(
+                                              style: GoogleFonts.getFont(
+                                                'Saira',
+                                                fontSize: 13,
                                                 color: Colors.white,
                                               ),
                                             ),
@@ -140,12 +150,15 @@ class ListOfProductsGroupWidget extends StatelessWidget {
                                               categoriesName[index],
                                               style: GoogleFonts.getFont(
                                                   'Saira',
-                                                  fontSize: 22,
+                                                  fontSize: 21,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ],
                                         ),
+                                      ),
+                                      AddButtonWidget(
+                                        productGroup: categoriesName[index],
                                       ),
                                     ],
                                   ),

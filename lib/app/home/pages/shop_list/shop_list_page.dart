@@ -10,7 +10,8 @@ class ShopListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-        body: ListOfProductsGroupWidget(),
-        floatingActionButton: FloatingActionButtonWidget());
+      body: ListOfProductsGroupWidget(),
+      // floatingActionButton: FloatingActionButtonWidget()
+    );
   }
 }
