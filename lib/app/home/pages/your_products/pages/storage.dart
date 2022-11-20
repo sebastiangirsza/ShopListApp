@@ -263,7 +263,7 @@ class _OneProductState extends State<_OneProduct> {
                                                 context: context,
                                                 builder:
                                                     (BuildContext builder) {
-                                                  return CupertinoPopupSurfaceWidget(
+                                                  return AddDateWidget(
                                                     purchasedProductsModel: widget
                                                         .purchasedProductsModel,
                                                   );
@@ -281,21 +281,17 @@ class _OneProductState extends State<_OneProduct> {
                                                   const Color.fromARGB(
                                                       255, 0, 63, 114),
                                             ),
-                                            onPressed: () {
-                                              context
-                                                  .read<YourProductsCubit>()
-                                                  .isDated(
-                                                    isDated: false,
-                                                    documentID: widget
-                                                        .purchasedProductsModel
-                                                        .id,
-                                                    purchasedProductDate:
-                                                        DateTime(2101),
-                                                  );
-                                              setState(() {
-                                                isDated = !isDated;
-                                              });
-                                            },
+                                            onPressed: () => showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return DeleteDateAlertDialog(
+                                                        isDated: isDated,
+                                                        purchasedProductModel:
+                                                            widget
+                                                                .purchasedProductsModel);
+                                                  },
+                                                ),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -363,6 +359,122 @@ class _OneProductState extends State<_OneProduct> {
   }
 }
 
+class DeleteDateAlertDialog extends StatelessWidget {
+  const DeleteDateAlertDialog({
+    Key? key,
+    required this.isDated,
+    required this.purchasedProductModel,
+  }) : super(key: key);
+
+  final bool isDated;
+  final PurchasedProductModel purchasedProductModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))),
+          backgroundColor: const Color.fromARGB(255, 200, 233, 255),
+          title: Text(
+            'Czy chcesz trwale usunąć datę ważności?',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.getFont('Saira',
+                fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          content: Container(
+            constraints: const BoxConstraints(
+              maxHeight: double.infinity,
+            ),
+            child: ListView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'Nie',
+                          style: GoogleFonts.getFont('Saira',
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    DeleteDateElevatedButton(
+                      isDated: isDated,
+                      purchasedProductModel: purchasedProductModel,
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class DeleteDateElevatedButton extends StatefulWidget {
+  const DeleteDateElevatedButton({
+    required this.purchasedProductModel,
+    required this.isDated,
+    super.key,
+  });
+
+  final PurchasedProductModel purchasedProductModel;
+  final bool isDated;
+
+  @override
+  State<DeleteDateElevatedButton> createState() =>
+      _DeleteDateElevatedButtonState();
+}
+
+class _DeleteDateElevatedButtonState extends State<DeleteDateElevatedButton> {
+  @override
+  Widget build(BuildContext context) {
+    bool isDated = widget.isDated;
+    return BlocProvider(
+      create: (context) => YourProductsCubit(PurchasedProductsRepository(
+          PurchasedProductsRemoteDataSource(), UserRemoteDataSource())),
+      child: BlocBuilder<YourProductsCubit, YourProductsState>(
+        builder: (context, state) {
+          return Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+              onPressed: () {
+                context.read<YourProductsCubit>().isDated(
+                      isDated: false,
+                      documentID: widget.purchasedProductModel.id,
+                      purchasedProductDate: DateTime(2101),
+                    );
+                setState(() {
+                  isDated = !isDated;
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Tak',
+                style: GoogleFonts.getFont('Saira',
+                    fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
 BoxDecoration daysLeftColors(Color elementColor) {
   return BoxDecoration(
     color: elementColor,
@@ -377,20 +489,18 @@ BoxDecoration daysLeftColors(Color elementColor) {
   );
 }
 
-class CupertinoPopupSurfaceWidget extends StatefulWidget {
-  const CupertinoPopupSurfaceWidget({
+class AddDateWidget extends StatefulWidget {
+  const AddDateWidget({
     required this.purchasedProductsModel,
     Key? key,
   }) : super(key: key);
   final PurchasedProductModel purchasedProductsModel;
 
   @override
-  State<CupertinoPopupSurfaceWidget> createState() =>
-      _CupertinoPopupSurfaceWidgetState();
+  State<AddDateWidget> createState() => _AddDateWidgetState();
 }
 
-class _CupertinoPopupSurfaceWidgetState
-    extends State<CupertinoPopupSurfaceWidget> {
+class _AddDateWidgetState extends State<AddDateWidget> {
   DateTime? purchasedProductDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
