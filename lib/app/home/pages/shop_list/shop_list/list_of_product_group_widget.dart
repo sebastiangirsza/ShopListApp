@@ -107,7 +107,7 @@ class ListOfProductsGroupWidget extends StatelessWidget {
                                         else if (productsCheckedNumber == '0' &&
                                             productsNumber == '0')
                                           Image.asset(
-                                            'images/list_icon/list_empty.png',
+                                            'images/list_icon/list_empty_grey.png',
                                             width: 21,
                                           )
                                         else
