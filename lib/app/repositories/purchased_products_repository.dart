@@ -31,6 +31,7 @@ class PurchasedProductsRepository {
     List listaProcura,
     String productTypeName,
     int productPortion,
+    bool frozen,
   ) async {
     final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {
@@ -45,6 +46,7 @@ class PurchasedProductsRepository {
       listaProcura,
       productTypeName,
       productPortion,
+      frozen,
     );
   }
 
@@ -67,6 +69,7 @@ class PurchasedProductsRepository {
   Future<void> updateStorage(
     String storageName,
     String id,
+    bool frozen,
   ) async {
     final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {
@@ -75,6 +78,7 @@ class PurchasedProductsRepository {
     await _purchasedProductRemoteDataSource.updateStorage(
       storageName,
       id,
+      frozen,
     );
   }
 

@@ -204,8 +204,7 @@ class _OneProductState extends State<_OneProduct> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
               child: Container(
-                decoration: (widget.purchasedProductsModel.storageName !=
-                        'Zamrażarka')
+                decoration: (widget.purchasedProductsModel.frozen != true)
                     ? (widget.purchasedProductsModel.isDated == true)
                         ? (widget.purchasedProductsModel.daysLeft() < 0)
                             ? daysLeftColors(
@@ -297,8 +296,8 @@ class _OneProductState extends State<_OneProduct> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 (widget.purchasedProductsModel
-                                                            .storageName ==
-                                                        'Zamrażarka')
+                                                            .frozen ==
+                                                        true)
                                                     ? const Icon(
                                                         Icons.ac_unit_rounded,
                                                         size: 11)
@@ -608,6 +607,13 @@ class _UpdateStorageWidget extends StatelessWidget {
                                       .read<YourProductsCubit>()
                                       .updateStorage(
                                         storageName: storageName!,
+                                        frozen: (storageName == 'Zamrażarka'
+                                            ? true
+                                            : (widget.purchasedProductsModel
+                                                        .frozen ==
+                                                    true)
+                                                ? true
+                                                : false),
                                         documentID:
                                             widget.purchasedProductsModel.id,
                                       );

@@ -32,6 +32,7 @@ class YourProductsCubit extends Cubit<YourProductsState> {
     List listaProcura,
     String productTypeName,
     int productPortion,
+    bool frozen,
   ) async {
     try {
       await _purchasedProductsRepository.addYourProduct(
@@ -43,6 +44,7 @@ class YourProductsCubit extends Cubit<YourProductsState> {
         listaProcura,
         productTypeName,
         productPortion,
+        frozen,
       );
       emit(const YourProductsState());
     } catch (error) {
@@ -70,11 +72,13 @@ class YourProductsCubit extends Cubit<YourProductsState> {
   Future<void> updateStorage({
     required String storageName,
     required String documentID,
+    required bool frozen,
   }) async {
     try {
       await _purchasedProductsRepository.updateStorage(
         storageName,
         documentID,
+        frozen,
       );
       emit(const YourProductsState());
     } catch (error) {

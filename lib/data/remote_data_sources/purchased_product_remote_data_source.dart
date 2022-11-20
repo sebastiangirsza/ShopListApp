@@ -13,15 +13,15 @@ class PurchasedProductsRemoteDataSource {
   }
 
   Future<void> addYourProduct(
-    String purchasedProductGroup,
-    String purchasedProductName,
-    DateTime purchasedProductDate,
-    String storageName,
-    bool isDated,
-    List listaProcura,
-    String productTypeName,
-    int productPortion,
-  ) async {
+      String purchasedProductGroup,
+      String purchasedProductName,
+      DateTime purchasedProductDate,
+      String storageName,
+      bool isDated,
+      List listaProcura,
+      String productTypeName,
+      int productPortion,
+      bool frozen) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 
     await FirebaseFirestore.instance
@@ -37,6 +37,7 @@ class PurchasedProductsRemoteDataSource {
       'lista_procura': listaProcura,
       'product_type_name': productTypeName,
       'product_portion': productPortion,
+      'frozen': frozen,
     });
   }
 
@@ -60,6 +61,7 @@ class PurchasedProductsRemoteDataSource {
   Future<void> updateStorage(
     String storageName,
     String id,
+    bool frozen,
   ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     await FirebaseFirestore.instance
@@ -69,6 +71,7 @@ class PurchasedProductsRemoteDataSource {
         .doc(id)
         .update({
       'storage_name': storageName,
+      'frozen': frozen,
     });
   }
 

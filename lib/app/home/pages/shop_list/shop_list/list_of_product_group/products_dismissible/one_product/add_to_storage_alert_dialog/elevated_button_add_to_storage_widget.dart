@@ -66,6 +66,8 @@ class ElevatedButtonAddToStorageWidget extends StatelessWidget {
                       }
                     }
                     final int count = productQuantity;
+                    final bool frozen =
+                        (storageName == 'Zamrażarka' ? true : false);
 
                     for (var i = 0; i < count; i++) {
                       context.read<YourProductsCubit>().addYourProduct(
@@ -77,6 +79,7 @@ class ElevatedButtonAddToStorageWidget extends StatelessWidget {
                             listaProcura,
                             productTypeName,
                             productPortion,
+                            frozen,
                           );
                     }
                     context
