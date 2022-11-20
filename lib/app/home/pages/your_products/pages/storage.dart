@@ -42,7 +42,9 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                   const Icon(Icons.door_sliding_outlined)),
               storageInkWell(3, 'Chemia',
                   const Icon(Icons.local_laundry_service_outlined)),
-              storageInkWell(4, 'Inne', const Icon(Icons.more_horiz_outlined)),
+              storageInkWell(
+                  4, 'Spiżarnia', const Icon(Icons.door_front_door_outlined)),
+              storageInkWell(5, 'Inne', const Icon(Icons.more_horiz_outlined)),
             ],
           ),
         ),
@@ -89,8 +91,11 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                                   : (currentIndex == 3)
                                       ? const _List(storageName: 'Chemia')
                                       : (currentIndex == 4)
-                                          ? const _List(storageName: 'Inne')
-                                          : Container(),
+                                          ? const _List(
+                                              storageName: 'Spiżarnia')
+                                          : (currentIndex == 5)
+                                              ? const _List(storageName: 'Inne')
+                                              : Container(),
                     ],
                   ),
                 ),
@@ -114,7 +119,7 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
       }),
       child: Container(
         height: 35,
-        width: width * 0.16,
+        width: width * 0.13,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: (currentIndex == index)
@@ -411,18 +416,6 @@ class _CupertinoPopupSurfaceWidgetState
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  // (widget.purchasedProductsModel.storageName == 'Zamrażarka')
-                  //     ? Text(
-                  //         'Data ważności produktów przechowywanych w zamrażarce może się wydłużyć',
-                  //         style: GoogleFonts.getFont(
-                  //           'Saira',
-                  //           fontSize: 8,
-                  //           color: Colors.black,
-                  //           decoration: TextDecoration.none,
-                  //           fontWeight: FontWeight.bold,
-                  //         ),
-                  //       )
-                  //     : const Text(''),
                   const SizedBox(
                     height: 10,
                   ),
@@ -544,6 +537,7 @@ class _UpdateStorageWidget extends StatelessWidget {
                             'Zamrażarka',
                             'Szafka kuchenna',
                             'Chemia',
+                            'Spiżarnia',
                             'Inne',
                           ].map<DropdownMenuItem<String>>(
                             (storageName) {

@@ -4,7 +4,7 @@
 4. Zmiana ilości produktów do kupienia
 ++5. Opakowanie butelki, słoiki
 ++6. Usuwanie przepisów
-7. Storage spiżarnia
-8. Zmiana ilości w storage
+++7. Storage spiżarnia
+8. Zmiana ilości gram w storage
 ++9. SVG ikony do nawych kategorii
-10. Oznaczenie produktów wyjętych z zamrażarki
+++10. Oznaczenie produktów wyjętych z zamrażarki

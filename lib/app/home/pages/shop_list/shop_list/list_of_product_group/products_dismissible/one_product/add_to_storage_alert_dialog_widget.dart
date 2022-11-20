@@ -89,6 +89,7 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
                             'Zamrażarka',
                             'Szafka kuchenna',
                             'Chemia',
+                            'Spiżarnia',
                             'Inne',
                           ].map<DropdownMenuItem<String>>(
                             (storageName) {
