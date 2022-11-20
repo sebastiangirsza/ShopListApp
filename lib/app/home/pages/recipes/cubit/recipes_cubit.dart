@@ -70,4 +70,8 @@ class RecipesCubit extends Cubit<RecipesState> {
     _streamSubscription?.cancel();
     return super.close();
   }
+
+  Future<void> delete({required String documentID}) {
+    return _recipesRepository.delete(id: documentID);
+  }
 }

@@ -187,6 +187,7 @@ class RecipesGridView extends StatelessWidget {
                         ),
                       ],
                     ),
+                    DeleteRecipesWidget(recipesModel: recipesModel)
                   ],
                 ),
                 onTap: () {
@@ -201,5 +202,125 @@ class RecipesGridView extends StatelessWidget {
             )
           ],
         ]);
+  }
+}
+
+class DeleteRecipesWidget extends StatelessWidget {
+  const DeleteRecipesWidget({
+    Key? key,
+    required this.recipesModel,
+  }) : super(key: key);
+
+  final RecipesModel recipesModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+        alignment: Alignment.topRight,
+        child: Container(
+          height: 35,
+          width: 35,
+          decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.8),
+              borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10))),
+          child: IconButton(
+              onPressed: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return BlocProvider(
+                      create: (context) => RecipesCubit(
+                          RecipesRepository(RecipesRemoteDataSource(),
+                              UserRemoteDataSource()),
+                          UserRespository(UserRemoteDataSource()),
+                          StorageRemoteDataSource())
+                        ..recipes(),
+                      child: BlocBuilder<RecipesCubit, RecipesState>(
+                        builder: (context, state) {
+                          return StatefulBuilder(builder:
+                              (BuildContext context, StateSetter setState) {
+                            return AlertDialog(
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0))),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 200, 233, 255),
+                              title: Text(
+                                style: GoogleFonts.getFont('Saira',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                                'Czy na pewno chcesz usunąć przepis?',
+                                textAlign: TextAlign.center,
+                              ),
+                              content: Container(
+                                  constraints: const BoxConstraints(
+                                    maxHeight: double.infinity,
+                                  ),
+                                  child: ListView(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.white),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text(
+                                                  'Nie',
+                                                  style: GoogleFonts.getFont(
+                                                      'Saira',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black),
+                                                )),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Expanded(
+                                            child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.black),
+                                                onPressed: () {
+                                                  context
+                                                      .read<RecipesCubit>()
+                                                      .delete(
+                                                          documentID:
+                                                              recipesModel.id);
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text(
+                                                  'Tak',
+                                                  style: GoogleFonts.getFont(
+                                                      'Saira',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                )),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  )),
+                            );
+                          });
+                        },
+                      ),
+                    );
+                  }),
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.black,
+                size: 20,
+              )),
+        ));
   }
 }

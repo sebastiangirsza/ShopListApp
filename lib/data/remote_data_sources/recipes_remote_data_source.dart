@@ -34,4 +34,14 @@ class RecipesRemoteDataSource {
       'download_url': downloadURL,
     });
   }
+
+  Future<void> delete({required String id}) {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('recipes')
+        .doc(id)
+        .delete();
+  }
 }
