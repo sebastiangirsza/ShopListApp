@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -333,15 +334,9 @@ class _OneProductState extends State<_OneProduct> {
                               ),
                             )
                           else
-                            Text(
-                              '1 porcja (${widget.purchasedProductsModel.productPortion.toString()} gram)',
-                              style: GoogleFonts.getFont(
-                                'Saira',
-                                fontSize: 8,
-                                color: const Color.fromARGB(255, 0, 63, 114),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            UpdateProductQuantityGram(
+                                purchasedProductModel:
+                                    widget.purchasedProductsModel),
                           const SizedBox(
                             height: 5,
                           )
@@ -355,6 +350,166 @@ class _OneProductState extends State<_OneProduct> {
           );
         },
       ),
+    );
+  }
+}
+
+class UpdateProductQuantityGram extends StatelessWidget {
+  const UpdateProductQuantityGram({
+    Key? key,
+    required this.purchasedProductModel,
+  }) : super(key: key);
+
+  final PurchasedProductModel purchasedProductModel;
+
+  @override
+  Widget build(BuildContext context) {
+    int quantityGram = purchasedProductModel.productPortion;
+    return InkWell(
+      onTap: () => showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+              return AlertDialog(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                backgroundColor: const Color.fromARGB(255, 200, 233, 255),
+                title: Text(
+                  'Zmień wielkość porcji',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.getFont('Saira',
+                      fontWeight: FontWeight.bold, color: Colors.black),
+                ),
+                content: ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    Container(
+                      constraints: const BoxConstraints(
+                        maxHeight: double.infinity,
+                      ),
+                      child: Container(
+                        decoration: boxDecoration(),
+                        child: TextField(
+                          style: GoogleFonts.getFont(
+                            'Saira',
+                            fontSize: 12,
+                            color: Colors.black,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            labelStyle: GoogleFonts.getFont(
+                              'Saira',
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
+                            label: const Text(
+                              'Wielkość porcji: ',
+                            ),
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          onChanged: (newQuantityGram) {
+                            final quantityGrams = int.tryParse(newQuantityGram);
+                            setState(
+                              () {
+                                quantityGram =
+                                    (quantityGrams == null) ? 0 : quantityGrams;
+                              },
+                            );
+                          },
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'Anuluj',
+                              style: GoogleFonts.getFont('Saira',
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        BlocProvider(
+                          create: (context) => YourProductsCubit(
+                              PurchasedProductsRepository(
+                                  PurchasedProductsRemoteDataSource(),
+                                  UserRemoteDataSource())),
+                          child:
+                              BlocBuilder<YourProductsCubit, YourProductsState>(
+                            builder: (context, state) {
+                              return Expanded(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.black),
+                                  onPressed: () {
+                                    context
+                                        .read<YourProductsCubit>()
+                                        .updatePortion(
+                                          documentID: purchasedProductModel.id,
+                                          productPortion: quantityGram,
+                                        );
+
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    'Potwierdź',
+                                    style: GoogleFonts.getFont('Saira',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(width: 10),
+                  ],
+                ),
+              );
+            });
+          }),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.edit,
+            size: 13,
+            color: Colors.black,
+          ),
+          const SizedBox(width: 3),
+          Text(
+            '1 porcja (${purchasedProductModel.productPortion.toString()} gram)',
+            style: GoogleFonts.getFont(
+              'Saira',
+              fontSize: 8,
+              color: const Color.fromARGB(255, 0, 63, 114),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  BoxDecoration boxDecoration() {
+    return BoxDecoration(
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
+      color: Colors.white.withOpacity(0.5),
     );
   }
 }

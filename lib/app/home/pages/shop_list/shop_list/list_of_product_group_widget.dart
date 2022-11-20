@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/cubit/product_cubit.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list/add_button_widget.dart';
-import 'package:shoplistapp/app/home/pages/shop_list/shop_list/floating_action_button_widget.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list/list_of_product_group/products_dismissible_widget.dart';
 import 'package:shoplistapp/app/repositories/product_repository.dart';
 import 'package:shoplistapp/data/remote_data_sources/product_remote_data_source.dart';

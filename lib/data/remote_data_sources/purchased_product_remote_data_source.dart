@@ -75,6 +75,21 @@ class PurchasedProductsRemoteDataSource {
     });
   }
 
+  Future<void> updatePortion(
+    int productPortion,
+    String id,
+  ) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('purchased_products')
+        .doc(id)
+        .update({
+      'product_portion': productPortion,
+    });
+  }
+
   Future<void> deletePurchasedProduct({required String id}) {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 

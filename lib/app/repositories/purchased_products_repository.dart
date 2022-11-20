@@ -82,6 +82,20 @@ class PurchasedProductsRepository {
     );
   }
 
+  Future<void> updatePortion(
+    int productPortion,
+    String documentID,
+  ) async {
+    final userID = _userRemoteDataSource.getUserID();
+    if (userID == null) {
+      throw Exception('Użytkownik nie jest zalogowany');
+    }
+    await _purchasedProductRemoteDataSource.updatePortion(
+      productPortion,
+      documentID,
+    );
+  }
+
   Future<void> deletePurchasedProduct({required String id}) {
     final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {

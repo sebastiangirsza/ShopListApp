@@ -86,6 +86,21 @@ class YourProductsCubit extends Cubit<YourProductsState> {
     }
   }
 
+  Future<void> updatePortion({
+    required int productPortion,
+    required String documentID,
+  }) async {
+    try {
+      await _purchasedProductsRepository.updatePortion(
+        productPortion,
+        documentID,
+      );
+      emit(const YourProductsState());
+    } catch (error) {
+      null;
+    }
+  }
+
   Future<void> deletePurchasedProduct({required String documentID}) {
     return _purchasedProductsRepository.deletePurchasedProduct(id: documentID);
   }
