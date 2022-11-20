@@ -51,6 +51,27 @@ class ProductRemoteDataSource {
     });
   }
 
+  Future<void> updateProduct(
+    String id,
+    int productQuantity,
+    String productName,
+    String productTypeName,
+    int quantityGram,
+  ) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('products')
+        .doc(id)
+        .update({
+      'product_name': productName,
+      'product_quantity': productQuantity,
+      'product_type_name': productTypeName,
+      'quantity_gram': quantityGram,
+    });
+  }
+
   Future<void> delete({required String id}) {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     return FirebaseFirestore.instance

@@ -52,7 +52,6 @@ class _AddButtonWidgetState extends State<AddButtonWidget> {
                     constraints: const BoxConstraints(
                       maxHeight: double.infinity,
                     ),
-                    // height: (productTypeName != null) ? 275 : 220,
                     child: ListView(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),

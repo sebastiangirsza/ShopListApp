@@ -8,3 +8,4 @@
 8. Zmiana ilości gram w storage
 ++9. SVG ikony do nawych kategorii
 ++10. Oznaczenie produktów wyjętych z zamrażarki
+11. Komunikat przy usuwaniu daty ważności

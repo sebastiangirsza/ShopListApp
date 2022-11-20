@@ -64,6 +64,26 @@ class ProductsRepository {
     await _productRemoteDataSource.isChecked(isChecked, id);
   }
 
+  Future<void> updateProduct(
+    String documentID,
+    int productQuantity,
+    String productName,
+    String productTypeName,
+    int quantityGram,
+  ) async {
+    final userID = _userRemoteDataSource.getUserID();
+    if (userID == null) {
+      throw Exception('Użytkownik nie jest zalogowany');
+    }
+    await _productRemoteDataSource.updateProduct(
+      documentID,
+      productQuantity,
+      productName,
+      productTypeName,
+      quantityGram,
+    );
+  }
+
   Future<void> delete({required String id}) {
     final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {
