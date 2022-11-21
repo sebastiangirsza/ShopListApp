@@ -6,7 +6,7 @@ import 'package:numberpicker/numberpicker.dart';
 
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list/list_of_product_group/products_dismissible/one_product/add_to_storage_alert_dialog/elevated_button_add_to_storage_widget.dart';
 
-import 'package:shoplistapp/app/home/pages/your_products/cubit/your_products_cubit.dart';
+import 'package:shoplistapp/app/home/pages/your_products/cubit/purchased_products_cubit.dart';
 import 'package:shoplistapp/app/models/product_model.dart';
 import 'package:shoplistapp/app/repositories/purchased_products_repository.dart';
 import 'package:shoplistapp/data/remote_data_sources/purchased_product_remote_data_source.dart';
@@ -186,9 +186,9 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
                                     },
                                     textAlign: TextAlign.center,
                                   ),
-                                )
+                                ),
                               ],
-                            )
+                            ),
                     ],
                   ),
                 ),

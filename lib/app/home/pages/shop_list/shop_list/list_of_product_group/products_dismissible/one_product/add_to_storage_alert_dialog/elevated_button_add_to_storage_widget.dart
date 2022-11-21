@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/cubit/add_product_cubit.dart';
-import 'package:shoplistapp/app/home/pages/your_products/cubit/your_products_cubit.dart';
+import 'package:shoplistapp/app/home/pages/your_products/cubit/purchased_products_cubit.dart';
 import 'package:shoplistapp/app/models/product_model.dart';
 import 'package:shoplistapp/app/repositories/product_repository.dart';
 import 'package:shoplistapp/data/remote_data_sources/product_remote_data_source.dart';

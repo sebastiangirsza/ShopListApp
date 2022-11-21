@@ -6,7 +6,7 @@ import 'package:shoplistapp/app/cubit/auth_cubit.dart';
 import 'package:shoplistapp/app/home/pages/calendar/calendar.dart';
 import 'package:shoplistapp/app/home/pages/recipes/recipes.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list_page.dart';
-import 'package:shoplistapp/app/home/pages/your_products/pages/storage.dart';
+import 'package:shoplistapp/app/home/pages/your_products/purchased_products/purchased_products.dart';
 import 'package:shoplistapp/app/repositories/firebase_auth_repository.dart';
 
 import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';

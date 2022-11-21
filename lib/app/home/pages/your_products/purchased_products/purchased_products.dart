@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:shoplistapp/app/home/pages/your_products/cubit/your_products_cubit.dart';
+import 'package:numberpicker/numberpicker.dart';
+import 'package:shoplistapp/app/home/pages/your_products/cubit/purchased_products_cubit.dart';
 import 'package:shoplistapp/app/models/purchased_product_model.dart';
 import 'package:shoplistapp/app/repositories/purchased_products_repository.dart';
 import 'package:shoplistapp/data/remote_data_sources/purchased_product_remote_data_source.dart';
@@ -23,7 +24,7 @@ class PurchasedProductsPage extends StatefulWidget {
 
 class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
   var currentIndex = 0;
-  var title = 'Lodówka';
+  var storageNames = 'Lodówka';
 
   @override
   Widget build(BuildContext context) {
@@ -63,42 +64,75 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                       color: Colors.black, blurRadius: 3, offset: Offset(3, 3))
                 ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
+              child: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
                   ),
-                  height: height,
-                  child: ListView(
-                    children: [
-                      Center(
-                        child: Text(
-                          title,
-                          style: GoogleFonts.getFont(
-                            'Saira',
-                            color: const Color.fromARGB(255, 0, 63, 114),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
+                  color: Colors.white,
+                ),
+                height: height,
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 50, 8, 0),
+                      child: ListView(
+                        children: [
+                          (currentIndex == 0)
+                              ? const _List(storageName: 'Lodówka')
+                              : (currentIndex == 1)
+                                  ? const _List(storageName: 'Zamrażarka')
+                                  : (currentIndex == 2)
+                                      ? const _List(
+                                          storageName: 'Szafka kuchenna')
+                                      : (currentIndex == 3)
+                                          ? const _List(storageName: 'Chemia')
+                                          : (currentIndex == 4)
+                                              ? const _List(
+                                                  storageName: 'Spiżarnia')
+                                              : (currentIndex == 5)
+                                                  ? const _List(
+                                                      storageName: 'Inne')
+                                                  : Container(),
+                        ],
                       ),
-                      (currentIndex == 0)
-                          ? const _List(storageName: 'Lodówka')
-                          : (currentIndex == 1)
-                              ? const _List(storageName: 'Zamrażarka')
-                              : (currentIndex == 2)
-                                  ? const _List(storageName: 'Szafka kuchenna')
-                                  : (currentIndex == 3)
-                                      ? const _List(storageName: 'Chemia')
-                                      : (currentIndex == 4)
-                                          ? const _List(
-                                              storageName: 'Spiżarnia')
-                                          : (currentIndex == 5)
-                                              ? const _List(storageName: 'Inne')
-                                              : Container(),
-                    ],
-                  ),
+                    ),
+                    Container(
+                      height: 50,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10)),
+                        color: Color.fromARGB(255, 0, 63, 114),
+                      ),
+                      child: Stack(
+                        children: [
+                          Expanded(
+                            child: Center(
+                              child: Text(
+                                storageNames,
+                                style: GoogleFonts.getFont(
+                                  'Saira',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              AddPurchasedProductWidget(
+                                storageNames: storageNames,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -108,14 +142,14 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
     );
   }
 
-  Widget storageInkWell(int index, String titles, Icon icon) {
+  Widget storageInkWell(int index, String storageName, Icon icon) {
     double width = MediaQuery.of(context).size.width;
 
     return InkWell(
       onTap: (() {
         setState(() {
           currentIndex = index;
-          title = titles;
+          storageNames = storageName;
         });
       }),
       child: Container(
@@ -129,6 +163,415 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
         ),
         child: icon,
       ),
+    );
+  }
+}
+
+class AddPurchasedProductWidget extends StatelessWidget {
+  const AddPurchasedProductWidget({
+    required this.storageNames,
+    Key? key,
+  }) : super(key: key);
+  final String storageNames;
+
+  @override
+  Widget build(BuildContext context) {
+    DateTime? productDate = DateTime(2100);
+    bool isDated = false;
+    String? productName;
+    String? productGroup;
+    int quantityGram = 0;
+    int productQuantity = 1;
+    String? productTypeName;
+    return InkWell(
+      onTap: () => showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+              return AlertDialog(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                backgroundColor: const Color.fromARGB(255, 200, 233, 255),
+                title: Text(
+                  style: GoogleFonts.getFont('Saira',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      fontSize: 12),
+                  'Dodaj produkt do $storageNames',
+                  textAlign: TextAlign.center,
+                ),
+                content: Container(
+                  constraints: const BoxConstraints(
+                    maxHeight: double.infinity,
+                  ),
+                  child: ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        Container(
+                          decoration: boxDecoration(),
+                          child: TextField(
+                            style: GoogleFonts.getFont(
+                              'Saira',
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              labelStyle: GoogleFonts.getFont(
+                                'Saira',
+                                fontSize: 12,
+                                color: Colors.black,
+                              ),
+                              label: const Text(
+                                'Nazwa produktu',
+                              ),
+                            ),
+                            onChanged: (newProduct) {
+                              setState(() {
+                                productName = newProduct;
+                              });
+                            },
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Container(
+                          decoration: boxDecoration(),
+                          child: DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              label: Text(
+                                'Kategoria',
+                                style: GoogleFonts.getFont('Saira',
+                                    fontSize: 12, color: Colors.black),
+                              ),
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                            iconDisabledColor: Colors.black,
+                            iconEnabledColor: Colors.black,
+                            dropdownColor: Colors.white,
+                            isExpanded: true,
+                            value: productGroup,
+                            onChanged: (newProduct) {
+                              setState(() {
+                                productGroup = newProduct!;
+                              });
+                            },
+                            items: <String>[
+                              'Warzywa',
+                              'Owoce',
+                              'Mięso',
+                              'Pieczywo',
+                              'Suche produkty',
+                              'Nabiał',
+                              'Chemia',
+                              'Przekąski',
+                              'Napoje',
+                              'Inne',
+                            ].map<DropdownMenuItem<String>>(
+                              (productGroup) {
+                                return DropdownMenuItem<String>(
+                                  value: productGroup,
+                                  child: Center(
+                                    child: Text(
+                                      style: GoogleFonts.getFont(
+                                        'Saira',
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                      ),
+                                      productGroup,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ).toList(),
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Container(
+                          decoration: boxDecoration(),
+                          child: DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              label: Text(
+                                  style: GoogleFonts.getFont('Saira',
+                                      fontSize: 12, color: Colors.black),
+                                  'Rodzaj opakowania'),
+                              border: InputBorder.none,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                            iconDisabledColor: Colors.black,
+                            iconEnabledColor: Colors.black,
+                            dropdownColor: Colors.white,
+                            isExpanded: true,
+                            value: productTypeName,
+                            onChanged: (newProduct) {
+                              setState(() {
+                                productTypeName = newProduct!;
+                                (productTypeName != 'gramy')
+                                    ? quantityGram = -1
+                                    : quantityGram = 0;
+                              });
+                            },
+                            items: <String>[
+                              'sztuka',
+                              'karton',
+                              'gramy',
+                              'paczka',
+                              'butelka',
+                              'słoik',
+                            ].map<DropdownMenuItem<String>>(
+                              (productTypeName) {
+                                return DropdownMenuItem<String>(
+                                  value: productTypeName,
+                                  child: Center(
+                                    child: Text(
+                                      style: GoogleFonts.getFont(
+                                        'Saira',
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                      ),
+                                      productTypeName,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ).toList(),
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        (productTypeName != 'gramy')
+                            ? Container(height: 0)
+                            : Container(
+                                decoration: boxDecoration(),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                        style: GoogleFonts.getFont('Saira',
+                                            fontSize: 12, color: Colors.black),
+                                        'Ilość porcji: '),
+                                    Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: NumberPicker(
+                                        textStyle: GoogleFonts.getFont('Saira',
+                                            fontSize: 16, color: Colors.black),
+                                        selectedTextStyle: GoogleFonts.getFont(
+                                            'Saira',
+                                            fontSize: 20,
+                                            color: const Color.fromARGB(
+                                                255, 0, 63, 114),
+                                            fontWeight: FontWeight.bold),
+                                        itemHeight: 24,
+                                        itemWidth: 40,
+                                        axis: Axis.horizontal,
+                                        value: productQuantity,
+                                        minValue: 1,
+                                        maxValue: 100,
+                                        itemCount: 5,
+                                        onChanged: (value) => setState(
+                                            () => productQuantity = value),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                        const SizedBox(height: 2),
+                        (productTypeName != null)
+                            ? (productTypeName != 'gramy')
+                                ? Container(
+                                    decoration: boxDecoration(),
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 4,
+                                        ),
+                                        Text(
+                                            style: GoogleFonts.getFont('Saira',
+                                                fontSize: 12,
+                                                color: Colors.black),
+                                            'Ilość: '),
+                                        Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: NumberPicker(
+                                            textStyle: GoogleFonts.getFont(
+                                                'Saira',
+                                                fontSize: 16,
+                                                color: Colors.black),
+                                            selectedTextStyle:
+                                                GoogleFonts.getFont('Saira',
+                                                    fontSize: 20,
+                                                    color: const Color.fromARGB(
+                                                        255, 0, 63, 114),
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                            itemHeight: 24,
+                                            itemWidth: 40,
+                                            axis: Axis.horizontal,
+                                            value: productQuantity,
+                                            minValue: 1,
+                                            maxValue: 100,
+                                            itemCount: 5,
+                                            onChanged: (value) => setState(() {
+                                              productQuantity = value;
+                                            }),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Container(
+                                    decoration: boxDecoration(),
+                                    child: TextField(
+                                      style: GoogleFonts.getFont(
+                                        'Saira',
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                      ),
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        labelStyle: GoogleFonts.getFont(
+                                          'Saira',
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                        ),
+                                        label: const Text(
+                                          'Ilość gram',
+                                        ),
+                                      ),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.digitsOnly
+                                      ],
+                                      onChanged: (newQuantityGram) {
+                                        final quantityGrams =
+                                            int.tryParse(newQuantityGram);
+                                        setState(
+                                          () {
+                                            quantityGram =
+                                                (quantityGrams == null)
+                                                    ? 0
+                                                    : quantityGrams;
+                                          },
+                                        );
+                                      },
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                            : Container(height: 0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.white),
+                                  onPressed: () {
+                                    setState(() {
+                                      productGroup = null;
+                                      productTypeName = null;
+                                      productQuantity = 1;
+                                    });
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    'Anuluj',
+                                    style: GoogleFonts.getFont('Saira',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  )),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: BlocProvider(
+                                create: (context) => YourProductsCubit(
+                                    PurchasedProductsRepository(
+                                        PurchasedProductsRemoteDataSource(),
+                                        UserRemoteDataSource())),
+                                child: BlocBuilder<YourProductsCubit,
+                                    YourProductsState>(
+                                  builder: (context, state) {
+                                    return ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.black),
+                                        onPressed: () {
+                                          List<String> listaProcura = [];
+                                          String temp = "";
+                                          for (var i = 0;
+                                              i < productName!.length;
+                                              i++) {
+                                            if (productName![i] == " ") {
+                                              temp = "";
+                                            } else {
+                                              temp = temp + productName![i];
+                                              listaProcura
+                                                  .add(temp.toLowerCase());
+                                            }
+                                          }
+                                          final int count = productQuantity;
+                                          final bool frozen =
+                                              (storageNames == 'Zamrażarka'
+                                                  ? true
+                                                  : false);
+
+                                          for (var i = 0; i < count; i++) {
+                                            context
+                                                .read<YourProductsCubit>()
+                                                .addYourProduct(
+                                                  productGroup!,
+                                                  productName!,
+                                                  productDate,
+                                                  storageNames,
+                                                  isDated,
+                                                  listaProcura,
+                                                  productTypeName!,
+                                                  quantityGram,
+                                                  frozen,
+                                                );
+                                            setState(() {
+                                              productGroup = null;
+                                              productTypeName = null;
+                                              productQuantity = 1;
+                                            });
+                                          }
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text(
+                                          'Dodaj',
+                                          style: GoogleFonts.getFont('Saira',
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ));
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ]),
+                ),
+              );
+            });
+          }),
+      child: Container(
+        height: 32,
+        width: 32,
+        margin: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(100)),
+            color: Colors.white),
+        child: const Icon(
+          Icons.add,
+          color: Color.fromARGB(255, 0, 63, 114),
+        ),
+      ),
+    );
+  }
+
+  BoxDecoration boxDecoration() {
+    return BoxDecoration(
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
+      color: Colors.white.withOpacity(0.5),
     );
   }
 }
@@ -162,7 +605,6 @@ class _ListState extends State<_List> {
               for (final purchasedProductsModel in purchasedProductModels) ...[
                 if (purchasedProductsModel.storageName ==
                     widget.storageName) ...[
-                  const SizedBox(height: 7),
                   _OneProduct(
                     purchasedProductsModel: purchasedProductsModel,
                   ),

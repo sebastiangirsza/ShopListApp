@@ -1,4 +1,4 @@
-part of 'your_products_cubit.dart';
+part of 'purchased_products_cubit.dart';
 
 class YourProductsState {
   final List<PurchasedProductModel> purchasedProducts;
