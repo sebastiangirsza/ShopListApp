@@ -1,7 +1,8 @@
 import 'dart:io';
-
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/data/remote_data_sources/storage_remote_data_source.dart';
 
+@injectable
 class StorageRepository {
   StorageRepository(
     this._storageRemoteDataSource,

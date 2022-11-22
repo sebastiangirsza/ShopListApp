@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:injectable/injectable.dart';
 import 'package:numberpicker/numberpicker.dart';
-
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list/list_of_product_group/products_dismissible/one_product/add_to_storage_alert_dialog/elevated_button_add_to_storage_widget.dart';
-
 import 'package:shoplistapp/app/home/pages/your_products/cubit/purchased_products_cubit.dart';
+import 'package:shoplistapp/app/injection_container.dart';
 import 'package:shoplistapp/app/models/product_model.dart';
-import 'package:shoplistapp/app/repositories/purchased_products_repository.dart';
-import 'package:shoplistapp/data/remote_data_sources/purchased_product_remote_data_source.dart';
-import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
+@injectable
 class AddToStorageAlertDialogWidget extends StatelessWidget {
   const AddToStorageAlertDialogWidget({
     Key? key,
@@ -25,9 +23,7 @@ class AddToStorageAlertDialogWidget extends StatelessWidget {
     int quantityGram = 0;
 
     return BlocProvider(
-      create: (context) => YourProductsCubit(PurchasedProductsRepository(
-          PurchasedProductsRemoteDataSource(), UserRemoteDataSource()))
-        ..start(),
+      create: (context) => getIt<YourProductsCubit>()..start(),
       child: BlocBuilder<YourProductsCubit, YourProductsState>(
         builder: (context, state) {
           String? storageName;

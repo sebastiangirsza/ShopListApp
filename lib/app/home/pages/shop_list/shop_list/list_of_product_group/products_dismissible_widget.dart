@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/cubit/add_product_cubit.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/cubit/product_cubit.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list/list_of_product_group/products_dismissible/one_product_widget.dart';
-import 'package:shoplistapp/app/repositories/product_repository.dart';
-import 'package:shoplistapp/data/remote_data_sources/product_remote_data_source.dart';
-import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
+import 'package:shoplistapp/app/injection_container.dart';
 
+@injectable
 class ProductDismissibleWidget extends StatefulWidget {
   const ProductDismissibleWidget({
     super.key,
@@ -25,13 +25,11 @@ class _ProductDismissibleWidgetState extends State<ProductDismissibleWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddProductCubit(ProductsRepository(
-          ProductRemoteDataSource(), UserRemoteDataSource())),
+      create: (context) => getIt<AddProductCubit>(),
       child: BlocBuilder<AddProductCubit, AddProductState>(
         builder: (context, state) {
           return BlocProvider(
-            create: (context) => ProductCubit(ProductsRepository(
-                ProductRemoteDataSource(), UserRemoteDataSource()))
+            create: (context) => getIt<ProductCubit>()
               ..products(productGroup: widget.categoriesName),
             child: BlocBuilder<ProductCubit, ProductState>(
               builder: (context, state) {

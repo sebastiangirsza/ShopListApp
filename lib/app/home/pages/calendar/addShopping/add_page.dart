@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:shoplistapp/app/home/pages/calendar/addShopping/cubit/add_cubit.dart';
-import 'package:shoplistapp/app/repositories/items_repository.dart';
-import 'package:shoplistapp/data/remote_data_sources/items_remote_data_source.dart';
-import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
+import 'package:shoplistapp/app/injection_container.dart';
 
+@injectable
 class AddPage extends StatefulWidget {
   const AddPage({
     Key? key,
@@ -24,8 +24,7 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddCubit(
-          ItemsRepository(ItemsRemoteDataSource(), UserRemoteDataSource())),
+      create: (context) => getIt<AddCubit>(),
       child: BlocListener<AddCubit, AddState>(
         listener: (context, state) {
           if (state.saved) {

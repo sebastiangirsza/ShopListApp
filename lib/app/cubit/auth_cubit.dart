@@ -1,13 +1,13 @@
 import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/models/user_model.dart';
 import 'package:shoplistapp/app/repositories/firebase_auth_repository.dart';
-
 import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 part 'auth_state.dart';
 
+@injectable
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit(
     this._firebaseAuthRespository,
@@ -106,35 +106,5 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> close() {
     _streamSubscription?.cancel();
     return super.close();
-  }
-}
-
-class VerificationCubit extends Cubit<VerificationState> {
-  VerificationCubit(this._userRemoteDataSource)
-      : super(
-          const VerificationState(
-            errorMessage: null,
-            sent: false,
-          ),
-        );
-  final UserRemoteDataSource _userRemoteDataSource;
-
-  Future<void> sendVerificationEmail() async {
-    try {
-      await _userRemoteDataSource.currentUser()!.sendEmailVerification();
-      emit(
-        const VerificationState(
-          errorMessage: null,
-          sent: false,
-        ),
-      );
-    } catch (error) {
-      emit(
-        VerificationState(
-          errorMessage: error.toString(),
-          sent: true,
-        ),
-      );
-    }
   }
 }

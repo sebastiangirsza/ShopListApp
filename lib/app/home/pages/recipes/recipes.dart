@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/core/enums.dart';
 import 'package:shoplistapp/app/home/pages/recipes/cubit/recipes_cubit.dart';
 import 'package:shoplistapp/app/home/pages/recipes/pages/add_recipes/add_recipes.dart';
 import 'package:shoplistapp/app/home/pages/recipes/pages/recipe_details/recipe_details.dart';
+import 'package:shoplistapp/app/injection_container.dart';
 import 'package:shoplistapp/app/models/recipes_model.dart';
-import 'package:shoplistapp/app/repositories/recipes_repository.dart';
-import 'package:shoplistapp/app/repositories/user_repository.dart';
-import 'package:shoplistapp/data/remote_data_sources/recipes_remote_data_source.dart';
-import 'package:shoplistapp/data/remote_data_sources/storage_remote_data_source.dart';
-import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
+@injectable
 class RecipesPage extends StatelessWidget {
   const RecipesPage({
     Key? key,
@@ -64,12 +62,7 @@ class RecipesPage extends StatelessWidget {
         ),
       ),
       body: BlocProvider(
-        create: (context) => RecipesCubit(
-            RecipesRepository(
-                RecipesRemoteDataSource(), UserRemoteDataSource()),
-            UserRespository(UserRemoteDataSource()),
-            StorageRemoteDataSource())
-          ..recipes(),
+        create: (context) => getIt<RecipesCubit>()..recipes(),
         child: BlocBuilder<RecipesCubit, RecipesState>(
           builder: (context, state) {
             switch (state.status) {
@@ -205,6 +198,7 @@ class RecipesGridView extends StatelessWidget {
   }
 }
 
+@injectable
 class DeleteRecipesWidget extends StatelessWidget {
   const DeleteRecipesWidget({
     Key? key,
@@ -230,12 +224,7 @@ class DeleteRecipesWidget extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return BlocProvider(
-                      create: (context) => RecipesCubit(
-                          RecipesRepository(RecipesRemoteDataSource(),
-                              UserRemoteDataSource()),
-                          UserRespository(UserRemoteDataSource()),
-                          StorageRemoteDataSource())
-                        ..recipes(),
+                      create: (context) => getIt<RecipesCubit>()..recipes(),
                       child: BlocBuilder<RecipesCubit, RecipesState>(
                         builder: (context, state) {
                           return StatefulBuilder(builder:

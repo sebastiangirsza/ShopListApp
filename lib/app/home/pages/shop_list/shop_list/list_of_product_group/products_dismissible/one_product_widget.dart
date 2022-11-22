@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:injectable/injectable.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/cubit/add_product_cubit.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list/list_of_product_group/products_dismissible/one_product/add_to_storage_alert_dialog_widget.dart';
+import 'package:shoplistapp/app/injection_container.dart';
 import 'package:shoplistapp/app/models/product_model.dart';
-import 'package:shoplistapp/app/repositories/product_repository.dart';
-import 'package:shoplistapp/data/remote_data_sources/product_remote_data_source.dart';
-import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 class OneProductWidget extends StatefulWidget {
   const OneProductWidget({
@@ -129,6 +128,7 @@ class _OneProductWidgetState extends State<OneProductWidget> {
   }
 }
 
+@injectable
 class ChangeQuantityAlertDialog extends StatefulWidget {
   const ChangeQuantityAlertDialog({
     Key? key,
@@ -481,8 +481,7 @@ class _ChangeQuantityAlertDialogState extends State<ChangeQuantityAlertDialog> {
                       fontWeight: FontWeight.bold),
                 )),
             BlocProvider(
-              create: (context) => AddProductCubit(ProductsRepository(
-                  ProductRemoteDataSource(), UserRemoteDataSource())),
+              create: (context) => getIt<AddProductCubit>(),
               child: BlocBuilder<AddProductCubit, AddProductState>(
                 builder: (context, state) {
                   return ElevatedButton(

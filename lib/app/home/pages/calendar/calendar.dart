@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/home/pages/calendar/addShopping/add_page.dart';
 import 'package:shoplistapp/app/home/pages/calendar/cubit/shopping_cubit.dart';
+import 'package:shoplistapp/app/injection_container.dart';
 import 'package:shoplistapp/app/models/item_model.dart';
-import 'package:shoplistapp/app/repositories/items_repository.dart';
-import 'package:shoplistapp/data/remote_data_sources/items_remote_data_source.dart';
-import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
+@injectable
 class ShoppingPage extends StatelessWidget {
   const ShoppingPage({
     Key? key,
@@ -15,9 +15,7 @@ class ShoppingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(
-          ItemsRepository(ItemsRemoteDataSource(), UserRemoteDataSource()))
-        ..start(),
+      create: (context) => getIt<HomeCubit>()..start(),
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           final itemModels = state.items;

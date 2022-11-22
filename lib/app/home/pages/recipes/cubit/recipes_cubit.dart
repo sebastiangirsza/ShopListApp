@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/core/enums.dart';
 import 'package:shoplistapp/app/models/recipes_model.dart';
 import 'package:shoplistapp/app/repositories/recipes_repository.dart';
@@ -11,6 +11,7 @@ import 'package:shoplistapp/data/remote_data_sources/storage_remote_data_source.
 
 part 'recipes_state.dart';
 
+@injectable
 class RecipesCubit extends Cubit<RecipesState> {
   RecipesCubit(this._recipesRepository, this._userRepository,
       this._storageRemoteDataSource)

@@ -1,7 +1,9 @@
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/models/item_model.dart';
 import 'package:shoplistapp/data/remote_data_sources/items_remote_data_source.dart';
 import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
+@injectable
 class ItemsRepository {
   ItemsRepository(this._itemsRemoteDataSource, this._userRemoteDataSource);
   final ItemsRemoteDataSource _itemsRemoteDataSource;

@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shoplistapp/app/home/pages/your_products/cubit/purchased_products_cubit.dart';
+import 'package:shoplistapp/app/injection_container.dart';
 import 'package:shoplistapp/app/models/purchased_product_model.dart';
-import 'package:shoplistapp/app/repositories/purchased_products_repository.dart';
-import 'package:shoplistapp/data/remote_data_sources/purchased_product_remote_data_source.dart';
-import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 class PurchasedProductsPage extends StatefulWidget {
   const PurchasedProductsPage({
@@ -167,6 +166,7 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
   }
 }
 
+@injectable
 class AddPurchasedProductWidget extends StatelessWidget {
   const AddPurchasedProductWidget({
     required this.storageNames,
@@ -484,10 +484,7 @@ class AddPurchasedProductWidget extends StatelessWidget {
                             const SizedBox(width: 10),
                             Expanded(
                               child: BlocProvider(
-                                create: (context) => YourProductsCubit(
-                                    PurchasedProductsRepository(
-                                        PurchasedProductsRemoteDataSource(),
-                                        UserRemoteDataSource())),
+                                create: (context) => getIt<YourProductsCubit>(),
                                 child: BlocBuilder<YourProductsCubit,
                                     YourProductsState>(
                                   builder: (context, state) {
@@ -576,6 +573,7 @@ class AddPurchasedProductWidget extends StatelessWidget {
   }
 }
 
+@injectable
 class _List extends StatefulWidget {
   const _List({
     Key? key,
@@ -592,9 +590,7 @@ class _ListState extends State<_List> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => YourProductsCubit(PurchasedProductsRepository(
-          PurchasedProductsRemoteDataSource(), UserRemoteDataSource()))
-        ..start(),
+      create: (context) => getIt<YourProductsCubit>()..start(),
       child: BlocBuilder<YourProductsCubit, YourProductsState>(
         builder: (context, state) {
           final purchasedProductModels = state.purchasedProducts;
@@ -618,6 +614,7 @@ class _ListState extends State<_List> {
   }
 }
 
+@injectable
 class _OneProduct extends StatefulWidget {
   const _OneProduct({
     Key? key,
@@ -636,8 +633,7 @@ class _OneProductState extends State<_OneProduct> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => YourProductsCubit(PurchasedProductsRepository(
-          PurchasedProductsRemoteDataSource(), UserRemoteDataSource())),
+      create: (context) => getIt<YourProductsCubit>(),
       child: BlocBuilder<YourProductsCubit, YourProductsState>(
         builder: (context, state) {
           return Dismissible(
@@ -796,6 +792,7 @@ class _OneProductState extends State<_OneProduct> {
   }
 }
 
+@injectable
 class UpdateProductQuantityGram extends StatelessWidget {
   const UpdateProductQuantityGram({
     Key? key,
@@ -886,10 +883,7 @@ class UpdateProductQuantityGram extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         BlocProvider(
-                          create: (context) => YourProductsCubit(
-                              PurchasedProductsRepository(
-                                  PurchasedProductsRemoteDataSource(),
-                                  UserRemoteDataSource())),
+                          create: (context) => getIt<YourProductsCubit>(),
                           child:
                               BlocBuilder<YourProductsCubit, YourProductsState>(
                             builder: (context, state) {
@@ -1021,6 +1015,7 @@ class DeleteDateAlertDialog extends StatelessWidget {
   }
 }
 
+@injectable
 class DeleteDateElevatedButton extends StatefulWidget {
   const DeleteDateElevatedButton({
     required this.purchasedProductModel,
@@ -1041,8 +1036,7 @@ class _DeleteDateElevatedButtonState extends State<DeleteDateElevatedButton> {
   Widget build(BuildContext context) {
     bool isDated = widget.isDated;
     return BlocProvider(
-      create: (context) => YourProductsCubit(PurchasedProductsRepository(
-          PurchasedProductsRemoteDataSource(), UserRemoteDataSource())),
+      create: (context) => getIt<YourProductsCubit>(),
       child: BlocBuilder<YourProductsCubit, YourProductsState>(
         builder: (context, state) {
           return Expanded(
@@ -1086,6 +1080,7 @@ BoxDecoration daysLeftColors(Color elementColor) {
   );
 }
 
+@injectable
 class AddDateWidget extends StatefulWidget {
   const AddDateWidget({
     required this.purchasedProductsModel,
@@ -1102,8 +1097,7 @@ class _AddDateWidgetState extends State<AddDateWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => YourProductsCubit(PurchasedProductsRepository(
-          PurchasedProductsRemoteDataSource(), UserRemoteDataSource())),
+      create: (context) => getIt<YourProductsCubit>(),
       child: BlocBuilder<YourProductsCubit, YourProductsState>(
         builder: (context, state) {
           return CupertinoPopupSurface(
@@ -1180,6 +1174,7 @@ class _AddDateWidgetState extends State<AddDateWidget> {
   }
 }
 
+@injectable
 class _UpdateStorageWidget extends StatelessWidget {
   const _UpdateStorageWidget({
     Key? key,
@@ -1273,10 +1268,7 @@ class _UpdateStorageWidget extends StatelessWidget {
                                   color: Colors.black),
                             )),
                         BlocProvider(
-                          create: (context) => YourProductsCubit(
-                              PurchasedProductsRepository(
-                                  PurchasedProductsRemoteDataSource(),
-                                  UserRemoteDataSource())),
+                          create: (context) => getIt<YourProductsCubit>(),
                           child:
                               BlocBuilder<YourProductsCubit, YourProductsState>(
                             builder: (context, state) {

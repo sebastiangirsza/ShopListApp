@@ -1,10 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/repositories/items_repository.dart';
 
 part 'add_state.dart';
 
+@injectable
 class AddCubit extends Cubit<AddState> {
   AddCubit(this._itemsRpository) : super(const AddState());
 

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/cubit/product_cubit.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list/add_button_widget.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list/list_of_product_group/products_dismissible_widget.dart';
-import 'package:shoplistapp/app/repositories/product_repository.dart';
-import 'package:shoplistapp/data/remote_data_sources/product_remote_data_source.dart';
-import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
+import 'package:shoplistapp/app/injection_container.dart';
 
+@injectable
 class ListOfProductsGroupWidget extends StatelessWidget {
   const ListOfProductsGroupWidget({
     Key? key,
@@ -58,8 +58,7 @@ class ListOfProductsGroupWidget extends StatelessWidget {
             itemCount: categoriesName.length,
             itemBuilder: (context, index) {
               return BlocProvider(
-                create: (context) => ProductCubit(ProductsRepository(
-                    ProductRemoteDataSource(), UserRemoteDataSource()))
+                create: (context) => getIt<ProductCubit>()
                   ..productsQuantity(productGroup: categoriesName[index]),
                 child: BlocBuilder<ProductCubit, ProductState>(
                   builder: (context, state) {
@@ -67,8 +66,7 @@ class ListOfProductsGroupWidget extends StatelessWidget {
                     final productsCheckedNumber =
                         productCheckedModels.length.toString();
                     return BlocProvider(
-                      create: (context) => ProductCubit(ProductsRepository(
-                          ProductRemoteDataSource(), UserRemoteDataSource()))
+                      create: (context) => getIt<ProductCubit>()
                         ..products(productGroup: categoriesName[index]),
                       child: BlocBuilder<ProductCubit, ProductState>(
                         builder: (context, state) {

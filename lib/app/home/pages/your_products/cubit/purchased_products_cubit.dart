@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/models/purchased_product_model.dart';
 import 'package:shoplistapp/app/repositories/purchased_products_repository.dart';
 
 part 'purchased_products_state.dart';
 
+@injectable
 class YourProductsCubit extends Cubit<YourProductsState> {
   YourProductsCubit(this._purchasedProductsRepository)
       : super(

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:injectable/injectable.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:shoplistapp/app/cubit/auth_cubit.dart';
 import 'package:shoplistapp/app/home/pages/calendar/calendar.dart';
 import 'package:shoplistapp/app/home/pages/recipes/recipes.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list_page.dart';
 import 'package:shoplistapp/app/home/pages/your_products/purchased_products/purchased_products.dart';
-import 'package:shoplistapp/app/repositories/firebase_auth_repository.dart';
+import 'package:shoplistapp/app/injection_container.dart';
 
-import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
-
+@injectable
 class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
@@ -25,10 +25,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(
-        FirebaseAuthRespository(UserRemoteDataSource()),
-        UserRemoteDataSource(),
-      )..start(),
+      create: (context) => getIt<AuthCubit>()..start(),
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           return Container(
@@ -131,6 +128,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+@injectable
 class PersonButtonWidget extends StatelessWidget {
   const PersonButtonWidget({
     Key? key,
@@ -139,10 +137,7 @@ class PersonButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(
-        FirebaseAuthRespository(UserRemoteDataSource()),
-        UserRemoteDataSource(),
-      )..start(),
+      create: (context) => getIt<AuthCubit>()..start(),
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           return IconButton(
@@ -290,6 +285,7 @@ class InfoButtonWidget extends StatelessWidget {
   }
 }
 
+@injectable
 class _SignOutButton extends StatelessWidget {
   const _SignOutButton({
     Key? key,
@@ -298,10 +294,7 @@ class _SignOutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(
-        FirebaseAuthRespository(UserRemoteDataSource()),
-        UserRemoteDataSource(),
-      ),
+      create: (context) => getIt<AuthCubit>(),
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           return ElevatedButton(

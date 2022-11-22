@@ -1,8 +1,9 @@
 import 'dart:async';
-
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/models/user_model.dart';
 import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
+@injectable
 class UserRespository {
   UserRespository(this._userRemoteDataSource);
   final UserRemoteDataSource _userRemoteDataSource;

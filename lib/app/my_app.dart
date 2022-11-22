@@ -1,13 +1,13 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/cubit/auth_cubit.dart';
+import 'package:shoplistapp/app/cubit/verification_cubit.dart';
 import 'package:shoplistapp/app/home/home_page.dart';
+import 'package:shoplistapp/app/injection_container.dart';
 import 'package:shoplistapp/app/login/login_page.dart';
-import 'package:shoplistapp/app/repositories/firebase_auth_repository.dart';
-import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({
@@ -142,6 +142,7 @@ class _SplashScreen extends State<SplashScreen> {
   }
 }
 
+@injectable
 class RootPage extends StatelessWidget {
   const RootPage({
     Key? key,
@@ -150,10 +151,7 @@ class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(
-        FirebaseAuthRespository(UserRemoteDataSource()),
-        UserRemoteDataSource(),
-      )..start(),
+      create: (context) => getIt<AuthCubit>()..start(),
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           final user = state.user;
@@ -162,7 +160,7 @@ class RootPage extends StatelessWidget {
             return LoginPage();
           }
           return BlocProvider(
-            create: (context) => VerificationCubit(UserRemoteDataSource()),
+            create: (context) => getIt<VerificationCubit>(),
             child: BlocBuilder<VerificationCubit, VerificationState>(
               builder: (context, state) {
                 return BlocListener<VerificationCubit, VerificationState>(

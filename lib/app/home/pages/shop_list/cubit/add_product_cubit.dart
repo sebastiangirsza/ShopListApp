@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/repositories/product_repository.dart';
 
 part 'add_product_state.dart';
 
+@injectable
 class AddProductCubit extends Cubit<AddProductState> {
   AddProductCubit(this._productsRepository)
       : super(

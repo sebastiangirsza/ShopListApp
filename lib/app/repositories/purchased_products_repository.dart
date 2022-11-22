@@ -1,7 +1,9 @@
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/models/purchased_product_model.dart';
 import 'package:shoplistapp/data/remote_data_sources/purchased_product_remote_data_source.dart';
 import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
+@injectable
 class PurchasedProductsRepository {
   PurchasedProductsRepository(
       this._purchasedProductRemoteDataSource, this._userRemoteDataSource);
