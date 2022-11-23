@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 import 'dart:io';
 import 'package:shoplistapp/app/repositories/recipes_repository.dart';
@@ -8,6 +9,7 @@ import 'package:shoplistapp/app/repositories/user_repository.dart';
 
 part 'add_recipes_state.dart';
 
+@injectable
 class AddRecipesCubit extends Cubit<AddRecipesState> {
   AddRecipesCubit(
     this._recipesRepository,

@@ -3,13 +3,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/home/pages/recipes/pages/add_recipes/cubit/add_recipes_cubit.dart';
-import 'package:shoplistapp/app/repositories/recipes_repository.dart';
-import 'package:shoplistapp/app/repositories/storage_repository.dart';
-import 'package:shoplistapp/app/repositories/user_repository.dart';
-import 'package:shoplistapp/data/remote_data_sources/recipes_remote_data_source.dart';
-import 'package:shoplistapp/data/remote_data_sources/storage_remote_data_source.dart';
-import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
+import 'package:shoplistapp/app/injection_container.dart';
 
 class AddRecipesPage extends StatelessWidget {
   const AddRecipesPage({
@@ -77,6 +73,7 @@ class AddRecipesPage extends StatelessWidget {
   }
 }
 
+@injectable
 class _AddRecipesWidget extends StatefulWidget {
   const _AddRecipesWidget({
     Key? key,
@@ -100,10 +97,7 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
   Widget build(BuildContext context) {
     int maxLines = 10;
     return BlocProvider(
-      create: (context) => AddRecipesCubit(
-          RecipesRepository(RecipesRemoteDataSource(), UserRemoteDataSource()),
-          UserRespository(UserRemoteDataSource()),
-          StorageRepository(StorageRemoteDataSource())),
+      create: (context) => getIt<AddRecipesCubit>(),
       child: BlocListener<AddRecipesCubit, AddRecipesState>(
         listener: (context, state) {
           if (state.saved) {
@@ -206,6 +200,8 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                       style: GoogleFonts.getFont('Saira',
                           fontSize: 12, color: Colors.black),
                       maxLength: 50,
+                      minLines: 1,
+                      maxLines: 10,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintStyle: GoogleFonts.getFont('Saira',
@@ -282,6 +278,8 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                     child: Column(
                       children: [
                         TextField(
+                          minLines: 1,
+                          maxLines: 100,
                           style: GoogleFonts.getFont('Saira',
                               fontSize: 12, color: Colors.black),
                           controller: _controller[i],
@@ -314,12 +312,13 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
                         const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
                     padding:
                         const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-                    height: maxLines * 24,
+                    // height: maxLines * 24,
                     child: TextField(
                       style: GoogleFonts.getFont('Saira',
                           fontSize: 12, color: Colors.black),
                       controller: recipesMakeing,
-                      maxLines: maxLines,
+                      minLines: 1,
+                      maxLines: 100,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: GoogleFonts.getFont('Saira',

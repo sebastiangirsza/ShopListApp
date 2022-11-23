@@ -19,17 +19,19 @@ import '../data/remote_data_sources/recipes_product_remote_data_source.dart'
 import '../data/remote_data_sources/recipes_remote_data_source.dart' as _i22;
 import '../data/remote_data_sources/storage_remote_data_source.dart' as _i25;
 import '../data/remote_data_sources/user_remote_data_source.dart' as _i27;
-import 'cubit/auth_cubit.dart' as _i39;
+import 'cubit/auth_cubit.dart' as _i40;
 import 'cubit/verification_cubit.dart' as _i29;
 import 'home/home_page.dart' as _i15;
 import 'home/pages/calendar/addShopping/add_page.dart' as _i8;
 import 'home/pages/calendar/addShopping/cubit/add_cubit.dart' as _i37;
 import 'home/pages/calendar/calendar.dart' as _i24;
-import 'home/pages/calendar/cubit/shopping_cubit.dart' as _i40;
-import 'home/pages/recipes/cubit/recipes_cubit.dart' as _i42;
+import 'home/pages/calendar/cubit/shopping_cubit.dart' as _i41;
+import 'home/pages/recipes/cubit/recipes_cubit.dart' as _i43;
+import 'home/pages/recipes/pages/add_recipes/cubit/add_recipes_cubit.dart'
+    as _i39;
 import 'home/pages/recipes/recipes.dart' as _i12;
 import 'home/pages/shop_list/cubit/add_product_cubit.dart' as _i38;
-import 'home/pages/shop_list/cubit/product_cubit.dart' as _i41;
+import 'home/pages/shop_list/cubit/product_cubit.dart' as _i42;
 import 'home/pages/shop_list/shop_list/add_button_widget.dart' as _i3;
 import 'home/pages/shop_list/shop_list/list_of_product_group/products_dismissible/one_product/add_to_storage_alert_dialog/elevated_button_add_to_storage_widget.dart'
     as _i14;
@@ -176,14 +178,19 @@ _i1.GetIt $initGetIt(
   gh.factory<_i37.AddCubit>(() => _i37.AddCubit(get<_i31.ItemsRepository>()));
   gh.factory<_i38.AddProductCubit>(
       () => _i38.AddProductCubit(get<_i32.ProductsRepository>()));
-  gh.factory<_i39.AuthCubit>(() => _i39.AuthCubit(
+  gh.factory<_i39.AddRecipesCubit>(() => _i39.AddRecipesCubit(
+        get<_i35.RecipesRepository>(),
+        get<_i28.UserRespository>(),
+        get<_i26.StorageRepository>(),
+      ));
+  gh.factory<_i40.AuthCubit>(() => _i40.AuthCubit(
         get<_i30.FirebaseAuthRespository>(),
         get<_i27.UserRemoteDataSource>(),
       ));
-  gh.factory<_i40.HomeCubit>(() => _i40.HomeCubit(get<_i31.ItemsRepository>()));
-  gh.factory<_i41.ProductCubit>(
-      () => _i41.ProductCubit(get<_i32.ProductsRepository>()));
-  gh.factory<_i42.RecipesCubit>(() => _i42.RecipesCubit(
+  gh.factory<_i41.HomeCubit>(() => _i41.HomeCubit(get<_i31.ItemsRepository>()));
+  gh.factory<_i42.ProductCubit>(
+      () => _i42.ProductCubit(get<_i32.ProductsRepository>()));
+  gh.factory<_i43.RecipesCubit>(() => _i43.RecipesCubit(
         get<_i35.RecipesRepository>(),
         get<_i28.UserRespository>(),
         get<_i25.StorageRemoteDataSource>(),

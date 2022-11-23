@@ -36,16 +36,36 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              storageInkWell(0, 'Lodówka', const Icon(Icons.kitchen_outlined)),
               storageInkWell(
-                  1, 'Zamrażarka', const Icon(Icons.ac_unit_rounded)),
-              storageInkWell(2, 'Szafka kuchenna',
-                  const Icon(Icons.door_sliding_outlined)),
-              storageInkWell(3, 'Chemia',
-                  const Icon(Icons.local_laundry_service_outlined)),
+                0,
+                'Lodówka',
+                const Icon(Icons.kitchen_outlined),
+              ),
               storageInkWell(
-                  4, 'Spiżarnia', const Icon(Icons.door_front_door_outlined)),
-              storageInkWell(5, 'Inne', const Icon(Icons.more_horiz_outlined)),
+                1,
+                'Zamrażarka',
+                const Icon(Icons.ac_unit_rounded),
+              ),
+              storageInkWell(
+                2,
+                'Szafka kuchenna',
+                const Icon(Icons.door_sliding_outlined),
+              ),
+              storageInkWell(
+                3,
+                'Chemia',
+                const Icon(Icons.local_laundry_service_outlined),
+              ),
+              storageInkWell(
+                4,
+                'Spiżarnia',
+                const Icon(Icons.door_front_door_outlined),
+              ),
+              storageInkWell(
+                5,
+                'Inne',
+                const Icon(Icons.more_horiz_outlined),
+              ),
             ],
           ),
         ),
@@ -491,48 +511,57 @@ class AddPurchasedProductWidget extends StatelessWidget {
                                     return ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.black),
-                                        onPressed: () {
-                                          List<String> listaProcura = [];
-                                          String temp = "";
-                                          for (var i = 0;
-                                              i < productName!.length;
-                                              i++) {
-                                            if (productName![i] == " ") {
-                                              temp = "";
-                                            } else {
-                                              temp = temp + productName![i];
-                                              listaProcura
-                                                  .add(temp.toLowerCase());
-                                            }
-                                          }
-                                          final int count = productQuantity;
-                                          final bool frozen =
-                                              (storageNames == 'Zamrażarka'
-                                                  ? true
-                                                  : false);
+                                        onPressed: productName == null ||
+                                                productGroup == null ||
+                                                productTypeName == null
+                                            ? null
+                                            : () {
+                                                List<String> listaProcura = [];
+                                                String temp = "";
+                                                for (var i = 0;
+                                                    i < productName!.length;
+                                                    i++) {
+                                                  if (productName![i] == " ") {
+                                                    temp = "";
+                                                  } else {
+                                                    temp =
+                                                        temp + productName![i];
+                                                    listaProcura.add(
+                                                        temp.toLowerCase());
+                                                  }
+                                                }
+                                                final int count =
+                                                    productQuantity;
+                                                final bool frozen =
+                                                    (storageNames ==
+                                                            'Zamrażarka'
+                                                        ? true
+                                                        : false);
 
-                                          for (var i = 0; i < count; i++) {
-                                            context
-                                                .read<YourProductsCubit>()
-                                                .addYourProduct(
-                                                  productGroup!,
-                                                  productName!,
-                                                  productDate,
-                                                  storageNames,
-                                                  isDated,
-                                                  listaProcura,
-                                                  productTypeName!,
-                                                  quantityGram,
-                                                  frozen,
-                                                );
-                                            setState(() {
-                                              productGroup = null;
-                                              productTypeName = null;
-                                              productQuantity = 1;
-                                            });
-                                          }
-                                          Navigator.of(context).pop();
-                                        },
+                                                for (var i = 0;
+                                                    i < count;
+                                                    i++) {
+                                                  context
+                                                      .read<YourProductsCubit>()
+                                                      .addYourProduct(
+                                                        productGroup!,
+                                                        productName!,
+                                                        productDate,
+                                                        storageNames,
+                                                        isDated,
+                                                        listaProcura,
+                                                        productTypeName!,
+                                                        quantityGram,
+                                                        frozen,
+                                                      );
+                                                }
+                                                setState(() {
+                                                  productGroup = null;
+                                                  productTypeName = null;
+                                                  productQuantity = 1;
+                                                });
+                                                Navigator.of(context).pop();
+                                              },
                                         child: Text(
                                           'Dodaj',
                                           style: GoogleFonts.getFont('Saira',
