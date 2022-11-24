@@ -98,19 +98,19 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                       child: ListView(
                         children: [
                           (currentIndex == 0)
-                              ? const _List(storageName: 'Lodówka')
+                              ? const Lists(storageName: 'Lodówka')
                               : (currentIndex == 1)
-                                  ? const _List(storageName: 'Zamrażarka')
+                                  ? const Lists(storageName: 'Zamrażarka')
                                   : (currentIndex == 2)
-                                      ? const _List(
+                                      ? const Lists(
                                           storageName: 'Szafka kuchenna')
                                       : (currentIndex == 3)
-                                          ? const _List(storageName: 'Chemia')
+                                          ? const Lists(storageName: 'Chemia')
                                           : (currentIndex == 4)
-                                              ? const _List(
+                                              ? const Lists(
                                                   storageName: 'Spiżarnia')
                                               : (currentIndex == 5)
-                                                  ? const _List(
+                                                  ? const Lists(
                                                       storageName: 'Inne')
                                                   : Container(),
                         ],
@@ -603,8 +603,8 @@ class AddPurchasedProductWidget extends StatelessWidget {
 }
 
 @injectable
-class _List extends StatefulWidget {
-  const _List({
+class Lists extends StatefulWidget {
+  const Lists({
     Key? key,
     required this.storageName,
   }) : super(key: key);
@@ -612,10 +612,10 @@ class _List extends StatefulWidget {
   final String storageName;
 
   @override
-  State<_List> createState() => _ListState();
+  State<Lists> createState() => _ListsState();
 }
 
-class _ListState extends State<_List> {
+class _ListsState extends State<Lists> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -630,7 +630,7 @@ class _ListState extends State<_List> {
               for (final purchasedProductsModel in purchasedProductModels) ...[
                 if (purchasedProductsModel.storageName ==
                     widget.storageName) ...[
-                  _OneProduct(
+                  OneProduct(
                     purchasedProductsModel: purchasedProductsModel,
                   ),
                 ]
@@ -644,8 +644,8 @@ class _ListState extends State<_List> {
 }
 
 @injectable
-class _OneProduct extends StatefulWidget {
-  const _OneProduct({
+class OneProduct extends StatefulWidget {
+  const OneProduct({
     Key? key,
     required this.purchasedProductsModel,
   }) : super(key: key);
@@ -653,10 +653,10 @@ class _OneProduct extends StatefulWidget {
   final PurchasedProductModel purchasedProductsModel;
 
   @override
-  State<_OneProduct> createState() => _OneProductState();
+  State<OneProduct> createState() => _OneProductState();
 }
 
-class _OneProductState extends State<_OneProduct> {
+class _OneProductState extends State<OneProduct> {
   var isDated = true;
 
   @override
@@ -714,7 +714,7 @@ class _OneProductState extends State<_OneProduct> {
                         children: [
                           Row(
                             children: [
-                              _UpdateStorageWidget(widget: widget),
+                              UpdateStorageWidget(widget: widget),
                               const SizedBox(width: 2),
                               Column(children: [
                                 (widget.purchasedProductsModel.isDated == false)
@@ -1204,13 +1204,13 @@ class _AddDateWidgetState extends State<AddDateWidget> {
 }
 
 @injectable
-class _UpdateStorageWidget extends StatelessWidget {
-  const _UpdateStorageWidget({
+class UpdateStorageWidget extends StatelessWidget {
+  const UpdateStorageWidget({
     Key? key,
     required this.widget,
   }) : super(key: key);
 
-  final _OneProduct widget;
+  final OneProduct widget;
 
   @override
   Widget build(BuildContext context) {

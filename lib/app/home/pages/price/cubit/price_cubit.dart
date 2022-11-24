@@ -4,11 +4,11 @@ import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/models/item_model.dart';
 import 'package:shoplistapp/app/repositories/items_repository.dart';
 
-part 'shopping_state.dart';
+part 'price_state.dart';
 
 @injectable
-class HomeCubit extends Cubit<HomeState> {
-  HomeCubit(this._itemsRpository) : super(const HomeState());
+class PriceCubit extends Cubit<PriceState> {
+  PriceCubit(this._itemsRpository) : super(const PriceState());
 
   final ItemsRepository _itemsRpository;
 
@@ -17,11 +17,11 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> start() async {
     _streamSubscription = _itemsRpository.getItemStream().listen(
       (items) {
-        emit(HomeState(items: items));
+        emit(PriceState(items: items));
       },
     )..onError(
         (error) {
-          emit(const HomeState(loadingErrorOccured: true));
+          emit(const PriceState(loadingErrorOccured: true));
         },
       );
   }
@@ -31,7 +31,7 @@ class HomeCubit extends Cubit<HomeState> {
       await _itemsRpository.delete(id: documentID);
     } catch (error) {
       emit(
-        const HomeState(removingErrorOccured: true),
+        const PriceState(removingErrorOccured: true),
       );
       start();
     }

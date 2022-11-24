@@ -1,7 +1,7 @@
-part of 'add_cubit.dart';
+part of 'add_shop_cubit.dart';
 
-class AddState {
-  const AddState({
+class AddShopState {
+  const AddShopState({
     this.saved = false,
     this.errorMessage = '',
   });

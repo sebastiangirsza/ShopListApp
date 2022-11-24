@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:injectable/injectable.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:shoplistapp/app/cubit/auth_cubit.dart';
-import 'package:shoplistapp/app/home/pages/calendar/calendar.dart';
+
+import 'package:shoplistapp/app/home/pages/price/price_page.dart';
 import 'package:shoplistapp/app/home/pages/recipes/recipes.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list_page.dart';
 import 'package:shoplistapp/app/home/pages/your_products/purchased_products/purchased_products.dart';
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                 if (currentIndex == 2) {
                   return const RecipesPage();
                 }
-                return const ShoppingPage();
+                return const PricePage();
               }),
               bottomNavigationBar: MotionTabBar(
                 initialSelectedTab: 'Lista zakupów',
@@ -177,7 +178,7 @@ class PersonButtonWidget extends StatelessWidget {
                                         const Color.fromARGB(255, 0, 63, 114),
                                     fontWeight: FontWeight.bold),
                               )),
-                          const _SignOutButton(),
+                          const SignOutButton(),
                         ],
                       )),
               icon: const Icon(
@@ -286,8 +287,8 @@ class InfoButtonWidget extends StatelessWidget {
 }
 
 @injectable
-class _SignOutButton extends StatelessWidget {
-  const _SignOutButton({
+class SignOutButton extends StatelessWidget {
+  const SignOutButton({
     Key? key,
   }) : super(key: key);
 

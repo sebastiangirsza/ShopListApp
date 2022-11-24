@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shoplistapp/app/home/pages/calendar/addShopping/add_page.dart';
-import 'package:shoplistapp/app/home/pages/calendar/cubit/shopping_cubit.dart';
+import 'package:shoplistapp/app/home/pages/price/add_shop/add_shop_page.dart';
+import 'package:shoplistapp/app/home/pages/price/cubit/price_cubit.dart';
 import 'package:shoplistapp/app/injection_container.dart';
 import 'package:shoplistapp/app/models/item_model.dart';
 
 @injectable
-class ShoppingPage extends StatelessWidget {
-  const ShoppingPage({
+class PricePage extends StatelessWidget {
+  const PricePage({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<HomeCubit>()..start(),
-      child: BlocBuilder<HomeCubit, HomeState>(
+      create: (context) => getIt<PriceCubit>()..start(),
+      child: BlocBuilder<PriceCubit, PriceState>(
         builder: (context, state) {
           final itemModels = state.items;
           return ListView(
@@ -25,7 +25,7 @@ class ShoppingPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => const AddPage(),
+                        builder: (context) => const AddShopPage(),
                         fullscreenDialog: true,
                       ),
                     );
@@ -53,9 +53,9 @@ class ShoppingPage extends StatelessWidget {
                     return direction == DismissDirection.endToStart;
                   },
                   onDismissed: (direction) {
-                    // context.read<HomeCubit>().remove(documentID: itemModel.id);
+                    // context.read<PriceCubit>().remove(documentID: itemModel.id);
                   },
-                  child: _ListViewItem(
+                  child: ListViewItem(
                     itemModel: itemModel,
                   ),
                 ),
@@ -67,8 +67,8 @@ class ShoppingPage extends StatelessWidget {
   }
 }
 
-class _ListViewItem extends StatelessWidget {
-  const _ListViewItem({
+class ListViewItem extends StatelessWidget {
+  const ListViewItem({
     Key? key,
     required this.itemModel,
   }) : super(key: key);

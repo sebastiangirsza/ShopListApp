@@ -1,7 +1,7 @@
-part of 'shopping_cubit.dart';
+part of 'price_cubit.dart';
 
-class HomeState {
-  const HomeState({
+class PriceState {
+  const PriceState({
     this.items = const [],
     this.loadingErrorOccured = false,
     this.removingErrorOccured = false,

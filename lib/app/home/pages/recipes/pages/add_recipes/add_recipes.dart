@@ -68,22 +68,22 @@ class AddRecipesPage extends StatelessWidget {
             ),
             actions: const [],
           ),
-          body: const _AddRecipesWidget()),
+          body: const AddRecipesWidget()),
     );
   }
 }
 
 @injectable
-class _AddRecipesWidget extends StatefulWidget {
-  const _AddRecipesWidget({
+class AddRecipesWidget extends StatefulWidget {
+  const AddRecipesWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<_AddRecipesWidget> createState() => _AddRecipesWidgetState();
+  State<AddRecipesWidget> createState() => _AddRecipesWidgetState();
 }
 
-class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
+class _AddRecipesWidgetState extends State<AddRecipesWidget> {
   String? recipesName;
   final TextEditingController? recipesMakeing = TextEditingController();
   int quantityProducts = 1;
@@ -95,7 +95,6 @@ class _AddRecipesWidgetState extends State<_AddRecipesWidget> {
   String? pickedImage;
   @override
   Widget build(BuildContext context) {
-    int maxLines = 10;
     return BlocProvider(
       create: (context) => getIt<AddRecipesCubit>(),
       child: BlocListener<AddRecipesCubit, AddRecipesState>(
