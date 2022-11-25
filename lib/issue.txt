@@ -12,4 +12,6 @@
 
 ++1. Dodawanie produktów z poziomu storage
 
-1. Ekran główny z floatingactionbutton
+1. Wyświetlenie product price
+2. Wyświetlenie shop logo w product price
+3. Uporządkowanie wszystkich pages 

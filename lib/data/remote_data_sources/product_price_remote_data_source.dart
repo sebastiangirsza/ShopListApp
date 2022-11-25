@@ -3,18 +3,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class ShopRemoteDataSource {
-  Stream<QuerySnapshot<Map<String, dynamic>>> getShopsStream() {
+class ProductPriceRemoteDataSource {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getProductPriceStream() {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 
     return FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
-        .collection('shops')
+        .collection('product_price')
         .snapshots();
   }
 
-  Future<void> addShop(
+  Future<void> addProductPrice(
+    String productName,
+    double productPrice,
     String shopName,
     String downloadURL,
   ) async {
@@ -23,8 +25,10 @@ class ShopRemoteDataSource {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
-        .collection('shops')
+        .collection('product_price')
         .add({
+      'product_name': productName,
+      'product_price': productPrice,
       'shop_name': shopName,
       'download_url': downloadURL,
     });

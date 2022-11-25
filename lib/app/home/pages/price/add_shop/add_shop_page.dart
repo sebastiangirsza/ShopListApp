@@ -34,6 +34,108 @@ class _AddShopPageState extends State<AddShopPage> {
 
   @override
   Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: [0.1, 0.5, 0.7, 0.9],
+          colors: [
+            Color.fromARGB(255, 200, 233, 255),
+            Color.fromARGB(255, 213, 238, 255),
+            Color.fromARGB(255, 228, 244, 255),
+            Color.fromARGB(255, 244, 250, 255),
+          ],
+        ),
+      ),
+      child: Scaffold(
+        appBar: AppBar(
+          iconTheme: const IconThemeData(
+            color: Color.fromARGB(255, 200, 233, 255),
+            shadows: <Shadow>[
+              Shadow(
+                offset: Offset(1.0, 1.0),
+                blurRadius: 7.0,
+                color: Color.fromARGB(255, 0, 0, 0),
+              ),
+            ],
+          ),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(30),
+            ),
+          ),
+          elevation: 10,
+          scrolledUnderElevation: 10,
+          toolbarHeight: 60,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.white,
+          title: Text(
+            'Dodaj sklep',
+            style: GoogleFonts.getFont(
+              'Saira',
+              fontWeight: FontWeight.bold,
+              color: const Color.fromARGB(255, 200, 233, 255),
+              shadows: <Shadow>[
+                const Shadow(
+                  offset: Offset(1.0, 1.0),
+                  blurRadius: 7.0,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+              ],
+            ),
+          ),
+          actions: const [],
+        ),
+        body: ListView(
+          children: [
+            const SizedBox(height: 10),
+            AddShopLogo(
+              imageName: (newImageName) {
+                setState(() {
+                  imageName = newImageName;
+                });
+              },
+              imagePath: (newImagePath) {
+                setState(() {
+                  imagePath = newImagePath;
+                });
+              },
+            ),
+            ShopName(
+              onNameChanged: (newShopName) {
+                setState(() {
+                  shopName = newShopName;
+                });
+              },
+            ),
+            AddShopButton(
+              shopName: shopName!,
+              imageName: imageName!,
+              imagePath: imagePath!,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+@injectable
+class AddShopButton extends StatelessWidget {
+  const AddShopButton({
+    required this.shopName,
+    required this.imageName,
+    required this.imagePath,
+    Key? key,
+  }) : super(key: key);
+
+  final String shopName;
+  final String imageName;
+  final String imagePath;
+
+  @override
+  Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<AddShopCubit>(),
       child: BlocListener<AddShopCubit, AddShopState>(
@@ -52,131 +154,14 @@ class _AddShopPageState extends State<AddShopPage> {
         },
         child: BlocBuilder<AddShopCubit, AddShopState>(
           builder: (context, state) {
-            return Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.1, 0.5, 0.7, 0.9],
-                  colors: [
-                    Color.fromARGB(255, 200, 233, 255),
-                    Color.fromARGB(255, 213, 238, 255),
-                    Color.fromARGB(255, 228, 244, 255),
-                    Color.fromARGB(255, 244, 250, 255),
-                  ],
-                ),
-              ),
-              child: Scaffold(
-                appBar: AppBar(
-                  iconTheme: const IconThemeData(
-                    color: Color.fromARGB(255, 200, 233, 255),
-                    shadows: <Shadow>[
-                      Shadow(
-                        offset: Offset(1.0, 1.0),
-                        blurRadius: 7.0,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ],
-                  ),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(30),
-                    ),
-                  ),
-                  elevation: 10,
-                  scrolledUnderElevation: 10,
-                  toolbarHeight: 60,
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.white,
-                  title: Text(
-                    'Dodaj sklep',
-                    style: GoogleFonts.getFont(
-                      'Saira',
-                      fontWeight: FontWeight.bold,
-                      color: const Color.fromARGB(255, 200, 233, 255),
-                      shadows: <Shadow>[
-                        const Shadow(
-                          offset: Offset(1.0, 1.0),
-                          blurRadius: 7.0,
-                          color: Color.fromARGB(255, 0, 0, 0),
-                        ),
-                      ],
-                    ),
-                  ),
-                  actions: const [],
-                ),
-                body: ListView(
-                  children: [
-                    const SizedBox(height: 10),
-                    AddShopLogo(
-                      imageName: (newImageName) {
-                        setState(() {
-                          imageName = newImageName;
-                        });
-                      },
-                      imagePath: (newImagePath) {
-                        setState(() {
-                          imagePath = newImagePath;
-                        });
-                      },
-                    ),
-                    ShopName(
-                      onNameChanged: (newShopName) {
-                        setState(() {
-                          shopName = newShopName;
-                        });
-                      },
-                    ),
-                    AddShopButton(
-                      shopName: shopName!,
-                      imageName: imageName!,
-                      imagePath: imagePath!,
-                      downloadURL: downloadURL!,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-@injectable
-class AddShopButton extends StatelessWidget {
-  const AddShopButton({
-    required this.shopName,
-    required this.imageName,
-    required this.imagePath,
-    required this.downloadURL,
-    Key? key,
-  }) : super(key: key);
-
-  final String shopName;
-  final String imageName;
-  final String imagePath;
-  final String downloadURL;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<AddShopCubit>(),
-      child: BlocListener<AddShopCubit, AddShopState>(
-        listener: (context, state) {
-          if (state.saved == true) {
-            Navigator.of(context).pop();
-          }
-        },
-        child: BlocBuilder<AddShopCubit, AddShopState>(
-          builder: (context, state) {
             return ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               onPressed: () {
-                context
-                    .read<AddShopCubit>()
-                    .addShop(shopName, imageName, imagePath, downloadURL);
+                context.read<AddShopCubit>().addShop(
+                      imageName,
+                      imagePath,
+                      shopName,
+                    );
               },
               child: const Text('Dodaj'),
             );
