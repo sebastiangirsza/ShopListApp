@@ -30,6 +30,7 @@ class AddProductPriceCubit extends Cubit<AddProductPriceState> {
     String shopName,
     String imageName,
     String imagePath,
+    String shopDownloadURL,
   ) async {
     final user = await _userRepository.getUserID();
     final userID = user!.uid;
@@ -51,6 +52,7 @@ class AddProductPriceCubit extends Cubit<AddProductPriceState> {
         productPrice,
         shopName,
         downloadURL,
+        shopDownloadURL,
       );
       emit(
         const AddProductPriceState(

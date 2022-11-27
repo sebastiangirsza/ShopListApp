@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/home/pages/price/add_product_price/cubit/add_product_price_cubit.dart';
+import 'package:shoplistapp/app/home/pages/price/shop/cubit/shop_cubit.dart';
 import 'package:shoplistapp/app/injection_container.dart';
 
 @injectable
@@ -25,7 +26,8 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
   late String? shopName;
   late String? imageName;
   late String? imagePath;
-  String? downloadURL = 'download_url';
+  String? shopDownloadURL = '';
+  dynamic chosenShop;
 
   @override
   void initState() {
@@ -130,6 +132,15 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
                         productName = newProductName;
                       });
                     }),
+                    ChooseShop(
+                      onShopChanged: (newShop) {
+                        setState(() {
+                          chosenShop = newShop;
+                          shopDownloadURL = newShop.toString();
+                        });
+                      },
+                      chosenShop: chosenShop,
+                    ),
                     ShopName(
                       onNameChanged: (newShopName) {
                         setState(() {
@@ -150,7 +161,7 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
                       productPrice: productPrice!,
                       imageName: imageName!,
                       imagePath: imagePath!,
-                      downloadURL: downloadURL!,
+                      shopDownloadURL: shopDownloadURL!,
                     ),
                   ],
                 ),
@@ -164,6 +175,85 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
 }
 
 @injectable
+class ChooseShop extends StatelessWidget {
+  const ChooseShop({
+    required this.onShopChanged,
+    required this.chosenShop,
+    Key? key,
+  }) : super(key: key);
+
+  final Function(dynamic) onShopChanged;
+  final dynamic chosenShop;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => getIt<ShopCubit>()..start(),
+      child: BlocBuilder<ShopCubit, ShopState>(
+        builder: (context, state) {
+          final shopModels = state.shops;
+          List<DropdownMenuItem> shopsList = [];
+          for (final shopModel in shopModels) {
+            shopsList.add(
+              DropdownMenuItem(
+                value: shopModel.downloadURL,
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(10),
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        image: DecorationImage(
+                            image: NetworkImage(
+                              shopModel.downloadURL,
+                            ),
+                            fit: BoxFit.cover),
+                      ),
+                    ),
+                    Text(
+                      shopModel.shopName,
+                      style: GoogleFonts.getFont('Saira',
+                          fontSize: 12, color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+          return Container(
+            height: 65,
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: Colors.white),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton(
+                hint: Text(
+                    style: GoogleFonts.getFont('Saira',
+                        fontSize: 12, color: Colors.black),
+                    'Wybierz sklep'),
+                borderRadius: BorderRadius.circular(10),
+                iconDisabledColor: Colors.black,
+                iconEnabledColor: Colors.black,
+                dropdownColor: Colors.white,
+                isExpanded: true,
+                items: shopsList,
+                onChanged: onShopChanged,
+                value: chosenShop,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+@injectable
 class AddProductButton extends StatelessWidget {
   const AddProductButton({
     required this.shopName,
@@ -171,7 +261,7 @@ class AddProductButton extends StatelessWidget {
     required this.productPrice,
     required this.imageName,
     required this.imagePath,
-    required this.downloadURL,
+    required this.shopDownloadURL,
     Key? key,
   }) : super(key: key);
 
@@ -180,7 +270,7 @@ class AddProductButton extends StatelessWidget {
   final double productPrice;
   final String imageName;
   final String imagePath;
-  final String downloadURL;
+  final String shopDownloadURL;
 
   @override
   Widget build(BuildContext context) {
@@ -203,6 +293,7 @@ class AddProductButton extends StatelessWidget {
                       shopName,
                       imageName,
                       imagePath,
+                      shopDownloadURL,
                     );
               },
               child: const Text('Dodaj'),
@@ -225,20 +316,24 @@ class ProductName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(15),
+      height: 65,
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           color: Colors.white),
-      child: TextField(
-        style: GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          labelStyle:
+      child: Center(
+        child: TextField(
+          style:
               GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
-          label: const Text('Nazwa produktu'),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            labelStyle:
+                GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
+            label: const Text('Nazwa produktu'),
+          ),
+          onChanged: onProductNameChanged,
+          textAlign: TextAlign.center,
         ),
-        onChanged: onProductNameChanged,
-        textAlign: TextAlign.center,
       ),
     );
   }
@@ -255,20 +350,24 @@ class ShopName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(15),
+      height: 65,
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           color: Colors.white),
-      child: TextField(
-        style: GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          labelStyle:
+      child: Center(
+        child: TextField(
+          style:
               GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
-          label: const Text('Nazwa sklepu'),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            labelStyle:
+                GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
+            label: const Text('Nazwa sklepu'),
+          ),
+          onChanged: onNameChanged,
+          textAlign: TextAlign.center,
         ),
-        onChanged: onNameChanged,
-        textAlign: TextAlign.center,
       ),
     );
   }
@@ -285,24 +384,28 @@ class ProductPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(15),
+      height: 65,
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           color: Colors.white),
-      child: TextField(
-        style: GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          labelStyle:
+      child: Center(
+        child: TextField(
+          style:
               GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
-          label: const Text('Cena'),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            labelStyle:
+                GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
+            label: const Text('Cena'),
+          ),
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ],
+          onChanged: onProductPriceChanged,
+          textAlign: TextAlign.center,
         ),
-        keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
-        ],
-        onChanged: onProductPriceChanged,
-        textAlign: TextAlign.center,
       ),
     );
   }
@@ -328,7 +431,8 @@ class _AddProductImageState extends State<AddProductImage> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SizedBox(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         width: 150,
         height: 150,
         child: InkWell(

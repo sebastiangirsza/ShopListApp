@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var currentIndex = 0;
+  var currentIndex = 3;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

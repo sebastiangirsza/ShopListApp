@@ -19,6 +19,7 @@ class ProductPriceRemoteDataSource {
     double productPrice,
     String shopName,
     String downloadURL,
+    String shopDownloadURL,
   ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 
@@ -31,6 +32,7 @@ class ProductPriceRemoteDataSource {
       'product_price': productPrice,
       'shop_name': shopName,
       'download_url': downloadURL,
+      'shop_download_url': shopDownloadURL,
     });
   }
 

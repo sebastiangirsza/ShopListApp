@@ -27,12 +27,14 @@ class ProductPriceRepository {
     double productPrice,
     String shopName,
     String downloadURL,
+    String shopDownloaduURL,
   ) async {
     await _productPriceRemoteDataSource.addProductPrice(
       productName,
       productPrice,
       shopName,
       downloadURL,
+      shopDownloaduURL,
     );
   }
 
