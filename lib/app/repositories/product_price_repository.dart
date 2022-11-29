@@ -22,6 +22,18 @@ class ProductPriceRepository {
             .toList());
   }
 
+  Stream<List<ProductPriceModel>> getShopName(String shopName) {
+    final userID = _userRemoteDataSource.getUserID();
+    if (userID == null) {
+      throw Exception('Użytkownik nie jest zalogowany');
+    }
+    return _productPriceRemoteDataSource.getProductPriceStream().map(
+        (querySnapshots) => querySnapshots.docs
+            .map((productsPrice) => ProductPriceModel.fromJson(productsPrice))
+            .where((element) => element.shopName == shopName)
+            .toList());
+  }
+
   Future<void> addProductPrice(
     String productName,
     double productPrice,

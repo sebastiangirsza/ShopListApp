@@ -5,6 +5,7 @@ class ProductPriceModel {
   final double productPrice;
   final String shopName;
   final String downloadURL;
+  final String shopDownloadURL;
   final String id;
 
   ProductPriceModel({
@@ -12,6 +13,7 @@ class ProductPriceModel {
     required this.productPrice,
     required this.shopName,
     required this.downloadURL,
+    required this.shopDownloadURL,
     required this.id,
   });
 
@@ -21,5 +23,6 @@ class ProductPriceModel {
         productPrice = productPrice['product_price'],
         shopName = productPrice['shop_name'],
         downloadURL = productPrice['download_url'],
+        shopDownloadURL = productPrice['shop_download_url'],
         id = productPrice.id;
 }
