@@ -10,36 +10,45 @@ part 'product_price_state.dart';
 
 @injectable
 class ProductPriceCubit extends Cubit<ProductPriceState> {
-  ProductPriceCubit(this._productPriceRepository)
-      : super(const ProductPriceState(productPrice: []));
+  ProductPriceCubit(
+    this._productPriceRepository,
+  ) : super(const ProductPriceState(
+          productsPrice: [],
+        ));
 
   StreamSubscription? _streamSubscription;
+
   final ProductPriceRepository _productPriceRepository;
 
-  Future<void> start() async {
+  Future<void> getProductPriceStream(String productName) async {
     _streamSubscription =
-        _productPriceRepository.getProductPriceStream().listen(
-      (productPrice) {
-        emit(ProductPriceState(productPrice: productPrice));
+        _productPriceRepository.getProductPriceStream(productName).listen(
+      (productsName) {
+        emit(ProductPriceState(
+          productsPrice: productsName,
+        ));
       },
     )..onError(
             (error) {
-              emit(const ProductPriceState(productPrice: []));
+              emit(const ProductPriceState(
+                productsPrice: [],
+              ));
             },
           );
   }
 
-  Future<void> shopName(String shopName) async {
-    _streamSubscription = _productPriceRepository.getShopName(shopName).listen(
-      (productPrice) {
-        emit(ProductPriceState(productPrice: productPrice));
-      },
-    )..onError(
-        (error) {
-          emit(const ProductPriceState(productPrice: []));
-        },
-      );
-  }
+  // Future<void> shopProductName(String productName) async {
+  //   _streamSubscription =
+  //       _shopProductsRepository.getShopProductName(productName).listen(
+  //     (productPrice) {
+  //       emit(ProductPriceState(productPrice: productPrice));
+  //     },
+  //   )..onError(
+  //           (error) {
+  //             emit(const ProductPriceState(productPrice: []));
+  //           },
+  //         );
+  // }
 
   @override
   Future<void> close() {

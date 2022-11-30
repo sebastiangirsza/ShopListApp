@@ -11,7 +11,7 @@ class ProductPriceRepository {
   final ProductPriceRemoteDataSource _productPriceRemoteDataSource;
   final UserRemoteDataSource _userRemoteDataSource;
 
-  Stream<List<ProductPriceModel>> getProductPriceStream() {
+  Stream<List<ProductPriceModel>> getProductPriceStream(String productName) {
     final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {
       throw Exception('Użytkownik nie jest zalogowany');
@@ -19,18 +19,7 @@ class ProductPriceRepository {
     return _productPriceRemoteDataSource.getProductPriceStream().map(
         (querySnapshots) => querySnapshots.docs
             .map((productsPrice) => ProductPriceModel.fromJson(productsPrice))
-            .toList());
-  }
-
-  Stream<List<ProductPriceModel>> getShopName(String shopName) {
-    final userID = _userRemoteDataSource.getUserID();
-    if (userID == null) {
-      throw Exception('Użytkownik nie jest zalogowany');
-    }
-    return _productPriceRemoteDataSource.getProductPriceStream().map(
-        (querySnapshots) => querySnapshots.docs
-            .map((productsPrice) => ProductPriceModel.fromJson(productsPrice))
-            .where((element) => element.shopName == shopName)
+            .where((element) => element.productName == productName)
             .toList());
   }
 
@@ -39,14 +28,14 @@ class ProductPriceRepository {
     double productPrice,
     String shopName,
     String downloadURL,
-    String shopDownloaduURL,
+    String shopDownloadURL,
   ) async {
     await _productPriceRemoteDataSource.addProductPrice(
       productName,
       productPrice,
       shopName,
       downloadURL,
-      shopDownloaduURL,
+      shopDownloadURL,
     );
   }
 

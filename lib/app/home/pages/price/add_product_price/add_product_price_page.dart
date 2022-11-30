@@ -9,13 +9,16 @@ import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/home/pages/price/add_product_price/cubit/add_product_price_cubit.dart';
 import 'package:shoplistapp/app/home/pages/price/shop/cubit/shop_cubit.dart';
 import 'package:shoplistapp/app/injection_container.dart';
+import 'package:shoplistapp/app/models/shop_products_model.dart';
 
 @injectable
 class AddProductPricePage extends StatefulWidget {
   const AddProductPricePage({
+    required this.shopProductModel,
     Key? key,
   }) : super(key: key);
 
+  final ShopProductsModel shopProductModel;
   @override
   State<AddProductPricePage> createState() => _AddProductPricePageState();
 }
@@ -24,8 +27,7 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
   late String? productName;
   late double? productPrice;
   late String? shopName;
-  late String? imageName;
-  late String? imagePath;
+  late String? downloadURL;
   late String? shopDownloadURL;
   dynamic chosenShop;
 
@@ -34,8 +36,7 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
     productName = 'productName';
     productPrice = 0.0;
     shopName = 'shopName';
-    imageName = 'imageName';
-    imagePath = 'imagePath';
+    downloadURL = 'downloadURL';
     shopDownloadURL = 'shopDownloadURL';
     super.initState();
   }
@@ -116,23 +117,12 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
                 body: ListView(
                   children: [
                     const SizedBox(height: 10),
-                    AddProductImage(
-                      imageName: (newImageName) {
-                        setState(() {
-                          imageName = newImageName;
-                        });
-                      },
-                      imagePath: (newImagePath) {
-                        setState(() {
-                          imagePath = newImagePath;
-                        });
-                      },
-                    ),
-                    ProductName(onProductNameChanged: (newProductName) {
-                      setState(() {
-                        productName = newProductName;
-                      });
-                    }),
+
+                    // ProductName(onProductNameChanged: (newProductName) {
+                    //   setState(() {
+                    //     productName = newProductName;
+                    //   });
+                    // }),
                     ChooseShop(
                       onShopChanged: (newShop) {
                         setState(() {
@@ -152,10 +142,9 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
                     ),
                     AddProductButton(
                       shopName: shopName!,
-                      productName: productName!,
+                      productName: widget.shopProductModel.shopProductName,
                       productPrice: productPrice!,
-                      imageName: imageName!,
-                      imagePath: imagePath!,
+                      downloadURL: widget.shopProductModel.downloadURL,
                       shopDownloadURL: shopDownloadURL!,
                     ),
                   ],
@@ -254,8 +243,7 @@ class AddProductButton extends StatelessWidget {
     required this.shopName,
     required this.productName,
     required this.productPrice,
-    required this.imageName,
-    required this.imagePath,
+    required this.downloadURL,
     required this.shopDownloadURL,
     Key? key,
   }) : super(key: key);
@@ -263,8 +251,7 @@ class AddProductButton extends StatelessWidget {
   final String shopName;
   final String productName;
   final double productPrice;
-  final String imageName;
-  final String imagePath;
+  final String downloadURL;
   final String shopDownloadURL;
 
   @override
@@ -286,8 +273,7 @@ class AddProductButton extends StatelessWidget {
                       productName,
                       productPrice,
                       shopName,
-                      imageName,
-                      imagePath,
+                      downloadURL,
                       shopDownloadURL,
                     );
               },
@@ -300,39 +286,39 @@ class AddProductButton extends StatelessWidget {
   }
 }
 
-class ProductName extends StatelessWidget {
-  const ProductName({
-    Key? key,
-    required this.onProductNameChanged,
-  }) : super(key: key);
+// class ProductName extends StatelessWidget {
+//   const ProductName({
+//     Key? key,
+//     required this.onProductNameChanged,
+//   }) : super(key: key);
 
-  final Function(String) onProductNameChanged;
+//   final Function(String) onProductNameChanged;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 65,
-      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: Colors.white),
-      child: Center(
-        child: TextField(
-          style:
-              GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            labelStyle:
-                GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
-            label: const Text('Nazwa produktu'),
-          ),
-          onChanged: onProductNameChanged,
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 65,
+//       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+//       decoration: const BoxDecoration(
+//           borderRadius: BorderRadius.all(Radius.circular(10)),
+//           color: Colors.white),
+//       child: Center(
+//         child: TextField(
+//           style:
+//               GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
+//           decoration: InputDecoration(
+//             border: InputBorder.none,
+//             labelStyle:
+//                 GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
+//             label: const Text('Nazwa produktu'),
+//           ),
+//           onChanged: onProductNameChanged,
+//           textAlign: TextAlign.center,
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class ProductPrice extends StatelessWidget {
   const ProductPrice({
