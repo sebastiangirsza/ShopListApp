@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:injectable/injectable.dart';
+import 'package:shoplistapp/app/home/pages/price/add_shop/add_shop_page.dart';
 import 'package:shoplistapp/app/home/pages/price/shop/cubit/shop_cubit.dart';
 
 import 'package:shoplistapp/app/injection_container.dart';
@@ -20,87 +20,71 @@ class ShopPage extends StatelessWidget {
       child: BlocBuilder<ShopCubit, ShopState>(
         builder: (context, state) {
           final shopModels = state.shops;
-          return Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.1, 0.5, 0.7, 0.9],
-                colors: [
-                  Color.fromARGB(255, 200, 233, 255),
-                  Color.fromARGB(255, 213, 238, 255),
-                  Color.fromARGB(255, 228, 244, 255),
-                  Color.fromARGB(255, 244, 250, 255),
-                ],
-              ),
-            ),
-            child: Scaffold(
-              appBar: AppBar(
-                iconTheme: const IconThemeData(
-                  color: Color.fromARGB(255, 200, 233, 255),
-                  shadows: <Shadow>[
-                    Shadow(
-                      offset: Offset(1.0, 1.0),
-                      blurRadius: 7.0,
-                      color: Color.fromARGB(255, 0, 0, 0),
+          return GridView.count(
+            crossAxisCount: 2,
+            physics: const ClampingScrollPhysics(),
+            shrinkWrap: true,
+            children: [
+              for (final shopModel in shopModels) ...[
+                Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(10),
+                      height: 120,
+                      width: 120,
+                      decoration: BoxDecoration(
+                          boxShadow: const <BoxShadow>[
+                            BoxShadow(color: Colors.black, blurRadius: 15)
+                          ],
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                          color: Colors.white,
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                shopModel.downloadURL,
+                              ),
+                              fit: BoxFit.contain)),
                     ),
+                    Text(shopModel.shopName)
                   ],
                 ),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(30),
-                  ),
-                ),
-                elevation: 10,
-                scrolledUnderElevation: 10,
-                toolbarHeight: 60,
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.white,
-                title: Text(
-                  'Lista sklepów',
-                  style: GoogleFonts.getFont(
-                    'Saira',
-                    fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(255, 200, 233, 255),
-                    shadows: <Shadow>[
-                      const Shadow(
-                        offset: Offset(1.0, 1.0),
-                        blurRadius: 7.0,
-                        color: Color.fromARGB(255, 0, 0, 0),
+              ],
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const AddShopPage(),
+                      fullscreenDialog: true,
+                    ),
+                  );
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(10),
+                      height: 120,
+                      width: 120,
+                      decoration: const BoxDecoration(
+                        color: Colors.blue,
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(color: Colors.black, blurRadius: 15)
+                        ],
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-                actions: const [],
-              ),
-              body: ListView(
-                physics: const ClampingScrollPhysics(),
-                shrinkWrap: true,
-                children: [
-                  for (final shopModel in shopModels) ...[
-                    Center(
-                      child: Container(
-                        margin: const EdgeInsets.all(10),
-                        height: 120,
-                        width: 120,
-                        decoration: BoxDecoration(
-                            boxShadow: const <BoxShadow>[
-                              BoxShadow(color: Colors.black, blurRadius: 15)
-                            ],
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                  shopModel.downloadURL,
-                                ),
-                                fit: BoxFit.cover)),
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.black,
+                        size: 70,
                       ),
                     ),
-                  ]
-                ],
+                    const Text(''),
+                  ],
+                ),
               ),
-            ),
+            ],
           );
         },
       ),

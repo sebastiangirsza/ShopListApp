@@ -91,18 +91,18 @@ class _HomePageState extends State<HomePage> {
                 return const PricePage();
               }),
               bottomNavigationBar: MotionTabBar(
-                initialSelectedTab: 'Lista zakupów',
+                initialSelectedTab: 'Ceny produktów',
                 labels: const [
                   'Lista zakupów',
                   'Moje produkty',
                   'Przepisy',
-                  'Kalendarz',
+                  'Ceny produktów',
                 ],
                 icons: const [
                   Icons.edit_note_rounded,
                   Icons.shopping_bag_outlined,
                   Icons.dinner_dining,
-                  Icons.calendar_month,
+                  Icons.price_change_outlined,
                 ],
                 onTabItemSelected: (newIndex) {
                   setState(() {
