@@ -22,8 +22,15 @@ class PricePage extends StatelessWidget {
           margin: const EdgeInsets.all(10),
           width: double.infinity,
           decoration: const BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: Colors.black,
+                blurRadius: 2,
+                offset: Offset(3, 3),
+              )
+            ],
             borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: Colors.black,
+            color: Colors.white,
           ),
           child: ExpansionTile(
             title: Expanded(
@@ -31,18 +38,19 @@ class PricePage extends StatelessWidget {
               'Lista sklepów',
               style: GoogleFonts.getFont('Saira',
                   fontSize: 21,
-                  color: Colors.blue,
+                  color: const Color.fromARGB(255, 0, 63, 114),
                   fontWeight: FontWeight.bold),
             )),
             trailing: const Icon(
               Icons.shopping_cart,
-              color: Colors.blue,
+              color: Color.fromARGB(255, 0, 63, 114),
             ),
             children: const [
               ShopPage(),
             ],
           ),
         ),
+        const ProductPricePage(),
         ElevatedButton(
           onPressed: () {
             Navigator.of(context).push(
@@ -55,14 +63,7 @@ class PricePage extends StatelessWidget {
           child: const Text('Produkty'),
         ),
         ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const AddShopProductsPage(),
-                fullscreenDialog: true,
-              ),
-            );
-          },
+          onPressed: () {},
           child: const Text('Dodaj produkt'),
         ),
       ],

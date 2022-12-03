@@ -11,6 +11,7 @@ class ProductPriceRemoteDataSource {
         .collection('users')
         .doc(userID)
         .collection('product_price')
+        .orderBy('product_price', descending: false)
         .snapshots();
   }
 

@@ -26,97 +26,60 @@ class _AddShopPageState extends State<AddShopPage> {
 
   @override
   void initState() {
-    shopName = 'shopName';
-    imageName = 'imageName';
-    imagePath = 'imagePath';
+    shopName = '';
+    imageName = '';
+    imagePath = '';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: [0.1, 0.5, 0.7, 0.9],
-          colors: [
-            Color.fromARGB(255, 200, 233, 255),
-            Color.fromARGB(255, 213, 238, 255),
-            Color.fromARGB(255, 228, 244, 255),
-            Color.fromARGB(255, 244, 250, 255),
-          ],
-        ),
-      ),
-      child: Scaffold(
-        appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Color.fromARGB(255, 200, 233, 255),
-            shadows: <Shadow>[
-              Shadow(
-                offset: Offset(1.0, 1.0),
-                blurRadius: 7.0,
-                color: Color.fromARGB(255, 0, 0, 0),
-              ),
-            ],
-          ),
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return AlertDialog(
           shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(30),
+            borderRadius: BorderRadius.all(
+              Radius.circular(15.0),
             ),
           ),
-          elevation: 10,
-          scrolledUnderElevation: 10,
-          toolbarHeight: 60,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.white,
-          title: Text(
-            'Dodaj sklep',
-            style: GoogleFonts.getFont(
-              'Saira',
-              fontWeight: FontWeight.bold,
-              color: const Color.fromARGB(255, 200, 233, 255),
-              shadows: <Shadow>[
-                const Shadow(
-                  offset: Offset(1.0, 1.0),
-                  blurRadius: 7.0,
-                  color: Color.fromARGB(255, 0, 0, 0),
+          backgroundColor: const Color.fromARGB(255, 200, 233, 255),
+          content: Container(
+            constraints: const BoxConstraints(
+              maxHeight: double.infinity,
+            ),
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                const SizedBox(height: 10),
+                AddShopLogo(
+                  imageName: (newImageName) {
+                    setState(() {
+                      imageName = newImageName;
+                    });
+                  },
+                  imagePath: (newImagePath) {
+                    setState(() {
+                      imagePath = newImagePath;
+                    });
+                  },
+                ),
+                ShopName(
+                  onNameChanged: (newShopName) {
+                    setState(() {
+                      shopName = newShopName;
+                    });
+                  },
+                ),
+                AddShopButton(
+                  shopName: shopName!,
+                  imageName: imageName!,
+                  imagePath: imagePath!,
                 ),
               ],
             ),
           ),
-          actions: const [],
-        ),
-        body: ListView(
-          children: [
-            const SizedBox(height: 10),
-            AddShopLogo(
-              imageName: (newImageName) {
-                setState(() {
-                  imageName = newImageName;
-                });
-              },
-              imagePath: (newImagePath) {
-                setState(() {
-                  imagePath = newImagePath;
-                });
-              },
-            ),
-            ShopName(
-              onNameChanged: (newShopName) {
-                setState(() {
-                  shopName = newShopName;
-                });
-              },
-            ),
-            AddShopButton(
-              shopName: shopName!,
-              imageName: imageName!,
-              imagePath: imagePath!,
-            ),
-          ],
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -154,16 +117,41 @@ class AddShopButton extends StatelessWidget {
         },
         child: BlocBuilder<AddShopCubit, AddShopState>(
           builder: (context, state) {
-            return ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
-              onPressed: () {
-                context.read<AddShopCubit>().addShop(
-                      imageName,
-                      imagePath,
-                      shopName,
-                    );
-              },
-              child: const Text('Dodaj'),
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'Anuluj',
+                        style: GoogleFonts.getFont('Saira',
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      )),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                    ),
+                    onPressed: shopName == '' || imagePath == ''
+                        ? null
+                        : () {
+                            context.read<AddShopCubit>().addShop(
+                                  imageName,
+                                  imagePath,
+                                  shopName,
+                                );
+                          },
+                    child: const Text('Dodaj'),
+                  ),
+                ),
+              ],
             );
           },
         ),
@@ -183,16 +171,25 @@ class ShopName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(15),
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
           color: Colors.white),
       child: TextField(
-        style: GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
+        style: GoogleFonts.getFont(
+          'Saira',
+          fontSize: 12,
+          color: Colors.black,
+        ),
         decoration: InputDecoration(
           border: InputBorder.none,
-          labelStyle:
-              GoogleFonts.getFont('Saira', fontSize: 12, color: Colors.black),
+          labelStyle: GoogleFonts.getFont(
+            'Saira',
+            fontSize: 12,
+            color: Colors.black,
+          ),
           label: const Text('Nazwa sklepu'),
         ),
         onChanged: onNameChanged,
@@ -223,7 +220,7 @@ class _AddShopLogoState extends State<AddShopLogo> {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: 150,
+        width: 225,
         height: 150,
         child: InkWell(
           onTap: () async {

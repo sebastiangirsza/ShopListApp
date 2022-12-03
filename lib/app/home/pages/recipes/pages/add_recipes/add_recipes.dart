@@ -325,7 +325,10 @@ class _AddRecipesWidgetState extends State<AddRecipesWidget> {
                           hintText:
                               'Przykład:\n1. Rozgrzej 10g oleju na patelni.\n2. Pokrój kurczaka na drobne kawałki.'),
                     )),
-                IconButton(
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 0, 63, 114),
+                    ),
                     onPressed: recipesName == null ||
                             imageName == null ||
                             recipesMakeing == null
@@ -348,9 +351,8 @@ class _AddRecipesWidgetState extends State<AddRecipesWidget> {
                                 pickedImage!,
                                 imageName!);
                           },
-                    icon: const Icon(
-                      Icons.save_alt,
-                      color: Color.fromARGB(255, 0, 63, 114),
+                    child: const Text(
+                      'Dodaj przepis',
                     )),
               ],
             );

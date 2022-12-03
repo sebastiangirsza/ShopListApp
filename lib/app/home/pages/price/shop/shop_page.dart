@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/home/pages/price/add_shop/add_shop_page.dart';
@@ -21,7 +22,7 @@ class ShopPage extends StatelessWidget {
         builder: (context, state) {
           final shopModels = state.shops;
           return GridView.count(
-            crossAxisCount: 2,
+            crossAxisCount: 3,
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
             children: [
@@ -30,11 +31,15 @@ class ShopPage extends StatelessWidget {
                   children: [
                     Container(
                       margin: const EdgeInsets.all(10),
-                      height: 120,
-                      width: 120,
+                      height: 60,
+                      width: 90,
                       decoration: BoxDecoration(
                           boxShadow: const <BoxShadow>[
-                            BoxShadow(color: Colors.black, blurRadius: 15)
+                            BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 2,
+                              offset: Offset(3, 3),
+                            )
                           ],
                           borderRadius: const BorderRadius.all(
                             Radius.circular(10),
@@ -46,29 +51,36 @@ class ShopPage extends StatelessWidget {
                               ),
                               fit: BoxFit.contain)),
                     ),
-                    Text(shopModel.shopName)
+                    Text(
+                      shopModel.shopName,
+                      style: GoogleFonts.getFont('Saira',
+                          fontSize: 12, color: Colors.black),
+                    )
                   ],
                 ),
               ],
               InkWell(
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const AddShopPage(),
-                      fullscreenDialog: true,
-                    ),
-                  );
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const AddShopPage();
+                      });
                 },
                 child: Column(
                   children: [
                     Container(
                       margin: const EdgeInsets.all(10),
-                      height: 120,
-                      width: 120,
+                      height: 60,
+                      width: 90,
                       decoration: const BoxDecoration(
                         color: Colors.blue,
                         boxShadow: <BoxShadow>[
-                          BoxShadow(color: Colors.black, blurRadius: 15)
+                          BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 2,
+                            offset: Offset(3, 3),
+                          )
                         ],
                         borderRadius: BorderRadius.all(
                           Radius.circular(10),
@@ -76,8 +88,8 @@ class ShopPage extends StatelessWidget {
                       ),
                       child: const Icon(
                         Icons.add,
-                        color: Colors.black,
-                        size: 70,
+                        color: Colors.white,
+                        size: 45,
                       ),
                     ),
                     const Text(''),
