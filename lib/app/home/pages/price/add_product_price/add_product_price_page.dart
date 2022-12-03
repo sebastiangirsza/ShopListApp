@@ -117,12 +117,6 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
                 body: ListView(
                   children: [
                     const SizedBox(height: 10),
-
-                    // ProductName(onProductNameChanged: (newProductName) {
-                    //   setState(() {
-                    //     productName = newProductName;
-                    //   });
-                    // }),
                     ChooseShop(
                       onShopChanged: (newShop) {
                         setState(() {
@@ -347,8 +341,11 @@ class ProductPrice extends StatelessWidget {
             label: const Text('Cena'),
           ),
           keyboardType: TextInputType.number,
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly
+          // inputFormatters: <TextInputFormatter>[
+          //   FilteringTextInputFormatter.digitsOnly
+          // ],
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))
           ],
           onChanged: onProductPriceChanged,
           textAlign: TextAlign.center,

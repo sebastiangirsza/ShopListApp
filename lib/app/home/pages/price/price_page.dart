@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:injectable/injectable.dart';
-import 'package:shoplistapp/app/home/pages/price/add_shop_products/add_shop_products_page.dart';
 import 'package:shoplistapp/app/home/pages/price/product_price/product_price_page.dart';
 import 'package:shoplistapp/app/home/pages/price/shop/shop_page.dart';
 
@@ -51,21 +49,6 @@ class PricePage extends StatelessWidget {
           ),
         ),
         const ProductPricePage(),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const ProductPricePage(),
-                fullscreenDialog: true,
-              ),
-            );
-          },
-          child: const Text('Produkty'),
-        ),
-        ElevatedButton(
-          onPressed: () {},
-          child: const Text('Dodaj produkt'),
-        ),
       ],
     );
   }
