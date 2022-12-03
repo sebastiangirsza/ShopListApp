@@ -158,15 +158,10 @@ class AddShopButton extends StatelessWidget {
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               onPressed: () {
                 context.read<AddShopProductsCubit>().addShopProduct(
-                      imageName,
+                      imageName + DateTime.now().toString(),
                       imagePath,
                       shopProductName,
                     );
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (_) => AddProductPricePage(),
-                //   ),
-                // );
               },
               child: const Text('Dodaj'),
             );
@@ -233,7 +228,7 @@ class _AddShopProductImageState extends State<AddShopProductImage> {
         child: InkWell(
           onTap: () async {
             final result = await FilePicker.platform.pickFiles(
-              allowMultiple: false,
+              allowMultiple: true,
               type: FileType.custom,
               allowedExtensions: ['png', 'jpg'],
             );

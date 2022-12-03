@@ -143,7 +143,7 @@ class AddShopButton extends StatelessWidget {
                         ? null
                         : () {
                             context.read<AddShopCubit>().addShop(
-                                  imageName,
+                                  imageName + DateTime.now().toString(),
                                   imagePath,
                                   shopName,
                                 );

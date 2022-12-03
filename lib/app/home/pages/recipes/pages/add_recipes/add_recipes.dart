@@ -327,7 +327,7 @@ class _AddRecipesWidgetState extends State<AddRecipesWidget> {
                     )),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 0, 63, 114),
+                      backgroundColor: const Color.fromARGB(255, 0, 63, 114),
                     ),
                     onPressed: recipesName == null ||
                             imageName == null ||
