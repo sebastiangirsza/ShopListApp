@@ -10,16 +10,20 @@ class AddProductButton extends StatelessWidget {
     required this.shopName,
     required this.productName,
     required this.productPrice,
-    required this.downloadURL,
-    required this.shopDownloadURL,
+    required this.date,
+    required this.id,
+    // required this.downloadURL,
+    // required this.shopDownloadURL,
     Key? key,
   }) : super(key: key);
 
   final String shopName;
   final String productName;
   final double productPrice;
-  final String downloadURL;
-  final String shopDownloadURL;
+  final DateTime date;
+  final String id;
+  // final String downloadURL;
+  // final String shopDownloadURL;
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +40,11 @@ class AddProductButton extends StatelessWidget {
             return ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               onPressed: () {
-                context.read<AddProductPriceCubit>().addProductPrice(
-                      productName,
+                context.read<AddProductPriceCubit>().updateProductPrice(
                       productPrice,
-                      shopName,
-                      downloadURL,
-                      shopDownloadURL,
+                      id,
+                      // downloadURL,
+                      // shopDownloadURL,
                     );
               },
               child: const Text(

@@ -11,6 +11,7 @@ class ShopProductsRemoteDataSource {
         .collection('users')
         .doc(userID)
         .collection('shop_products')
+        .orderBy('shop_product_name', descending: false)
         .snapshots();
   }
 

@@ -4,16 +4,18 @@ class ProductPriceModel {
   final String productName;
   final double productPrice;
   final String shopName;
-  final String downloadURL;
-  final String shopDownloadURL;
+  // final DateTime date;
+  // final String downloadURL;
+  // final String shopDownloadURL;
   final String id;
 
   ProductPriceModel({
     required this.productName,
     required this.productPrice,
     required this.shopName,
-    required this.downloadURL,
-    required this.shopDownloadURL,
+    // required this.date,
+    // required this.downloadURL,
+    // required this.shopDownloadURL,
     required this.id,
   });
 
@@ -22,7 +24,8 @@ class ProductPriceModel {
       : productName = productPrice['product_name'],
         productPrice = productPrice['product_price'],
         shopName = productPrice['shop_name'],
-        downloadURL = productPrice['download_url'],
-        shopDownloadURL = productPrice['shop_download_url'],
+        // date = productPrice['date'].toDate(),
+        // downloadURL = productPrice['download_url'],
+        // shopDownloadURL = productPrice['shop_download_url'],
         id = productPrice.id;
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shoplistapp/app/home/pages/price/add_product_price/cubit/add_product_price_cubit.dart';
 import 'package:shoplistapp/app/home/pages/price/add_shop_products/cubit/add_shop_product_cubit.dart';
 import 'package:shoplistapp/app/injection_container.dart';
 
@@ -39,19 +40,29 @@ class AddShopButton extends StatelessWidget {
         },
         child: BlocBuilder<AddShopProductsCubit, AddShopProductsState>(
           builder: (context, state) {
-            return ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-              ),
-              onPressed: () {
-                context.read<AddShopProductsCubit>().addShopProduct(
-                      imageName + DateTime.now().toString(),
-                      imagePath,
-                      shopProductName,
-                    );
-              },
-              child: const Text(
-                'Dodaj',
+            return BlocProvider(
+              create: (context) => getIt<AddProductPriceCubit>(),
+              child: BlocBuilder<AddProductPriceCubit, AddProductPriceState>(
+                builder: (context, state) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                    ),
+                    onPressed: () {
+                      context.read<AddShopProductsCubit>().addShopProduct(
+                            imageName + DateTime.now().toString(),
+                            imagePath,
+                            shopProductName,
+                          );
+                      context.read<AddProductPriceCubit>().addFirstProductPrice(
+                            shopProductName,
+                          );
+                    },
+                    child: const Text(
+                      'Dodaj',
+                    ),
+                  );
+                },
               ),
             );
           },

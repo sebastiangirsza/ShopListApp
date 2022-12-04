@@ -20,21 +20,28 @@ class ProductPriceCubit extends Cubit<ProductPriceState> {
 
   final ProductPriceRepository _productPriceRepository;
 
-  Future<void> getProductPriceStream(String productName) async {
-    _streamSubscription =
-        _productPriceRepository.getProductPriceStream(productName).listen(
+  Future<void> getProductPriceStream(
+    String productName,
+    String shopName,
+  ) async {
+    _streamSubscription = _productPriceRepository
+        .getProductPriceStream(
+      productName,
+      shopName,
+    )
+        .listen(
       (productsName) {
         emit(ProductPriceState(
           productsPrice: productsName,
         ));
       },
     )..onError(
-            (error) {
-              emit(const ProductPriceState(
-                productsPrice: [],
-              ));
-            },
-          );
+        (error) {
+          emit(const ProductPriceState(
+            productsPrice: [],
+          ));
+        },
+      );
   }
 
   // Future<void> shopProductName(String productName) async {

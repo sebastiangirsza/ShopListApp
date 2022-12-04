@@ -11,16 +11,37 @@ class ProductPriceRemoteDataSource {
         .collection('users')
         .doc(userID)
         .collection('product_price')
-        .orderBy('product_price', descending: false)
         .snapshots();
   }
 
-  Future<void> addProductPrice(
+  Future<void> updateProductPrice(
+    double productPrice,
+    String id,
+    // String downloadURL,
+    // String shopDownloadURL,
+  ) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('product_price')
+        .doc(id)
+        .update({
+      'product_price': productPrice,
+
+      // 'download_url': downloadURL,
+      // 'shop_download_url': shopDownloadURL,
+    });
+  }
+
+  Future<void> addFirstProductPrice(
     String productName,
     double productPrice,
     String shopName,
-    String downloadURL,
-    String shopDownloadURL,
+    // DateTime date,
+    // String downloadURL,
+    // String shopDownloadURL,
   ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 
@@ -32,8 +53,9 @@ class ProductPriceRemoteDataSource {
       'product_name': productName,
       'product_price': productPrice,
       'shop_name': shopName,
-      'download_url': downloadURL,
-      'shop_download_url': shopDownloadURL,
+      // 'date': date,
+      // 'download_url': downloadURL,
+      // 'shop_download_url': shopDownloadURL,
     });
   }
 
