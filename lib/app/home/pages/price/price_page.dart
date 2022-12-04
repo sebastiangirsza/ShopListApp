@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/home/pages/price/product_price/product_price_page.dart';
-import 'package:shoplistapp/app/home/pages/price/shop/shop_page.dart';
+import 'package:shoplistapp/app/home/pages/price/shops/shop_page.dart';
 
-@injectable
 class PricePage extends StatelessWidget {
   const PricePage({
     Key? key,
