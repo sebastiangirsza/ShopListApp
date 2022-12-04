@@ -23,22 +23,23 @@ class ProductsPriceList extends StatelessWidget {
       child: BlocBuilder<ProductPriceCubit, ProductPriceState>(
         builder: (context, state) {
           final productsPriceModels = state.productsPrice;
-          List<String> productsPriceList = [];
-          List<String> productsShopDownloadURLList = [];
-          for (final productsPriceModel in productsPriceModels) {
-            productsPriceList.add(productsPriceModel.productPrice.toString());
-            productsShopDownloadURLList.add(productsPriceModel.shopDownloadURL);
-          }
+
+          List<dynamic> productsList = productsPriceModels;
+
+          var seen = Set<dynamic>();
+          List<dynamic> uniquelist =
+              productsList.where((shop) => seen.add(shop)).toList();
+
           return ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: productsPriceModels.length,
+            itemCount: productsList.length,
             itemBuilder: (context, index) {
-              final first = productsPriceList[0];
-              final Color color =
-                  index == 0 || first == productsPriceList[index]
-                      ? Colors.green
-                      : const Color.fromARGB(255, 200, 233, 255);
+              final first = productsList[0].productPrice.toString();
+              final Color color = index == 0 ||
+                      first == productsList[index].productPrice.toString()
+                  ? Colors.green
+                  : const Color.fromARGB(255, 200, 233, 255);
               return Container(
                 margin: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
@@ -73,7 +74,7 @@ class ProductsPriceList extends StatelessWidget {
                         ),
                         image: DecorationImage(
                           image: NetworkImage(
-                            productsShopDownloadURLList[index],
+                            productsList[index].shopDownloadURL,
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -91,7 +92,7 @@ class ProductsPriceList extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          productsPriceList[index],
+                          productsList[index].productPrice.toString(),
                           style: GoogleFonts.getFont(
                             'Saira',
                             fontSize: 12,
