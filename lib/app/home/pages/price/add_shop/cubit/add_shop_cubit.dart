@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shoplistapp/app/repositories/shop_products_repository.dart';
 import 'package:shoplistapp/app/repositories/shop_repository.dart';
 import 'package:shoplistapp/app/repositories/storage_repository.dart';
 import 'package:shoplistapp/app/repositories/user_repository.dart';
@@ -17,12 +19,15 @@ class AddShopCubit extends Cubit<AddShopState> {
     this._storageRemoteDataSource,
     this._storageRepository,
     this._shopRepository,
+    this._shopProductsRepository,
   ) : super(const AddShopState());
 
   final UserRespository _userRepository;
   final StorageRemoteDataSource _storageRemoteDataSource;
   final StorageRepository _storageRepository;
   final ShopRepository _shopRepository;
+  final ShopProductsRepository _shopProductsRepository;
+  StreamSubscription? _streamSubscription;
 
   Future<void> addShop(
     String imageName,
@@ -48,6 +53,21 @@ class AddShopCubit extends Cubit<AddShopState> {
         shopName,
         downloadURL,
       );
+
+      _streamSubscription =
+          _shopProductsRepository.getShopProductsStream().listen(
+        (shopProducts) {
+          for (final shopProduct in shopProducts) {
+            _shopRepository.addPriceToNewShop(
+              shopProduct.shopProductName,
+              0,
+              shopName,
+              // DateTime.now(),
+            );
+          }
+        },
+      );
+
       emit(
         const AddShopState(
           saved: true,
@@ -60,5 +80,11 @@ class AddShopCubit extends Cubit<AddShopState> {
         ),
       );
     }
+  }
+
+  @override
+  Future<void> close() {
+    _streamSubscription?.cancel();
+    return super.close();
   }
 }

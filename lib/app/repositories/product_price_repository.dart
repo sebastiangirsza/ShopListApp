@@ -47,17 +47,11 @@ class ProductPriceRepository {
     String productName,
     double productPrice,
     String shopName,
-    // DateTime date,
-    // String downloadURL,
-    // String shopDownloadURL,
   ) async {
     await _productPriceRemoteDataSource.addFirstProductPrice(
       productName,
       productPrice,
       shopName,
-      // date,
-      // downloadURL,
-      // shopDownloadURL,
     );
   }
 

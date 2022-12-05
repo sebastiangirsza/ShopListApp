@@ -54,9 +54,9 @@ class AddShopButton extends StatelessWidget {
                             imagePath,
                             shopProductName,
                           );
-                      context.read<AddProductPriceCubit>().addFirstProductPrice(
-                            shopProductName,
-                          );
+                      // context.read<AddProductPriceCubit>().addFirstProductPrice(
+                      //       shopProductName,
+                      //     );
                     },
                     child: const Text(
                       'Dodaj',

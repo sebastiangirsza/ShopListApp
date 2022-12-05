@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/repositories/product_price_repository.dart';
-import 'package:shoplistapp/app/repositories/shop_repository.dart';
+// import 'package:shoplistapp/app/repositories/shop_repository.dart';
 
 part 'add_product_price_state.dart';
 
@@ -12,12 +12,12 @@ part 'add_product_price_state.dart';
 class AddProductPriceCubit extends Cubit<AddProductPriceState> {
   AddProductPriceCubit(
     this._productPriceRepository,
-    this._shopRepository,
+    // this._shopRepository,
   ) : super(const AddProductPriceState());
 
   final ProductPriceRepository _productPriceRepository;
   StreamSubscription? _streamSubscription;
-  final ShopRepository _shopRepository;
+  // final ShopRepository _shopRepository;
 
   Future<void> updateProductPrice(
     double productPrice,
@@ -46,30 +46,35 @@ class AddProductPriceCubit extends Cubit<AddProductPriceState> {
     }
   }
 
-  Future<void> addFirstProductPrice(
-    String productName,
-  ) async {
-    try {
-      _streamSubscription = _shopRepository.getShopsStream().listen(
-        (shops) {
-          for (final shop in shops) {
-            _productPriceRepository.addFirstProductPrice(
-              productName,
-              0,
-              shop.shopName,
-              // DateTime.now(),
-            );
-          }
-        },
-      );
-    } catch (error) {
-      emit(
-        AddProductPriceState(
-          errorMessage: error.toString(),
-        ),
-      );
-    }
-  }
+  // Future<void> addFirstProductPrice(
+  //   String productName,
+  // ) async {
+  //   try {
+  //     _streamSubscription = _shopRepository.getShopsStream().listen(
+  //       (shops) {
+  //         for (final shop in shops) {
+  //           _productPriceRepository.addFirstProductPrice(
+  //             productName,
+  //             0,
+  //             shop.shopName,
+  //             // DateTime.now(),
+  //           );
+  //           emit(
+  //             const AddProductPriceState(
+  //               saved: true,
+  //             ),
+  //           );
+  //         }
+  //       },
+  //     );
+  //   } catch (error) {
+  //     emit(
+  //       AddProductPriceState(
+  //         errorMessage: error.toString(),
+  //       ),
+  //     );
+  //   }
+  // }
 
   @override
   Future<void> close() {

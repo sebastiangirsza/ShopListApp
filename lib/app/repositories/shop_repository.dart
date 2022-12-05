@@ -28,6 +28,18 @@ class ShopRepository {
     );
   }
 
+  Future<void> addPriceToNewShop(
+    String productName,
+    double productPrice,
+    String shopName,
+  ) async {
+    await _shopRemoteDataSource.addPriceToNewShop(
+      productName,
+      productPrice,
+      shopName,
+    );
+  }
+
   // Future<void> delete({required String id}) {
   //   final userID = _userRemoteDataSource.getUserID();
   //   if (userID == null) {

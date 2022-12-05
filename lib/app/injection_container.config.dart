@@ -257,10 +257,8 @@ _i1.GetIt $initGetIt(
       () => _i48.YourProductsCubit(get<_i43.PurchasedProductsRepository>()));
   gh.factory<_i49.AddProductCubit>(
       () => _i49.AddProductCubit(get<_i42.ProductsRepository>()));
-  gh.factory<_i50.AddProductPriceCubit>(() => _i50.AddProductPriceCubit(
-        get<_i41.ProductPriceRepository>(),
-        get<_i47.ShopRepository>(),
-      ));
+  gh.factory<_i50.AddProductPriceCubit>(
+      () => _i50.AddProductPriceCubit(get<_i41.ProductPriceRepository>()));
   gh.factory<_i51.AddRecipesCubit>(() => _i51.AddRecipesCubit(
         get<_i45.RecipesRepository>(),
         get<_i37.UserRespository>(),
@@ -271,12 +269,15 @@ _i1.GetIt $initGetIt(
         get<_i34.StorageRemoteDataSource>(),
         get<_i35.StorageRepository>(),
         get<_i47.ShopRepository>(),
+        get<_i46.ShopProductsRepository>(),
       ));
   gh.factory<_i53.AddShopProductsCubit>(() => _i53.AddShopProductsCubit(
         get<_i37.UserRespository>(),
         get<_i34.StorageRemoteDataSource>(),
         get<_i35.StorageRepository>(),
         get<_i46.ShopProductsRepository>(),
+        get<_i41.ProductPriceRepository>(),
+        get<_i47.ShopRepository>(),
       ));
   gh.factory<_i54.AuthCubit>(() => _i54.AuthCubit(
         get<_i39.FirebaseAuthRespository>(),
