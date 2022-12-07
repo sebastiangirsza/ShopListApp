@@ -11,14 +11,13 @@ class ProductPriceRemoteDataSource {
         .collection('users')
         .doc(userID)
         .collection('product_price')
+        .orderBy('product_price', descending: false)
         .snapshots();
   }
 
   Future<void> updateProductPrice(
     double productPrice,
     String id,
-    // String downloadURL,
-    // String shopDownloadURL,
   ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 
@@ -29,9 +28,6 @@ class ProductPriceRemoteDataSource {
         .doc(id)
         .update({
       'product_price': productPrice,
-
-      // 'download_url': downloadURL,
-      // 'shop_download_url': shopDownloadURL,
     });
   }
 

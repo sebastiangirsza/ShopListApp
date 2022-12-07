@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shoplistapp/app/home/pages/price/add_product_price/widgets/add_product_button.dart';
 import 'package:shoplistapp/app/home/pages/price/add_product_price/widgets/add_product_price.dart';
 import 'package:shoplistapp/app/models/shop_products_model.dart';
@@ -19,20 +20,11 @@ class AddProductPricePage extends StatefulWidget {
 }
 
 class _AddProductPricePageState extends State<AddProductPricePage> {
-  // late String? productName;
   late double? productPrice;
-  // late String? shopName;
-  // late String? downloadURL;
-  // late String? shopDownloadURL;
-  // dynamic chosenShop;
 
   @override
   void initState() {
-    // productName = 'productName';
     productPrice = 0.0;
-    // shopName = 'shopName';
-    // downloadURL = 'downloadURL';
-    // shopDownloadURL = 'shopDownloadURL';
     super.initState();
   }
 
@@ -53,16 +45,6 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
                     const SizedBox(
                       height: 10,
                     ),
-                    // ChooseShop(
-                    //   onShopChanged: (newShop) {
-                    //     setState(() {
-                    //       chosenShop = newShop;
-                    //       shopName = newShop.shopName.toString();
-                    //       shopDownloadURL = newShop.downloadURL.toString();
-                    //     });
-                    //   },
-                    //   chosenShop: chosenShop,
-                    // ),
                     AddProductPrice(
                       onProductPriceChanged: (newProductPrice) {
                         setState(() {
@@ -70,14 +52,38 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
                         });
                       },
                     ),
-                    AddProductButton(
-                      shopName: widget.shopName,
-                      productName: widget.shopProductModel.shopProductName,
-                      productPrice: productPrice!,
-                      date: DateTime.now(),
-                      id: widget.productPriceId,
-                      // downloadURL: widget.shopProductModel.downloadURL,
-                      // shopDownloadURL: shopDownloadURL!,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                'Anuluj',
+                                style: GoogleFonts.getFont(
+                                  'Saira',
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                ),
+                              )),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: AddProductButton(
+                            shopName: widget.shopName,
+                            productName:
+                                widget.shopProductModel.shopProductName,
+                            productPrice: productPrice!,
+                            date: DateTime.now(),
+                            id: widget.productPriceId,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

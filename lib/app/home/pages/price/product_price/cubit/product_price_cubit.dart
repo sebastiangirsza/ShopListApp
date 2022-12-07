@@ -44,19 +44,6 @@ class ProductPriceCubit extends Cubit<ProductPriceState> {
       );
   }
 
-  // Future<void> shopProductName(String productName) async {
-  //   _streamSubscription =
-  //       _shopProductsRepository.getShopProductName(productName).listen(
-  //     (productPrice) {
-  //       emit(ProductPriceState(productPrice: productPrice));
-  //     },
-  //   )..onError(
-  //           (error) {
-  //             emit(const ProductPriceState(productPrice: []));
-  //           },
-  //         );
-  // }
-
   @override
   Future<void> close() {
     _streamSubscription?.cancel();
