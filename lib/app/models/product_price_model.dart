@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductPriceModel {
-  final String productName;
+  final String shopProductName;
   final double productPrice;
-  final String shopName;
+  final String shopDownloadURL;
   // final DateTime date;
   // final String downloadURL;
   // final String shopDownloadURL;
   final String id;
 
   ProductPriceModel({
-    required this.productName,
+    required this.shopProductName,
     required this.productPrice,
-    required this.shopName,
+    required this.shopDownloadURL,
     // required this.date,
     // required this.downloadURL,
     // required this.shopDownloadURL,
@@ -21,9 +21,9 @@ class ProductPriceModel {
 
   ProductPriceModel.fromJson(
       QueryDocumentSnapshot<Map<String, dynamic>> productPrice)
-      : productName = productPrice['product_name'],
+      : shopProductName = productPrice['shop_product_name'],
         productPrice = productPrice['product_price'],
-        shopName = productPrice['shop_name'],
+        shopDownloadURL = productPrice['shop_download_url'],
         // date = productPrice['date'].toDate(),
         // downloadURL = productPrice['download_url'],
         // shopDownloadURL = productPrice['shop_download_url'],

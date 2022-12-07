@@ -12,46 +12,37 @@ class ProductPriceRepository {
   final UserRemoteDataSource _userRemoteDataSource;
 
   Stream<List<ProductPriceModel>> getProductPriceStream(
-      String productName, String shopName) {
+      String shopProductName) {
     final userID = _userRemoteDataSource.getUserID();
     if (userID == null) {
       throw Exception('Użytkownik nie jest zalogowany');
     }
-    return _productPriceRemoteDataSource
-        .getProductPriceStream()
-        .map((querySnapshots) => querySnapshots.docs
+    return _productPriceRemoteDataSource.getProductPriceStream().map(
+        (querySnapshots) => querySnapshots.docs
             .map((productsPrice) => ProductPriceModel.fromJson(productsPrice))
-            .where(
-              (element) =>
-                  element.productName == productName &&
-                  element.shopName == shopName,
-            )
+            .where((element) => element.shopProductName == shopProductName)
             .toList());
   }
 
   Future<void> updateProductPrice(
     double productPrice,
     String id,
-    // String downloadURL,
-    // String shopDownloadURL,
   ) async {
     await _productPriceRemoteDataSource.updateProductPrice(
       productPrice,
       id,
-      // downloadURL,
-      // shopDownloadURL,
     );
   }
 
   Future<void> addFirstProductPrice(
-    String productName,
+    String shopProductName,
     double productPrice,
-    String shopName,
+    String shopDownloadURL,
   ) async {
     await _productPriceRemoteDataSource.addFirstProductPrice(
-      productName,
+      shopProductName,
       productPrice,
-      shopName,
+      shopDownloadURL,
     );
   }
 

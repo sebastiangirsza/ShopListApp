@@ -7,20 +7,13 @@ import 'package:shoplistapp/app/injection_container.dart';
 @injectable
 class AddProductButton extends StatelessWidget {
   const AddProductButton({
-    required this.shopName,
-    required this.productName,
     required this.productPrice,
-    required this.date,
     required this.id,
-    // required this.downloadURL,
-    // required this.shopDownloadURL,
     Key? key,
   }) : super(key: key);
 
-  final String shopName;
-  final String productName;
   final double productPrice;
-  final DateTime date;
+
   final String id;
   // final String downloadURL;
   // final String shopDownloadURL;
@@ -43,8 +36,6 @@ class AddProductButton extends StatelessWidget {
                 context.read<AddProductPriceCubit>().updateProductPrice(
                       productPrice,
                       id,
-                      // downloadURL,
-                      // shopDownloadURL,
                     );
               },
               child: const Text(

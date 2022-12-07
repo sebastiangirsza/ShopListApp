@@ -105,10 +105,7 @@ _i1.GetIt $initGetIt(
         key: get<_i7.Key>(),
       ));
   gh.factory<_i8.AddProductButton>(() => _i8.AddProductButton(
-        shopName: get<String>(),
-        productName: get<String>(),
         productPrice: get<double>(),
-        date: get<DateTime>(),
         id: get<String>(),
         key: get<_i4.Key>(),
       ));

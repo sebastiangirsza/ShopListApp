@@ -22,12 +22,10 @@ class ProductPriceCubit extends Cubit<ProductPriceState> {
 
   Future<void> getProductPriceStream(
     String productName,
-    String shopName,
   ) async {
     _streamSubscription = _productPriceRepository
         .getProductPriceStream(
       productName,
-      shopName,
     )
         .listen(
       (productsName) {

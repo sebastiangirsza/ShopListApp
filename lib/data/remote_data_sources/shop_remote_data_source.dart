@@ -31,9 +31,9 @@ class ShopRemoteDataSource {
   }
 
   Future<void> addPriceToNewShop(
-    String productName,
+    String shopProductName,
     double productPrice,
-    String shopName,
+    String shopDownloadURL,
   ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 
@@ -42,9 +42,9 @@ class ShopRemoteDataSource {
         .doc(userID)
         .collection('product_price')
         .add({
-      'product_name': productName,
+      'shop_product_name': shopProductName,
       'product_price': productPrice,
-      'shop_name': shopName,
+      'shop_download_url': shopDownloadURL,
     });
   }
 

@@ -29,14 +29,14 @@ class ShopRepository {
   }
 
   Future<void> addPriceToNewShop(
-    String productName,
+    String shopProductName,
     double productPrice,
-    String shopName,
+    String shopDownloadURL,
   ) async {
     await _shopRemoteDataSource.addPriceToNewShop(
-      productName,
+      shopProductName,
       productPrice,
-      shopName,
+      shopDownloadURL,
     );
   }
 

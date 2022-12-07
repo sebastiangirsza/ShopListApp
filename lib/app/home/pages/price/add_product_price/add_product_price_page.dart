@@ -2,18 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shoplistapp/app/home/pages/price/add_product_price/widgets/add_product_button.dart';
 import 'package:shoplistapp/app/home/pages/price/add_product_price/widgets/add_product_price.dart';
-import 'package:shoplistapp/app/models/shop_products_model.dart';
 
 class AddProductPricePage extends StatefulWidget {
   const AddProductPricePage({
-    required this.shopName,
-    required this.shopProductModel,
     required this.productPriceId,
     Key? key,
   }) : super(key: key);
 
-  final ShopProductsModel shopProductModel;
-  final String shopName;
   final String productPriceId;
   @override
   State<AddProductPricePage> createState() => _AddProductPricePageState();
@@ -75,11 +70,7 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
                         const SizedBox(width: 10),
                         Expanded(
                           child: AddProductButton(
-                            shopName: widget.shopName,
-                            productName:
-                                widget.shopProductModel.shopProductName,
                             productPrice: productPrice!,
-                            date: DateTime.now(),
                             id: widget.productPriceId,
                           ),
                         ),

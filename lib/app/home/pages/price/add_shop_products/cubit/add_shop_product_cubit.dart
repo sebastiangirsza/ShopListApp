@@ -61,9 +61,8 @@ class AddShopProductsCubit extends Cubit<AddShopProductsState> {
           for (final shop in shops) {
             _productPriceRepository.addFirstProductPrice(
               shopProductName,
-              0,
-              shop.shopName,
-              // DateTime.now(),
+              999999999999999,
+              shop.downloadURL,
             );
           }
         },
