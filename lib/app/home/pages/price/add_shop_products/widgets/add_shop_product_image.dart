@@ -1,95 +1,72 @@
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class AddShopProductImage extends StatefulWidget {
-  const AddShopProductImage({
-    required this.imageName,
-    required this.imagePath,
+class AddProductGroup extends StatelessWidget {
+  const AddProductGroup({
+    required this.onProductGroupChanged,
+    required this.chosenGroup,
     Key? key,
   }) : super(key: key);
 
-  final Function(String) imageName;
+  final Function(String?) onProductGroupChanged;
+  final String? chosenGroup;
 
-  final Function(String) imagePath;
-
-  @override
-  State<AddShopProductImage> createState() => _AddShopProductImageState();
-}
-
-class _AddShopProductImageState extends State<AddShopProductImage> {
-  String? image;
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SizedBox(
-        width: 150,
-        height: 150,
-        child: InkWell(
-          onTap: () async {
-            final result = await FilePicker.platform.pickFiles(
-              allowMultiple: true,
-              type: FileType.custom,
-              allowedExtensions: ['png', 'jpg'],
-            );
-
-            if (result == null) {
-              return;
-            }
-
-            final path = result.files.single.path!;
-            final name = result.files.single.name;
-            widget.imagePath(path);
-            widget.imageName(name);
-
-            setState(() {
-              image = path;
-            });
-          },
-          child: (image == null)
-              ? Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
+      child: Container(
+        margin: const EdgeInsets.all(15),
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+            color: Colors.white),
+        child: DropdownButtonFormField(
+          decoration: InputDecoration(
+            label: Text(
+                style: GoogleFonts.getFont('Saira',
+                    fontSize: 12, color: Colors.black),
+                'Kategoria produktu'),
+            border: InputBorder.none,
+          ),
+          borderRadius: BorderRadius.circular(10),
+          iconDisabledColor: Colors.black,
+          iconEnabledColor: Colors.black,
+          dropdownColor: Colors.white,
+          isExpanded: true,
+          value: chosenGroup,
+          onChanged: onProductGroupChanged,
+          items: <String>[
+            'Warzywa',
+            'Owoce',
+            'Mięso',
+            'Pieczywo',
+            'Suche produkty',
+            'Nabiał',
+            'Chemia',
+            'Przekąski',
+            'Napoje',
+            'Mrożonki',
+            'Dania gotowe',
+            'Sosy',
+            'Inne',
+          ].map<DropdownMenuItem<String>>(
+            (productGroup) {
+              return DropdownMenuItem<String>(
+                value: productGroup,
+                child: Center(
+                  child: Text(
+                    productGroup,
+                    style: GoogleFonts.getFont(
+                      'Saira',
+                      fontSize: 12,
+                      color: Colors.black,
                     ),
-                    color: Colors.white,
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 15,
-                      )
-                    ],
                   ),
-                  padding: const EdgeInsets.all(10),
-                  width: 150,
-                  alignment: Alignment.center,
-                  child: Image.asset(
-                    'images/icon/add_photo_icon.png',
-                  ),
-                )
-              : Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                    image: DecorationImage(
-                      image: FileImage(
-                        File(image!),
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                    boxShadow: const <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 15,
-                      )
-                    ],
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  width: 150,
-                  alignment: Alignment.center,
                 ),
+              );
+            },
+          ).toList(),
         ),
       ),
     );

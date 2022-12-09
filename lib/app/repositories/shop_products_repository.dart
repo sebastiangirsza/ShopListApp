@@ -23,11 +23,11 @@ class ShopProductsRepository {
 
   Future<void> addShopProduct(
     String shopProductName,
-    String downloadURL,
+    String productGroup,
   ) async {
     await _shopProductsRemoteDataSource.addShopProduct(
       shopProductName,
-      downloadURL,
+      productGroup,
     );
   }
 

@@ -17,7 +17,7 @@ class ShopProductsRemoteDataSource {
 
   Future<void> addShopProduct(
     String shopProductName,
-    String downloadURL,
+    String productGroup,
   ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 
@@ -27,7 +27,7 @@ class ShopProductsRemoteDataSource {
         .collection('shop_products')
         .add({
       'shop_product_name': shopProductName,
-      'download_url': downloadURL,
+      'product_group': productGroup,
     });
   }
 

@@ -15,15 +15,13 @@ class AddShopProductsPage extends StatefulWidget {
 
 class _AddShopProductsPageState extends State<AddShopProductsPage> {
   late String? shopProductName;
-  late String? imageName;
-  late String? imagePath;
-  String? downloadURL = 'download_url';
+  late String? productGroup;
+  String? chosenGroup;
 
   @override
   void initState() {
     shopProductName = 'shopProductName';
-    imageName = 'imageName';
-    imagePath = 'imagePath';
+    productGroup = 'sztuka';
     super.initState();
   }
 
@@ -85,18 +83,6 @@ class _AddShopProductsPageState extends State<AddShopProductsPage> {
         body: ListView(
           children: [
             const SizedBox(height: 10),
-            AddShopProductImage(
-              imageName: (newImageName) {
-                setState(() {
-                  imageName = newImageName;
-                });
-              },
-              imagePath: (newImagePath) {
-                setState(() {
-                  imagePath = newImagePath;
-                });
-              },
-            ),
             AddShopName(
               onNameChanged: (newShopProductName) {
                 setState(() {
@@ -104,11 +90,16 @@ class _AddShopProductsPageState extends State<AddShopProductsPage> {
                 });
               },
             ),
-            AddShopButton(
-              shopProductName: shopProductName!,
-              imageName: imageName!,
-              imagePath: imagePath!,
+            AddProductGroup(
+              onProductGroupChanged: (newProductGroup) {
+                setState(() {
+                  productGroup = newProductGroup;
+                });
+              },
+              chosenGroup: chosenGroup,
             ),
+            AddShopButton(
+                shopProductName: shopProductName!, productGroup: productGroup!),
           ],
         ),
       ),

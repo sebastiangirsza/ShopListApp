@@ -19,3 +19,4 @@
 ++5. Dodawanie cenu z poziomu produktu
 6. Przy dodawaniu produktów cena z najtańszego sklepu
 ++7. Przy dodawaniu nowego sklepu dodanie ceny 0 do kazdego produktu
+8. Svg icon w price list

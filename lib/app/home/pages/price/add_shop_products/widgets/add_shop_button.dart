@@ -9,14 +9,12 @@ import 'package:shoplistapp/app/injection_container.dart';
 class AddShopButton extends StatelessWidget {
   const AddShopButton({
     required this.shopProductName,
-    required this.imageName,
-    required this.imagePath,
+    required this.productGroup,
     Key? key,
   }) : super(key: key);
 
   final String shopProductName;
-  final String imageName;
-  final String imagePath;
+  final String productGroup;
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +48,8 @@ class AddShopButton extends StatelessWidget {
                     ),
                     onPressed: () {
                       context.read<AddShopProductsCubit>().addShopProduct(
-                            imageName + DateTime.now().toString(),
-                            imagePath,
                             shopProductName,
+                            productGroup,
                           );
                       // context.read<AddProductPriceCubit>().addFirstProductPrice(
                       //       shopProductName,
