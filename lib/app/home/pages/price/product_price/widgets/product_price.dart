@@ -55,7 +55,12 @@ class ProductsPrice extends StatelessWidget {
                                             productPriceModels[index]
                                                 .productPrice
                                                 .toString()
-                                    ? Colors.green
+                                    ? (productPriceModels[index]
+                                                .productPrice
+                                                .toString() ==
+                                            '999999999999999.0')
+                                        ? Colors.blue
+                                        : Colors.green
                                     : Colors.blue;
                                 return Container(
                                   margin: const EdgeInsets.all(5),

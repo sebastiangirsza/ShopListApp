@@ -5,9 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/home/pages/price/product_price/widgets/product_price.dart';
 import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_products/cubit/shop_products_cubit.dart';
-import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_products/cubit/svg_icon_cubit.dart';
 import 'package:shoplistapp/app/injection_container.dart';
-import 'package:shoplistapp/app/models/shop_products_model.dart';
 
 @injectable
 class ShopProductsList extends StatelessWidget {
@@ -57,22 +55,13 @@ class ShopProductsList extends StatelessWidget {
                         child: Row(
                           children: [
                             SizedBox(
-                                width: 35,
-                                height: 25,
-                                child: SvgIcon(
-                                    productGroup:
-                                        shopProductModel.productGroup)),
-                            /////////////////////////////////////////
-                            // Text(
-                            //   shopProductModel.productGroup,
-                            //   style: GoogleFonts.getFont(
-                            //     'Saira',
-                            //     fontSize: 15,
-                            //     fontWeight: FontWeight.bold,
-                            //     color: Colors.black,
-                            //   ),
-                            // ),
-                            /////////////////////////////////////////
+                              width: 35,
+                              height: 25,
+                              child: SvgPicture.asset(
+                                shopProductModel.productGroup,
+                                color: const Color.fromARGB(255, 0, 63, 114),
+                              ),
+                            ),
                             Expanded(
                               child: Row(
                                 mainAxisAlignment:
@@ -134,59 +123,6 @@ class ShopProductsList extends StatelessWidget {
     );
   }
 }
-
-class SvgIcon extends StatelessWidget {
-  const SvgIcon({
-    Key? key,
-    required this.productGroup,
-  }) : super(key: key);
-
-  final String productGroup;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<SvgIconCubit>()..start(productGroup),
-      child: BlocBuilder<SvgIconCubit, SvgIconState>(
-        builder: (context, state) {
-          final svgIconModels = state.svgIcons;
-          return ListView(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              for (final svgIconModel in svgIconModels) ...[
-                SizedBox(
-                  width: 35,
-                  height: 25,
-                  child: SvgPicture.asset(
-                    svgIconModel.svgIcon,
-                    color: const Color.fromARGB(255, 0, 63, 114),
-                  ),
-                ),
-              ]
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
-
-// @injectable
-// class SvgIcon extends StatelessWidget {
-//   const SvgIcon({
-//     required this.shopProductModel,
-//     Key? key,
-//   }) : super(key: key);
-//   final ShopProductsModel shopProductModel;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // final String group = shopProductModel.productGroup;
-//     return 
-//   }
-// }
-
 
   // final String vegetable = 'images/icons/vegetable_icon.svg';
   // final String fruits = 'images/icons/fruits_icon.svg';
