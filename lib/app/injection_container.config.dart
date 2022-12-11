@@ -36,7 +36,7 @@ import 'home/pages/price/add_shop/cubit/add_shop_cubit.dart' as _i55;
 import 'home/pages/price/add_shop/widgets/add_shop_button.dart' as _i11;
 import 'home/pages/price/add_shop_products/cubit/add_shop_product_cubit.dart'
     as _i56;
-import 'home/pages/price/add_shop_products/widgets/add_shop_button.dart'
+import 'home/pages/price/add_shop_products/widgets/add_shop_product_button.dart'
     as _i10;
 import 'home/pages/price/product_price/cubit/product_price_cubit.dart' as _i59;
 import 'home/pages/price/product_price/widgets/product_price.dart' as _i24;
