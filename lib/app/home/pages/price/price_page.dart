@@ -29,14 +29,13 @@ class PricePage extends StatelessWidget {
             color: Colors.white,
           ),
           child: ExpansionTile(
-            title: Expanded(
-                child: Text(
+            title: Text(
               'Lista sklepów',
               style: GoogleFonts.getFont('Saira',
                   fontSize: 21,
                   color: const Color.fromARGB(255, 0, 63, 114),
                   fontWeight: FontWeight.bold),
-            )),
+            ),
             trailing: const Icon(
               Icons.shopping_cart,
               color: Color.fromARGB(255, 0, 63, 114),

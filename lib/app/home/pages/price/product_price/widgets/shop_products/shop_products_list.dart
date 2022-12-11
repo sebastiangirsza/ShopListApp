@@ -8,11 +8,17 @@ import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_prod
 import 'package:shoplistapp/app/injection_container.dart';
 
 @injectable
-class ShopProductsList extends StatelessWidget {
+class ShopProductsList extends StatefulWidget {
   const ShopProductsList({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<ShopProductsList> createState() => _ShopProductsListState();
+}
+
+class _ShopProductsListState extends State<ShopProductsList> {
+  String productName = '';
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -20,101 +26,141 @@ class ShopProductsList extends StatelessWidget {
       child: BlocBuilder<ShopProductsCubit, ShopProductsState>(
         builder: (context, state) {
           final shopProductsModels = state.shopProducts;
+
           return ListView(
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
             children: [
-              for (final shopProductModel in shopProductsModels) ...[
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-                  decoration: const BoxDecoration(
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 2,
-                        offset: Offset(3, 3),
-                      )
-                    ],
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    color: Colors.white,
-                  ),
-                  child: ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0,
-                          vertical: 5,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 35,
-                              height: 25,
-                              child: SvgPicture.asset(
-                                shopProductModel.svgIcon,
-                                color: const Color.fromARGB(255, 0, 63, 114),
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0,
-                                    ),
-                                    child: Text(
-                                      shopProductModel.shopProductName,
-                                      style: GoogleFonts.getFont(
-                                        'Saira',
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 200, 233, 255),
-                                    ),
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: ((context) {
-                                            return ProductsPrice(
-                                              shopProductModel:
-                                                  shopProductModel,
-                                            );
-                                          }));
-                                    },
-                                    child: Text(
-                                      'Pokaż ceny',
-                                      style: GoogleFonts.getFont(
-                                        'Saira',
-                                        fontSize: 12,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
                 ),
+                decoration: const BoxDecoration(
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 2,
+                      offset: Offset(3, 3),
+                    )
+                  ],
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
+                  color: Colors.white,
+                ),
+                child: TextField(
+                  style: GoogleFonts.getFont(
+                    'Saira',
+                    fontSize: 12,
+                    color: Colors.black,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelStyle: GoogleFonts.getFont(
+                      'Saira',
+                      fontSize: 12,
+                      color: Colors.black,
+                    ),
+                    label: const Text(
+                      'Szukaj produktu',
+                    ),
+                  ),
+                  onChanged: (newProduct) {
+                    setState(() {
+                      productName = newProduct;
+                    });
+                  },
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              for (final shopProductModel in shopProductsModels) ...[
+                if (shopProductModel.shopProductName
+                    .toLowerCase()
+                    .contains(productName.toLowerCase()))
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: const BoxDecoration(
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black,
+                          blurRadius: 2,
+                          offset: Offset(3, 3),
+                        )
+                      ],
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0,
+                            vertical: 5,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 35,
+                                height: 25,
+                                child: SvgPicture.asset(
+                                  shopProductModel.svgIcon,
+                                  color: const Color.fromARGB(255, 0, 63, 114),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0,
+                                ),
+                                child: Text(
+                                  textAlign: TextAlign.start,
+                                  shopProductModel.shopProductName,
+                                  style: GoogleFonts.getFont(
+                                    'Saira',
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 200, 233, 255),
+                                ),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: ((context) {
+                                        return ProductsPrice(
+                                          shopProductModel: shopProductModel,
+                                        );
+                                      }));
+                                },
+                                child: Text(
+                                  'Pokaż ceny',
+                                  style: GoogleFonts.getFont(
+                                    'Saira',
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
               ],
             ],
           );
