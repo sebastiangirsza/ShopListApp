@@ -58,7 +58,7 @@ class ShopProductsList extends StatelessWidget {
                               width: 35,
                               height: 25,
                               child: SvgPicture.asset(
-                                shopProductModel.productGroup,
+                                shopProductModel.svgIcon,
                                 color: const Color.fromARGB(255, 0, 63, 114),
                               ),
                             ),

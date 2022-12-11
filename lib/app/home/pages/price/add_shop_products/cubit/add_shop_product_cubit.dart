@@ -16,46 +16,39 @@ class AddShopProductsCubit extends Cubit<AddShopProductsState> {
     this._shopProductsRepository,
     this._productPriceRepository,
     this._shopRepository,
-    this._svgIconRepository,
   ) : super(const AddShopProductsState());
 
   final ShopProductsRepository _shopProductsRepository;
   final ProductPriceRepository _productPriceRepository;
   StreamSubscription? _streamSubscription;
   final ShopRepository _shopRepository;
-  final SvgIconRepository _svgIconRepository;
 
   Future<void> addShopProduct(
     String shopProductName,
     String productGroup,
+    String svgIcon,
   ) async {
     try {
-      _streamSubscription =
-          _svgIconRepository.getSvgIconStream(productGroup).listen(
-        (svgIcons) {
-          for (final svgIcon in svgIcons) {
-            _shopProductsRepository.addShopProduct(
+      _shopProductsRepository.addShopProduct(
+        shopProductName,
+        productGroup,
+        svgIcon,
+      );
+      _streamSubscription = _shopRepository.getShopsStream().listen(
+        (shops) {
+          for (final shop in shops) {
+            _productPriceRepository.addFirstProductPrice(
               shopProductName,
-              svgIcon.svgIcon,
-            );
-            _streamSubscription = _shopRepository.getShopsStream().listen(
-              (shops) {
-                for (final shop in shops) {
-                  _productPriceRepository.addFirstProductPrice(
-                    shopProductName,
-                    999999999999999,
-                    shop.downloadURL,
-                  );
-                }
-              },
-            );
-            emit(
-              const AddShopProductsState(
-                saved: true,
-              ),
+              999999999999999,
+              shop.downloadURL,
             );
           }
         },
+      );
+      emit(
+        const AddShopProductsState(
+          saved: true,
+        ),
       );
     } catch (error) {
       emit(

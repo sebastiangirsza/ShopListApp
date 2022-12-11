@@ -281,7 +281,6 @@ _i1.GetIt $initGetIt(
         get<_i48.ShopProductsRepository>(),
         get<_i43.ProductPriceRepository>(),
         get<_i49.ShopRepository>(),
-        get<_i37.SvgIconRepository>(),
       ));
   gh.factory<_i57.AuthCubit>(() => _i57.AuthCubit(
         get<_i41.FirebaseAuthRespository>(),
@@ -297,7 +296,9 @@ _i1.GetIt $initGetIt(
         get<_i34.StorageRemoteDataSource>(),
       ));
   gh.factory<_i61.ShopCubit>(() => _i61.ShopCubit(get<_i49.ShopRepository>()));
-  gh.factory<_i62.ShopProductsCubit>(
-      () => _i62.ShopProductsCubit(get<_i48.ShopProductsRepository>()));
+  gh.factory<_i62.ShopProductsCubit>(() => _i62.ShopProductsCubit(
+        get<_i48.ShopProductsRepository>(),
+        get<_i37.SvgIconRepository>(),
+      ));
   return get;
 }

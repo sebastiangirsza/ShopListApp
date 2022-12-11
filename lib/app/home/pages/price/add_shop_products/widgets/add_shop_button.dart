@@ -15,7 +15,7 @@ class AddShopButton extends StatelessWidget {
 
   final String shopProductName;
   final String productGroup;
-
+  final String svgIcon = 'svgIcon';
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -50,6 +50,7 @@ class AddShopButton extends StatelessWidget {
                       context.read<AddShopProductsCubit>().addShopProduct(
                             shopProductName,
                             productGroup,
+                            svgIcon,
                           );
                       // context.read<AddProductPriceCubit>().addFirstProductPrice(
                       //       shopProductName,

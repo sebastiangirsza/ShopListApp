@@ -18,6 +18,7 @@ class ShopProductsRemoteDataSource {
   Future<void> addShopProduct(
     String shopProductName,
     String productGroup,
+    String svgIcon,
   ) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
 
@@ -28,6 +29,7 @@ class ShopProductsRemoteDataSource {
         .add({
       'shop_product_name': shopProductName,
       'product_group': productGroup,
+      'svg_icon': svgIcon,
     });
   }
 

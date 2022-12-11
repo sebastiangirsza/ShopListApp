@@ -24,10 +24,12 @@ class ShopProductsRepository {
   Future<void> addShopProduct(
     String shopProductName,
     String productGroup,
+    String svgIcon,
   ) async {
     await _shopProductsRemoteDataSource.addShopProduct(
       shopProductName,
       productGroup,
+      svgIcon,
     );
   }
 
