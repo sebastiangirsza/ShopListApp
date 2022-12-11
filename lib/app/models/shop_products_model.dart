@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shoplistapp/app/models/svg_icon_model.dart';
 
 class ShopProductsModel {
   final String shopProductName;

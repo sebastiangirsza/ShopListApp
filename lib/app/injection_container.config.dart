@@ -280,7 +280,6 @@ _i1.GetIt $initGetIt(
   gh.factory<_i56.AddShopProductsCubit>(() => _i56.AddShopProductsCubit(
         get<_i48.ShopProductsRepository>(),
         get<_i43.ProductPriceRepository>(),
-        get<_i49.ShopRepository>(),
       ));
   gh.factory<_i57.AuthCubit>(() => _i57.AuthCubit(
         get<_i41.FirebaseAuthRespository>(),

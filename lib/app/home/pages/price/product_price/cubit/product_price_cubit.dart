@@ -28,9 +28,9 @@ class ProductPriceCubit extends Cubit<ProductPriceState> {
       productName,
     )
         .listen(
-      (productsName) {
+      (productsPrice) {
         emit(ProductPriceState(
-          productsPrice: productsName,
+          productsPrice: productsPrice,
         ));
       },
     )..onError(

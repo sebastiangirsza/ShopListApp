@@ -15,6 +15,15 @@ class AddProductPriceCubit extends Cubit<AddProductPriceState> {
   final ProductPriceRepository _productPriceRepository;
   StreamSubscription? _streamSubscription;
 
+  Future<void> addFirstProductPrice(
+      String shopProductName, String shopDownloadURL) async {
+    await _productPriceRepository.addFirstProductPrice(
+      shopProductName,
+      999999999999999,
+      shopDownloadURL,
+    );
+  }
+
   Future<void> updateProductPrice(
     double productPrice,
     String id,
