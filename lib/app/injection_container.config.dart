@@ -275,7 +275,6 @@ _i1.GetIt $initGetIt(
         get<_i34.StorageRemoteDataSource>(),
         get<_i35.StorageRepository>(),
         get<_i49.ShopRepository>(),
-        get<_i48.ShopProductsRepository>(),
       ));
   gh.factory<_i56.AddShopProductsCubit>(() => _i56.AddShopProductsCubit(
         get<_i48.ShopProductsRepository>(),
