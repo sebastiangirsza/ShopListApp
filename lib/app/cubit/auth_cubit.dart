@@ -92,10 +92,8 @@ class AuthCubit extends Cubit<AuthState> {
     _firebaseAuthRespository.logOut();
   }
 
-  Future<void> checkEmailVerified(isEmailVerified) async {
+  Future<void> reload() async {
     await _userRemoteDataSource.currentUser()!.reload();
-
-    isEmailVerified = _userRemoteDataSource.emailVerified();
   }
 
   bool isEmailVerified() {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +19,7 @@ class VerifyEmailPage extends StatefulWidget {
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
   bool isEmailVerified = false;
   bool canResendEmail = false;
+  Timer? timer;
 
   @override
   void initState() {
@@ -30,7 +33,15 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       setState(() {
         canResendEmail = true;
       });
-      context.read<AuthCubit>().checkEmailVerified(isEmailVerified);
+      timer = Timer.periodic(const Duration(seconds: 2), (_) {
+        context.read<AuthCubit>().reload();
+        setState(() {
+          isEmailVerified = context.read<AuthCubit>().isEmailVerified();
+        });
+        if (isEmailVerified == true) {
+          timer?.cancel();
+        }
+      });
     }
   }
 

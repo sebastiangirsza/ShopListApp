@@ -116,18 +116,20 @@ class _ShopProductsListState extends State<ShopProductsList> {
                                   color: const Color.fromARGB(255, 0, 63, 114),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10.0,
-                                ),
-                                child: Text(
-                                  textAlign: TextAlign.start,
-                                  shopProductModel.shopProductName,
-                                  style: GoogleFonts.getFont(
-                                    'Saira',
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0,
+                                  ),
+                                  child: Text(
+                                    textAlign: TextAlign.start,
+                                    shopProductModel.shopProductName,
+                                    style: GoogleFonts.getFont(
+                                      'Saira',
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ),
