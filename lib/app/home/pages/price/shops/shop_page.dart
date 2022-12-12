@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shoplistapp/app/home/pages/price/add_shop/add_shop_page.dart';
+import 'package:shoplistapp/app/home/pages/price/shops/add_shop/add_shop_page.dart';
 import 'package:shoplistapp/app/home/pages/price/shops/cubit/shop_cubit.dart';
 import 'package:shoplistapp/app/injection_container.dart';
 

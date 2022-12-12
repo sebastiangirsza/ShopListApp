@@ -1,0 +1,9 @@
+workflows:
+  android:
+    name: build, test & publish Android version
+    scripts:
+      - ...
+  ios:
+    name: build, test & publish iOS version
+    scripts:
+      - ...
