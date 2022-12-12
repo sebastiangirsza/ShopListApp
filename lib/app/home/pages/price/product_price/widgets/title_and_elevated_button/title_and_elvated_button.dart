@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shoplistapp/app/home/pages/price/add_shop_products/add_shop_products_page.dart';
+import 'package:shoplistapp/app/home/pages/price/product_price/widgets/title_and_elevated_button/add_shop_products/add_shop_products_page.dart';
 
 class TitleAndElevatedButton extends StatelessWidget {
   const TitleAndElevatedButton({

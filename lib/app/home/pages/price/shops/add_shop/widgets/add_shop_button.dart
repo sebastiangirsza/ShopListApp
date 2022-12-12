@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shoplistapp/app/home/pages/price/add_shop/cubit/add_shop_cubit.dart';
 import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_products/cubit/shop_products_cubit.dart';
+import 'package:shoplistapp/app/home/pages/price/shops/add_shop/cubit/add_shop_cubit.dart';
 import 'package:shoplistapp/app/injection_container.dart';
 
 @injectable

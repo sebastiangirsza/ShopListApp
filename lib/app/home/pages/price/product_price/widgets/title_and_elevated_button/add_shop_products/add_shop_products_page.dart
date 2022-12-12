@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shoplistapp/app/home/pages/price/add_shop_products/widgets/add_shop_product_button.dart';
-import 'package:shoplistapp/app/home/pages/price/add_shop_products/widgets/add_shop_product_name.dart';
-import 'package:shoplistapp/app/home/pages/price/add_shop_products/widgets/add_shop_product_image.dart';
+import 'package:shoplistapp/app/home/pages/price/product_price/widgets/title_and_elevated_button/add_shop_products/widgets/add_shop_product_button.dart';
+import 'package:shoplistapp/app/home/pages/price/product_price/widgets/title_and_elevated_button/add_shop_products/widgets/add_shop_product_image.dart';
+import 'package:shoplistapp/app/home/pages/price/product_price/widgets/title_and_elevated_button/add_shop_products/widgets/add_shop_product_name.dart';
 
 class AddShopProductsPage extends StatefulWidget {
   const AddShopProductsPage({
@@ -83,14 +83,14 @@ class _AddShopProductsPageState extends State<AddShopProductsPage> {
         body: ListView(
           children: [
             const SizedBox(height: 10),
-            AddShopName(
+            AddShopProductName(
               onNameChanged: (newShopProductName) {
                 setState(() {
                   shopProductName = newShopProductName;
                 });
               },
             ),
-            AddProductGroup(
+            AddShopProductGroup(
               onProductGroupChanged: (newProductGroup) {
                 setState(() {
                   productGroup = newProductGroup;
@@ -98,7 +98,7 @@ class _AddShopProductsPageState extends State<AddShopProductsPage> {
               },
               chosenGroup: chosenGroup,
             ),
-            AddShopButton(
+            AddShopProductButton(
                 shopProductName: shopProductName!, productGroup: productGroup!),
           ],
         ),

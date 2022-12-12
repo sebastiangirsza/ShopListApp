@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shoplistapp/app/home/pages/price/add_shop/widgets/add_shop_button.dart';
-import 'package:shoplistapp/app/home/pages/price/add_shop/widgets/add_shop_logo.dart';
-import 'package:shoplistapp/app/home/pages/price/add_shop/widgets/add_shop_name.dart';
+import 'package:shoplistapp/app/home/pages/price/shops/add_shop/widgets/add_shop_button.dart';
+import 'package:shoplistapp/app/home/pages/price/shops/add_shop/widgets/add_shop_logo.dart';
+import 'package:shoplistapp/app/home/pages/price/shops/add_shop/widgets/add_shop_name.dart';
 
 class AddShopPage extends StatefulWidget {
   const AddShopPage({

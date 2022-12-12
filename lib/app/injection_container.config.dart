@@ -28,12 +28,6 @@ import '../data/remote_data_sources/user_remote_data_source.dart' as _i38;
 import 'cubit/auth_cubit.dart' as _i56;
 import 'cubit/verification_cubit.dart' as _i40;
 import 'home/home_page.dart' as _i17;
-import 'home/pages/price/add_shop/cubit/add_shop_cubit.dart' as _i54;
-import 'home/pages/price/add_shop/widgets/add_shop_button.dart' as _i9;
-import 'home/pages/price/add_shop_products/cubit/add_shop_product_cubit.dart'
-    as _i55;
-import 'home/pages/price/add_shop_products/widgets/add_shop_product_button.dart'
-    as _i10;
 import 'home/pages/price/product_price/widgets/shop_products/cubit/shop_products_cubit.dart'
     as _i61;
 import 'home/pages/price/product_price/widgets/shop_products/product_price/cubit/product_price_cubit.dart'
@@ -46,6 +40,12 @@ import 'home/pages/price/product_price/widgets/shop_products/product_price/updat
     as _i37;
 import 'home/pages/price/product_price/widgets/shop_products/shop_products_list.dart'
     as _i30;
+import 'home/pages/price/product_price/widgets/title_and_elevated_button/add_shop_products/cubit/add_shop_product_cubit.dart'
+    as _i55;
+import 'home/pages/price/product_price/widgets/title_and_elevated_button/add_shop_products/widgets/add_shop_product_button.dart'
+    as _i10;
+import 'home/pages/price/shops/add_shop/cubit/add_shop_cubit.dart' as _i54;
+import 'home/pages/price/shops/add_shop/widgets/add_shop_button.dart' as _i9;
 import 'home/pages/price/shops/cubit/shop_cubit.dart' as _i60;
 import 'home/pages/price/shops/shop_page.dart' as _i29;
 import 'home/pages/recipes/cubit/recipes_cubit.dart' as _i59;
@@ -120,7 +120,7 @@ _i1.GetIt $initGetIt(
         imagePath: get<String>(),
         key: get<_i4.Key>(),
       ));
-  gh.factory<_i10.AddShopButton>(() => _i10.AddShopButton(
+  gh.factory<_i10.AddShopProductButton>(() => _i10.AddShopProductButton(
         shopProductName: get<String>(),
         productGroup: get<String>(),
         key: get<_i4.Key>(),

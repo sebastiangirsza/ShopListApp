@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddProductGroup extends StatelessWidget {
-  const AddProductGroup({
+class AddShopProductGroup extends StatelessWidget {
+  const AddShopProductGroup({
     required this.onProductGroupChanged,
     required this.chosenGroup,
     Key? key,

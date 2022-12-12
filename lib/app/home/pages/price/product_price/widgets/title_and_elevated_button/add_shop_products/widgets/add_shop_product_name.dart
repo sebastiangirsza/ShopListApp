@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddShopName extends StatelessWidget {
-  const AddShopName({
+class AddShopProductName extends StatelessWidget {
+  const AddShopProductName({
     Key? key,
     required this.onNameChanged,
   }) : super(key: key);
