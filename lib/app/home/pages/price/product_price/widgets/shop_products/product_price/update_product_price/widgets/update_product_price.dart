@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddProductPrice extends StatelessWidget {
-  const AddProductPrice({
+class UpdateProductPrice extends StatelessWidget {
+  const UpdateProductPrice({
     Key? key,
     required this.onProductPriceChanged,
   }) : super(key: key);

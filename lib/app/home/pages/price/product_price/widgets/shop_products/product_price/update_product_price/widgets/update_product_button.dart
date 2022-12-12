@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shoplistapp/app/home/pages/price/add_product_price/cubit/add_product_price_cubit.dart';
+import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_products/product_price/update_product_price/cubit/update_product_price_cubit.dart';
 import 'package:shoplistapp/app/injection_container.dart';
 
 @injectable
-class AddProductButton extends StatelessWidget {
-  const AddProductButton({
+class UpdateProductButton extends StatelessWidget {
+  const UpdateProductButton({
     required this.productPrice,
     required this.id,
     Key? key,
@@ -15,25 +15,23 @@ class AddProductButton extends StatelessWidget {
   final double productPrice;
 
   final String id;
-  // final String downloadURL;
-  // final String shopDownloadURL;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<AddProductPriceCubit>(),
-      child: BlocListener<AddProductPriceCubit, AddProductPriceState>(
+      create: (context) => getIt<UpdateProductPriceCubit>(),
+      child: BlocListener<UpdateProductPriceCubit, UpdateProductPriceState>(
         listener: (context, state) {
           if (state.saved == true) {
             Navigator.of(context).pop();
           }
         },
-        child: BlocBuilder<AddProductPriceCubit, AddProductPriceState>(
+        child: BlocBuilder<UpdateProductPriceCubit, UpdateProductPriceState>(
           builder: (context, state) {
             return ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
               onPressed: () {
-                context.read<AddProductPriceCubit>().updateProductPrice(
+                context.read<UpdateProductPriceCubit>().updateProductPrice(
                       productPrice,
                       id,
                     );

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shoplistapp/app/home/pages/price/add_product_price/widgets/add_product_button.dart';
-import 'package:shoplistapp/app/home/pages/price/add_product_price/widgets/add_product_price.dart';
+import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_products/product_price/update_product_price/widgets/Update_product_price.dart';
+import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_products/product_price/update_product_price/widgets/update_product_button.dart';
 
-class AddProductPricePage extends StatefulWidget {
-  const AddProductPricePage({
+class UpdateProductPricePage extends StatefulWidget {
+  const UpdateProductPricePage({
     required this.productPriceId,
     Key? key,
   }) : super(key: key);
 
   final String productPriceId;
   @override
-  State<AddProductPricePage> createState() => _AddProductPricePageState();
+  State<UpdateProductPricePage> createState() => _UpdateProductPricePageState();
 }
 
-class _AddProductPricePageState extends State<AddProductPricePage> {
+class _UpdateProductPricePageState extends State<UpdateProductPricePage> {
   late double? productPrice;
 
   @override
@@ -40,7 +40,7 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
                     const SizedBox(
                       height: 10,
                     ),
-                    AddProductPrice(
+                    UpdateProductPrice(
                       onProductPriceChanged: (newProductPrice) {
                         setState(() {
                           productPrice = double.tryParse(newProductPrice);
@@ -69,7 +69,7 @@ class _AddProductPricePageState extends State<AddProductPricePage> {
                         ),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: AddProductButton(
+                          child: UpdateProductButton(
                             productPrice: productPrice!,
                             id: widget.productPriceId,
                           ),

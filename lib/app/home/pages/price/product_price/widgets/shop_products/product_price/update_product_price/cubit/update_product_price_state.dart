@@ -1,8 +1,8 @@
-part of 'add_product_price_cubit.dart';
+part of 'update_product_price_cubit.dart';
 
 @immutable
-class AddProductPriceState {
-  const AddProductPriceState({
+class UpdateProductPriceState {
+  const UpdateProductPriceState({
     this.saved = false,
     this.errorMessage = '',
   });

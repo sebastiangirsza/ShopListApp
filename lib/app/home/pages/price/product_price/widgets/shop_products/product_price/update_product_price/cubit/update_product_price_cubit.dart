@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/repositories/product_price_repository.dart';
 
-part 'add_product_price_state.dart';
+part 'update_product_price_state.dart';
 
 @injectable
-class AddProductPriceCubit extends Cubit<AddProductPriceState> {
-  AddProductPriceCubit(
+class UpdateProductPriceCubit extends Cubit<UpdateProductPriceState> {
+  UpdateProductPriceCubit(
     this._productPriceRepository,
-  ) : super(const AddProductPriceState());
+  ) : super(const UpdateProductPriceState());
 
   final ProductPriceRepository _productPriceRepository;
   StreamSubscription? _streamSubscription;
@@ -34,13 +34,13 @@ class AddProductPriceCubit extends Cubit<AddProductPriceState> {
         id,
       );
       emit(
-        const AddProductPriceState(
+        const UpdateProductPriceState(
           saved: true,
         ),
       );
     } catch (error) {
       emit(
-        AddProductPriceState(
+        UpdateProductPriceState(
           errorMessage: error.toString(),
         ),
       );

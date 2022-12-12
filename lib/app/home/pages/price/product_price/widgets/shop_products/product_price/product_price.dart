@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shoplistapp/app/home/pages/price/add_product_price/add_product_price_page.dart';
-import 'package:shoplistapp/app/home/pages/price/product_price/cubit/product_price_cubit.dart';
+import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_products/product_price/cubit/product_price_cubit.dart';
+import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_products/product_price/update_product_price/update_product_price_page.dart';
 import 'package:shoplistapp/app/injection_container.dart';
 import 'package:shoplistapp/app/models/shop_products_model.dart';
 
@@ -139,7 +139,7 @@ class ProductsPrice extends StatelessWidget {
                                               showDialog(
                                                 context: context,
                                                 builder: ((context) {
-                                                  return AddProductPricePage(
+                                                  return UpdateProductPricePage(
                                                     productPriceId:
                                                         productPriceModels[
                                                                 index]
