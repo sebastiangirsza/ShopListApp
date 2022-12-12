@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shoplistapp/app/home/pages/price/product_price/widgets/product_price.dart';
+import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_products/product_price/product_price.dart';
 import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_products/cubit/shop_products_cubit.dart';
 import 'package:shoplistapp/app/injection_container.dart';
 
