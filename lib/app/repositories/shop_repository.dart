@@ -18,6 +18,18 @@ class ShopRepository {
         querySnapshots.docs.map((shops) => ShopModel.fromJson(shops)).toList());
   }
 
+  Stream<List<ShopModel>> getShopsLogoStream(String shopName) {
+    final userID = _userRemoteDataSource.getUserID();
+    if (userID == null) {
+      throw Exception('Użytkownik nie jest zalogowany');
+    }
+    return _shopRemoteDataSource.getShopsStream().map((querySnapshots) =>
+        querySnapshots.docs
+            .map((shops) => ShopModel.fromJson(shops))
+            .where((element) => element.shopName == shopName)
+            .toList());
+  }
+
   Future<void> addShop(
     String shopName,
     String downloadURL,
@@ -32,11 +44,13 @@ class ShopRepository {
     String shopProductName,
     double productPrice,
     String shopDownloadURL,
+    String shopName,
   ) async {
     await _shopRemoteDataSource.addPriceToNewShop(
       shopProductName,
       productPrice,
       shopDownloadURL,
+      shopName,
     );
   }
 

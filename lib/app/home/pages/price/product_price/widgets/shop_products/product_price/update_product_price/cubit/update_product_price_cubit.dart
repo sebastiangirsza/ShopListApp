@@ -15,15 +15,6 @@ class UpdateProductPriceCubit extends Cubit<UpdateProductPriceState> {
   final ProductPriceRepository _productPriceRepository;
   StreamSubscription? _streamSubscription;
 
-  Future<void> addFirstProductPrice(
-      String shopProductName, String shopDownloadURL) async {
-    await _productPriceRepository.addFirstProductPrice(
-      shopProductName,
-      999999999999999,
-      shopDownloadURL,
-    );
-  }
-
   Future<void> updateProductPrice(
     double productPrice,
     String id,
@@ -46,36 +37,6 @@ class UpdateProductPriceCubit extends Cubit<UpdateProductPriceState> {
       );
     }
   }
-
-  // Future<void> addFirstProductPrice(
-  //   String productName,
-  // ) async {
-  //   try {
-  //     _streamSubscription = _shopRepository.getShopsStream().listen(
-  //       (shops) {
-  //         for (final shop in shops) {
-  //           _productPriceRepository.addFirstProductPrice(
-  //             productName,
-  //             0,
-  //             shop.shopName,
-  //             // DateTime.now(),
-  //           );
-  //           emit(
-  //             const AddProductPriceState(
-  //               saved: true,
-  //             ),
-  //           );
-  //         }
-  //       },
-  //     );
-  //   } catch (error) {
-  //     emit(
-  //       AddProductPriceState(
-  //         errorMessage: error.toString(),
-  //       ),
-  //     );
-  //   }
-  // }
 
   @override
   Future<void> close() {

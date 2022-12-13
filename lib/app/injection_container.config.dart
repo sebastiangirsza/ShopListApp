@@ -284,8 +284,10 @@ _i1.GetIt $initGetIt(
       ));
   gh.factory<_i57.ProductCubit>(
       () => _i57.ProductCubit(get<_i44.ProductsRepository>()));
-  gh.factory<_i58.ProductPriceCubit>(
-      () => _i58.ProductPriceCubit(get<_i43.ProductPriceRepository>()));
+  gh.factory<_i58.ProductPriceCubit>(() => _i58.ProductPriceCubit(
+        get<_i43.ProductPriceRepository>(),
+        get<_i49.ShopRepository>(),
+      ));
   gh.factory<_i59.RecipesCubit>(() => _i59.RecipesCubit(
         get<_i47.RecipesRepository>(),
         get<_i39.UserRespository>(),

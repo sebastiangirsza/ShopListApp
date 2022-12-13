@@ -47,13 +47,14 @@ class AddShopProductsCubit extends Cubit<AddShopProductsState> {
 
   Future<void> addFirstProductPrice(
     String shopProductName,
-    String shopDownloadURL,
+    String shopName,
   ) async {
     try {
       _productPriceRepository.addFirstProductPrice(
         shopProductName,
         999999999999999,
-        shopDownloadURL,
+        'downloadURL',
+        shopName,
       );
     } catch (error) {
       emit(

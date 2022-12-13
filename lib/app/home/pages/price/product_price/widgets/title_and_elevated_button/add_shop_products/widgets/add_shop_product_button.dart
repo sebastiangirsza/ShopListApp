@@ -43,7 +43,7 @@ class AddShopProductButton extends StatelessWidget {
                             .read<AddShopProductsCubit>()
                             .addFirstProductPrice(
                               shopProductName,
-                              shopsModel.downloadURL,
+                              shopsModel.shopName,
                             );
                       }
                       if (state.saved) {

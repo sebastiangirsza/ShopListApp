@@ -33,10 +33,6 @@ class AddShopButton extends StatelessWidget {
               listener: (context, state) {
                 if (state.saved) {
                   Navigator.of(context).pop();
-                  for (final shopProductModel in shopProductModels) {
-                    context.read<AddShopCubit>().addPriceToNewShop(
-                        imageNames, shopProductModel.shopProductName);
-                  }
                 }
                 if (state.errorMessage.isNotEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -85,6 +81,15 @@ class AddShopButton extends StatelessWidget {
                                         imagePath,
                                         shopName,
                                       );
+                                  for (final shopProductModel
+                                      in shopProductModels) {
+                                    context
+                                        .read<AddShopCubit>()
+                                        .addPriceToNewShop(
+                                          shopName,
+                                          shopProductModel.shopProductName,
+                                        );
+                                  }
                                 },
                           child: const Text(
                             'Dodaj',

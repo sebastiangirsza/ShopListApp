@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shoplistapp/app/core/enums.dart';
 import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_products/product_price/cubit/product_price_cubit.dart';
 import 'package:shoplistapp/app/home/pages/price/product_price/widgets/shop_products/product_price/update_product_price/update_product_price_page.dart';
 import 'package:shoplistapp/app/injection_container.dart';
+import 'package:shoplistapp/app/models/product_price_model.dart';
 import 'package:shoplistapp/app/models/shop_products_model.dart';
 
 @injectable
@@ -34,143 +36,21 @@ class ProductsPrice extends StatelessWidget {
               child: BlocBuilder<ProductPriceCubit, ProductPriceState>(
                 builder: (context, state) {
                   final productPriceModels = state.productsPrice;
-
-                  return ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: productPriceModels.length,
-                              itemBuilder: (context, index) {
-                                final first = productPriceModels[0]
-                                    .productPrice
-                                    .toString();
-                                final Color color = index == 0 ||
-                                        first ==
-                                            productPriceModels[index]
-                                                .productPrice
-                                                .toString()
-                                    ? (productPriceModels[index]
-                                                .productPrice
-                                                .toString() ==
-                                            '999999999999999.0')
-                                        ? Colors.blue
-                                        : Colors.green
-                                    : Colors.blue;
-                                return Container(
-                                  margin: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    boxShadow: const <BoxShadow>[
-                                      BoxShadow(
-                                        color: Colors.black,
-                                        blurRadius: 2,
-                                        offset: Offset(3, 3),
-                                      )
-                                    ],
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(10),
-                                    ),
-                                    color: color,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.all(10),
-                                        height: 30,
-                                        width: 45,
-                                        decoration: BoxDecoration(
-                                          boxShadow: const <BoxShadow>[
-                                            BoxShadow(
-                                              color: Colors.black,
-                                              blurRadius: 2,
-                                              offset: Offset(3, 3),
-                                            )
-                                          ],
-                                          borderRadius: const BorderRadius.all(
-                                            Radius.circular(10),
-                                          ),
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                              productPriceModels[index]
-                                                  .shopDownloadURL,
-                                            ),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          (productPriceModels[index]
-                                                      .productPrice
-                                                      .toString() !=
-                                                  '999999999999999.0')
-                                              ? productPriceModels[index]
-                                                  .productPrice
-                                                  .toString()
-                                              : 'Dodaj cenę',
-                                          style: GoogleFonts.getFont(
-                                            'Saira',
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 10.0,
-                                        ),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(50)),
-                                          height: 30,
-                                          width: 30,
-                                          child: IconButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.white),
-                                            onPressed: () {
-                                              showDialog(
-                                                context: context,
-                                                builder: ((context) {
-                                                  return UpdateProductPricePage(
-                                                    productPriceId:
-                                                        productPriceModels[
-                                                                index]
-                                                            .id,
-                                                  );
-                                                }),
-                                              );
-                                            },
-                                            icon: Icon(
-                                              (productPriceModels[index]
-                                                          .productPrice
-                                                          .toString() !=
-                                                      '999999999999999.0')
-                                                  ? Icons.edit
-                                                  : Icons.add,
-                                              color: Colors.black,
-                                              size: 15,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
+                  switch (state.status) {
+                    case Status.initial:
+                      return const Center(
+                        child: Text('Initial state'),
+                      );
+                    case Status.loading:
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    case Status.success:
+                      return ProductPriceList(
+                          productPriceModels: productPriceModels);
+                    case Status.error:
+                      return const Text('error');
+                  }
                 },
               ),
             ),
@@ -192,6 +72,145 @@ class ProductsPrice extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ProductPriceList extends StatelessWidget {
+  const ProductPriceList({
+    Key? key,
+    required this.productPriceModels,
+  }) : super(key: key);
+
+  final List<ProductPriceModel> productPriceModels;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: productPriceModels.length,
+                itemBuilder: (context, index) {
+                  final first = productPriceModels[0].productPrice.toString();
+                  final Color color = index == 0 ||
+                          first ==
+                              productPriceModels[index].productPrice.toString()
+                      ? (productPriceModels[index].productPrice.toString() ==
+                              '999999999999999.0')
+                          ? Colors.blue
+                          : Colors.green
+                      : Colors.blue;
+                  return Container(
+                    margin: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      boxShadow: const <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black,
+                          blurRadius: 2,
+                          offset: Offset(3, 3),
+                        )
+                      ],
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      color: color,
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.all(10),
+                          height: 30,
+                          width: 45,
+                          decoration: BoxDecoration(
+                            boxShadow: const <BoxShadow>[
+                              BoxShadow(
+                                color: Colors.black,
+                                blurRadius: 2,
+                                offset: Offset(3, 3),
+                              )
+                            ],
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                productPriceModels[index].shopDownloadURL,
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            (productPriceModels[index]
+                                        .productPrice
+                                        .toString() !=
+                                    '999999999999999.0')
+                                ? productPriceModels[index]
+                                    .productPrice
+                                    .toString()
+                                : 'Dodaj cenę',
+                            style: GoogleFonts.getFont(
+                              'Saira',
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0,
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(50)),
+                            height: 30,
+                            width: 30,
+                            child: IconButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: ((context) {
+                                    return UpdateProductPricePage(
+                                      productPriceId:
+                                          productPriceModels[index].id,
+                                    );
+                                  }),
+                                );
+                              },
+                              icon: Icon(
+                                (productPriceModels[index]
+                                            .productPrice
+                                            .toString() !=
+                                        '999999999999999.0')
+                                    ? Icons.edit
+                                    : Icons.add,
+                                color: Colors.black,
+                                size: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

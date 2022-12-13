@@ -66,22 +66,23 @@ class AddShopCubit extends Cubit<AddShopState> {
   }
 
   Future<void> addPriceToNewShop(
-    String imageName,
+    String shopName,
     String shopProductName,
   ) async {
-    final user = await _userRepository.getUserID();
-    final userID = user!.uid;
+    // final user = await _userRepository.getUserID();
+    // final userID = user!.uid;
 
     try {
-      final downloadURL = await _storageRemoteDataSource.downloadURL(
-        userID: userID,
-        imageName: imageName,
-      );
+      // final downloadURL = await _storageRemoteDataSource.downloadURL(
+      //   userID: userID,
+      //   imageName: imageName,
+      // );
 
       _shopRepository.addPriceToNewShop(
         shopProductName,
         999999999999999,
-        downloadURL,
+        'downloadURL',
+        shopName,
       );
     } catch (error) {
       emit(
