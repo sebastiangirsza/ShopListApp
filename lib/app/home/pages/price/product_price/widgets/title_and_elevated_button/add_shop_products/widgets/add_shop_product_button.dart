@@ -38,14 +38,6 @@ class AddShopProductButton extends StatelessWidget {
                   child:
                       BlocListener<AddShopProductsCubit, AddShopProductsState>(
                     listener: (context, state) {
-                      for (final shopsModel in shopsModels) {
-                        context
-                            .read<AddShopProductsCubit>()
-                            .addFirstProductPrice(
-                              shopProductName,
-                              shopsModel.downloadURL,
-                            );
-                      }
                       if (state.saved) {
                         Navigator.of(context).pop();
                       }
@@ -85,6 +77,14 @@ class AddShopProductButton extends StatelessWidget {
                                     productGroup,
                                     svgIcon,
                                   );
+                              for (final shopsModel in shopsModels) {
+                                context
+                                    .read<AddShopProductsCubit>()
+                                    .addFirstProductPrice(
+                                      shopProductName,
+                                      shopsModel.downloadURL,
+                                    );
+                              }
                             }
                           },
                           child: const Text(
