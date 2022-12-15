@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shoplistapp/app/models/shop_products_model.dart';
+import 'package:shoplistapp/app/repositories/shop_products_repository.dart';
 import 'package:shoplistapp/app/repositories/shop_repository.dart';
 import 'package:shoplistapp/app/repositories/storage_repository.dart';
 import 'package:shoplistapp/app/repositories/user_repository.dart';
@@ -18,13 +20,32 @@ class AddShopCubit extends Cubit<AddShopState> {
     this._storageRemoteDataSource,
     this._storageRepository,
     this._shopRepository,
-  ) : super(const AddShopState());
+    this._shopProductsRepository,
+  ) : super(const AddShopState(shopProducts: []));
 
   final UserRespository _userRepository;
   final StorageRemoteDataSource _storageRemoteDataSource;
   final StorageRepository _storageRepository;
   final ShopRepository _shopRepository;
   StreamSubscription? _streamSubscription;
+  final ShopProductsRepository _shopProductsRepository;
+
+  Future<void> getShopProducts() async {
+    _streamSubscription =
+        _shopProductsRepository.getShopProductsStream().listen(
+      (shopProducts) {
+        emit(AddShopState(
+          shopProducts: shopProducts,
+        ));
+      },
+    )..onError(
+            (error) {
+              emit(const AddShopState(
+                shopProducts: [],
+              ));
+            },
+          );
+  }
 
   Future<void> addShop(
     String imageName,
@@ -53,6 +74,7 @@ class AddShopCubit extends Cubit<AddShopState> {
 
       emit(
         const AddShopState(
+          shopProducts: [],
           saved: true,
         ),
       );
@@ -60,6 +82,7 @@ class AddShopCubit extends Cubit<AddShopState> {
       emit(
         AddShopState(
           errorMessage: error.toString(),
+          shopProducts: const [],
         ),
       );
     }
@@ -78,7 +101,7 @@ class AddShopCubit extends Cubit<AddShopState> {
         imageName: imageName,
       );
 
-      _shopRepository.addPriceToNewShop(
+      await _shopRepository.addPriceToNewShop(
         shopProductName,
         999999999999999,
         downloadURL,
@@ -87,6 +110,7 @@ class AddShopCubit extends Cubit<AddShopState> {
       emit(
         AddShopState(
           errorMessage: error.toString(),
+          shopProducts: const [],
         ),
       );
     }
