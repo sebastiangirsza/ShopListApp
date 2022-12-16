@@ -4,8 +4,8 @@ import 'package:shoplistapp/app/models/user_model.dart';
 import 'package:shoplistapp/data/remote_data_sources/user_remote_data_source.dart';
 
 @injectable
-class UserRespository {
-  UserRespository(this._userRemoteDataSource);
+class UserRepository {
+  UserRepository(this._userRemoteDataSource);
   final UserRemoteDataSource _userRemoteDataSource;
 
   Future<UserModel?> getUserID() async {

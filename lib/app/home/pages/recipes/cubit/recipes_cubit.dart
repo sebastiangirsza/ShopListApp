@@ -23,7 +23,7 @@ class RecipesCubit extends Cubit<RecipesState> {
   StreamSubscription? _streamSubscription;
   final FirebaseStorage storage = FirebaseStorage.instance;
   final RecipesRepository _recipesRepository;
-  final UserRespository _userRepository;
+  final UserRepository _userRepository;
   final StorageRemoteDataSource _storageRemoteDataSource;
 
   Future<void> recipes() async {

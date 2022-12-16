@@ -20,7 +20,7 @@ class AddRecipesCubit extends Cubit<AddRecipesState> {
         );
 
   final RecipesRepository _recipesRepository;
-  final UserRespository _userRepository;
+  final UserRepository _userRepository;
   final StorageRepository _storageRepository;
 
   Future<void> addRecipe(

@@ -217,8 +217,8 @@ _i1.GetIt $initGetIt(
         widget: get<_i5.OneProduct>(),
       ));
   gh.factory<_i38.UserRemoteDataSource>(() => _i38.UserRemoteDataSource());
-  gh.factory<_i39.UserRespository>(
-      () => _i39.UserRespository(get<_i38.UserRemoteDataSource>()));
+  gh.factory<_i39.UserRepository>(
+      () => _i39.UserRepository(get<_i38.UserRemoteDataSource>()));
   gh.factory<_i40.VerificationCubit>(
       () => _i40.VerificationCubit(get<_i38.UserRemoteDataSource>()));
   gh.factory<_i41.FirebaseAuthRespository>(
@@ -265,11 +265,11 @@ _i1.GetIt $initGetIt(
       () => _i52.AddProductCubit(get<_i44.ProductsRepository>()));
   gh.factory<_i53.AddRecipesCubit>(() => _i53.AddRecipesCubit(
         get<_i47.RecipesRepository>(),
-        get<_i39.UserRespository>(),
+        get<_i39.UserRepository>(),
         get<_i34.StorageRepository>(),
       ));
   gh.factory<_i54.AddShopCubit>(() => _i54.AddShopCubit(
-        get<_i39.UserRespository>(),
+        get<_i39.UserRepository>(),
         get<_i33.StorageRemoteDataSource>(),
         get<_i34.StorageRepository>(),
         get<_i49.ShopRepository>(),
@@ -289,7 +289,7 @@ _i1.GetIt $initGetIt(
       () => _i58.ProductPriceCubit(get<_i43.ProductPriceRepository>()));
   gh.factory<_i59.RecipesCubit>(() => _i59.RecipesCubit(
         get<_i47.RecipesRepository>(),
-        get<_i39.UserRespository>(),
+        get<_i39.UserRepository>(),
         get<_i33.StorageRemoteDataSource>(),
       ));
   gh.factory<_i60.ShopCubit>(() => _i60.ShopCubit(get<_i49.ShopRepository>()));

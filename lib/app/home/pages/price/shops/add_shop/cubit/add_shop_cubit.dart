@@ -23,7 +23,7 @@ class AddShopCubit extends Cubit<AddShopState> {
     this._shopProductsRepository,
   ) : super(const AddShopState(shopProducts: []));
 
-  final UserRespository _userRepository;
+  final UserRepository _userRepository;
   final StorageRemoteDataSource _storageRemoteDataSource;
   final StorageRepository _storageRepository;
   final ShopRepository _shopRepository;
