@@ -43,6 +43,12 @@ class AddShopButton extends StatelessWidget {
         child: BlocBuilder<AddShopCubit, AddShopState>(
           builder: (context, state) {
             final shopProductModels = state.shopProducts;
+            List<String> shopProductsNames = [];
+            for (final shopProductModel in shopProductModels) {
+              shopProductsNames.add(
+                shopProductModel.shopProductName,
+              );
+            }
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -72,22 +78,12 @@ class AddShopButton extends StatelessWidget {
                     onPressed: shopName == '' || imagePath == ''
                         ? null
                         : () {
-                            context
-                                .read<AddShopCubit>()
-                                .addShop(
+                            context.read<AddShopCubit>().addShop(
                                   imageNames,
                                   imagePath,
                                   shopName,
-                                )
-                                .whenComplete(() {
-                              for (final shopProductModel
-                                  in shopProductModels) {
-                                context.read<AddShopCubit>().addPriceToNewShop(
-                                      imageNames,
-                                      shopProductModel.shopProductName,
-                                    );
-                              }
-                            });
+                                  shopProductsNames,
+                                );
                           },
                     child: const Text(
                       'Dodaj',

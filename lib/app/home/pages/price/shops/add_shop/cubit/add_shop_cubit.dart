@@ -51,6 +51,7 @@ class AddShopCubit extends Cubit<AddShopState> {
     String imageName,
     String imagePath,
     String shopName,
+    List<String> shopProductsNames,
   ) async {
     final user = await _userRepository.getUserID();
     final userID = user!.uid;
@@ -72,6 +73,14 @@ class AddShopCubit extends Cubit<AddShopState> {
         downloadURL,
       );
 
+      for (final shopProductName in shopProductsNames) {
+        await _shopRepository.addPriceToNewShop(
+          shopProductName,
+          999999999999999,
+          downloadURL,
+        );
+      }
+
       emit(
         const AddShopState(
           shopProducts: [],
@@ -88,33 +97,28 @@ class AddShopCubit extends Cubit<AddShopState> {
     }
   }
 
-  Future<void> addPriceToNewShop(
-    String imageName,
-    String shopProductName,
-  ) async {
-    final user = await _userRepository.getUserID();
-    final userID = user!.uid;
+  // Future<void> addPriceToNewShop(
+  //   String imageName,
 
-    try {
-      final downloadURL = await _storageRemoteDataSource.downloadURL(
-        userID: userID,
-        imageName: imageName,
-      );
+  // ) async {
+  //   final user = await _userRepository.getUserID();
+  //   final userID = user!.uid;
 
-      await _shopRepository.addPriceToNewShop(
-        shopProductName,
-        999999999999999,
-        downloadURL,
-      );
-    } catch (error) {
-      emit(
-        AddShopState(
-          errorMessage: error.toString(),
-          shopProducts: const [],
-        ),
-      );
-    }
-  }
+  //   try {
+  //     final downloadURL = await _storageRemoteDataSource.downloadURL(
+  //       userID: userID,
+  //       imageName: imageName,
+  //     );
+
+  //   } catch (error) {
+  //     emit(
+  //       AddShopState(
+  //         errorMessage: error.toString(),
+  //         shopProducts: const [],
+  //       ),
+  //     );
+  //   }
+  // }
 
   @override
   Future<void> close() {
