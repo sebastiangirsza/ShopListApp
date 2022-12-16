@@ -20,8 +20,6 @@ class AddShopButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imageNames = imageName + DateTime.now().toString();
-
     return BlocProvider(
       create: (context) => getIt<AddShopCubit>()..getShopProducts(),
       child: BlocListener<AddShopCubit, AddShopState>(
@@ -79,7 +77,7 @@ class AddShopButton extends StatelessWidget {
                         ? null
                         : () {
                             context.read<AddShopCubit>().addShop(
-                                  imageNames,
+                                  imageName + DateTime.now().toString(),
                                   imagePath,
                                   shopName,
                                   shopProductsNames,
