@@ -40,13 +40,6 @@ class AddShopButton extends StatelessWidget {
         },
         child: BlocBuilder<AddShopCubit, AddShopState>(
           builder: (context, state) {
-            final shopProductModels = state.shopProducts;
-            List<String> shopProductsNames = [];
-            for (final shopProductModel in shopProductModels) {
-              shopProductsNames.add(
-                shopProductModel.shopProductName,
-              );
-            }
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -80,7 +73,6 @@ class AddShopButton extends StatelessWidget {
                                   imageName + DateTime.now().toString(),
                                   imagePath,
                                   shopName,
-                                  shopProductsNames,
                                 );
                           },
                     child: const Text(

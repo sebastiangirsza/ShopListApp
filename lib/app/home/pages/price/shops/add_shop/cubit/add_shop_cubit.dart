@@ -51,11 +51,14 @@ class AddShopCubit extends Cubit<AddShopState> {
     String imageName,
     String imagePath,
     String shopName,
-    List<String> shopProductsNames,
   ) async {
     final user = await _userRepository.getUserID();
     final userID = user!.uid;
     File file = File(imagePath);
+
+    final shopProductModels = state.shopProducts;
+    final List<String> shopProductsNames =
+        shopProductModels.map((element) => element.shopProductName).toList();
     try {
       await _storageRepository.putFile(
         userID,
