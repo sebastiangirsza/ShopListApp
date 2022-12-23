@@ -19,15 +19,11 @@ class AddShopProductButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<ShopProductsCubit>()..start(),
-      child: BlocBuilder<ShopProductsCubit, ShopProductsState>(
+      create: (context) =>
+          getIt<AddShopProductsCubit>()..getShopProductsStream(),
+      child: BlocBuilder<AddShopProductsCubit, AddShopProductsState>(
         builder: (context, state) {
-          final shopProductModels = state.shopProducts;
-          List<String> productList = [];
-          for (var shopProductModel in shopProductModels) {
-            productList.add(shopProductModel.shopProductName.toLowerCase());
-          }
-
+          final shopProductNamesList = state.shopProductsNames;
           return BlocProvider(
             create: (context) =>
                 getIt<AddShopProductsCubit>()..getShopsStream(),
@@ -54,7 +50,8 @@ class AddShopProductButton extends StatelessWidget {
                       backgroundColor: Colors.black,
                     ),
                     onPressed: () {
-                      if (productList.contains(shopProductName.toLowerCase())) {
+                      if (shopProductNamesList
+                          .contains(shopProductName.toLowerCase())) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             duration: Duration(milliseconds: 800),

@@ -27,28 +27,28 @@ class AddShopProductsCubit extends Cubit<AddShopProductsState> {
   final ProductPriceRepository _productPriceRepository;
   StreamSubscription? _streamSubscription;
 
-  // Future<void> getShopProductsStream() async {
-  //   final shopProductsModels = state.shopProducts;
-  //   final List<String> shopProductsNames =
-  //       shopProductsModels.map((element) => element.shopProductName).toList();
-  //   _streamSubscription =
-  //       _shopProductsRepository.getShopProductsStream().listen(
-  //     (shopProducts) {
-  //       emit(AddShopProductsState(
-  //         shops: const [],
-  //         shopProducts: const [],
-  //         shopProductsNames: shopProductsNames,
-  //       ));
-  //     },
-  //   )..onError(
-  //           (error) {
-  //             emit(const AddShopProductsState(
-  //               shops: [],
-  //               shopProducts: [],
-  //             ));
-  //           },
-  //         );
-  // }
+  Future<void> getShopProductsStream() async {
+    _streamSubscription =
+        _shopProductsRepository.getShopProductsStream().listen(
+      (shopProducts) {
+        final List<String> shopProductsNames = shopProducts
+            .map((element) => element.shopProductName.toLowerCase())
+            .toList();
+        emit(AddShopProductsState(
+          shops: const [],
+          shopProducts: shopProducts,
+          shopProductsNames: shopProductsNames,
+        ));
+      },
+    )..onError(
+            (error) {
+              emit(const AddShopProductsState(
+                shops: [],
+                shopProducts: [],
+              ));
+            },
+          );
+  }
 
   Future<void> getShopsStream() async {
     _streamSubscription = _shopRepository.getShopsStream().listen(
