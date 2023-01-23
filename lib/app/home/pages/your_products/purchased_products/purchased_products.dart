@@ -24,6 +24,9 @@ class PurchasedProductsPage extends StatefulWidget {
 class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
   var currentIndex = 0;
   var storageNames = 'Lodówka';
+  double size = 60;
+  bool selected = false;
+  double opacity = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -83,18 +86,20 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                       color: Colors.black, blurRadius: 3, offset: Offset(3, 3))
                 ],
               ),
-              child: Container(
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 600),
+                curve: Curves.fastOutSlowIn,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
                   ),
                   color: Colors.white,
                 ),
-                height: height,
+                height: (selected == true) ? size : height,
                 child: Stack(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 50, 8, 0),
+                      padding: const EdgeInsets.fromLTRB(8, 60, 8, 0),
                       child: ListView(
                         children: [
                           (currentIndex == 0)
@@ -126,8 +131,10 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                       ),
                       child: Stack(
                         children: [
-                          Expanded(
-                            child: Center(
+                          Center(
+                            child: AnimatedOpacity(
+                              duration: const Duration(milliseconds: 500),
+                              opacity: opacity,
                               child: Text(
                                 storageNames,
                                 style: GoogleFonts.getFont(
@@ -165,13 +172,24 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
     double width = MediaQuery.of(context).size.width;
 
     return InkWell(
-      onTap: (() {
+      onTap: (() async {
+        setState(() {
+          selected = !selected;
+          opacity = 0;
+        });
+        await Future.delayed(const Duration(milliseconds: 650));
         setState(() {
           currentIndex = index;
           storageNames = storageName;
         });
+        await Future.delayed(const Duration(milliseconds: 300));
+        setState(() {
+          selected = !selected;
+          opacity = 1;
+        });
       }),
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 1000),
         height: 35,
         width: width * 0.13,
         decoration: BoxDecoration(
@@ -737,12 +755,21 @@ class _OneProductState extends State<OneProduct> {
                                                   );
                                                 });
                                           },
-                                          child:
-                                              const Icon(Icons.calendar_month),
+                                          child: (widget.purchasedProductsModel
+                                                      .frozen ==
+                                                  true)
+                                              ? Row(
+                                                  children: const [
+                                                    Icon(Icons.ac_unit_rounded),
+                                                    Icon(Icons.calendar_month),
+                                                  ],
+                                                )
+                                              : const Icon(
+                                                  Icons.calendar_month),
                                         ),
                                       )
                                     : SizedBox(
-                                        width: 85,
+                                        width: 87,
                                         child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor:
