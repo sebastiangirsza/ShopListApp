@@ -24,7 +24,7 @@ class PurchasedProductsPage extends StatefulWidget {
 class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
   var currentIndex = 0;
   var storageNames = 'Lodówka';
-  double size = 60;
+  double size = 50;
   bool selected = false;
   double opacity = 1;
 
@@ -99,7 +99,7 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                 child: Stack(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 60, 8, 0),
+                      padding: const EdgeInsets.fromLTRB(8, 50, 8, 0),
                       child: ListView(
                         children: [
                           (currentIndex == 0)
@@ -124,9 +124,9 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                     Container(
                       height: 50,
                       decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10)),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
                         color: Color.fromARGB(255, 0, 63, 114),
                       ),
                       child: Stack(
