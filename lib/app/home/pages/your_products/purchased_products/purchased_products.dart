@@ -83,7 +83,10 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
                 color: Colors.white,
                 boxShadow: const <BoxShadow>[
                   BoxShadow(
-                      color: Colors.black, blurRadius: 3, offset: Offset(3, 3))
+                    color: Colors.black,
+                    blurRadius: 3,
+                    offset: Offset(3, 3),
+                  )
                 ],
               ),
               child: AnimatedContainer(
@@ -168,7 +171,11 @@ class _PurchasedProductsPageState extends State<PurchasedProductsPage> {
     );
   }
 
-  Widget storageInkWell(int index, String storageName, Icon icon) {
+  Widget storageInkWell(
+    int index,
+    String storageName,
+    Icon icon,
+  ) {
     double width = MediaQuery.of(context).size.width;
 
     return InkWell(
@@ -229,7 +236,10 @@ class AddPurchasedProductWidget extends StatelessWidget {
                 builder: (BuildContext context, StateSetter setState) {
               return AlertDialog(
                 shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15.0),
+                  ),
+                ),
                 backgroundColor: const Color.fromARGB(255, 200, 233, 255),
                 title: Text(
                   style: GoogleFonts.getFont('Saira',
@@ -282,8 +292,11 @@ class AddPurchasedProductWidget extends StatelessWidget {
                               border: InputBorder.none,
                               label: Text(
                                 'Kategoria',
-                                style: GoogleFonts.getFont('Saira',
-                                    fontSize: 12, color: Colors.black),
+                                style: GoogleFonts.getFont(
+                                  'Saira',
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                             borderRadius: BorderRadius.circular(10),

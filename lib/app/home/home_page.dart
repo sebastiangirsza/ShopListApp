@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                 return const PricePage();
               }),
               bottomNavigationBar: MotionTabBar(
-                initialSelectedTab: 'Ceny produktów',
+                initialSelectedTab: 'Moje produkty',
                 labels: const [
                   'Lista zakupów',
                   'Moje produkty',
