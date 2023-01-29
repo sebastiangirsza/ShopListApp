@@ -21,11 +21,15 @@ class AddButtonWidget extends StatefulWidget {
 }
 
 class _AddButtonWidgetState extends State<AddButtonWidget> {
+  dynamic shopProduct;
   String? productName;
+  String? shopProductName;
   String? productTypeName;
   int productQuantity = 1;
   bool isChecked = false;
   int quantityGram = 0;
+  bool selected1 = false;
+  bool selected2 = false;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -63,33 +67,110 @@ class _AddButtonWidgetState extends State<AddButtonWidget> {
                           'Dodaj produkt do listy',
                           textAlign: TextAlign.center,
                         ),
-                        // AddProductFromList(),
-                        Container(
-                          decoration: boxDecoration(),
-                          child: TextField(
-                            style: GoogleFonts.getFont(
-                              'Saira',
-                              fontSize: 12,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              labelStyle: GoogleFonts.getFont(
-                                'Saira',
-                                fontSize: 12,
-                                color: Colors.black,
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selected1 = true;
+                                  selected2 = false;
+                                });
+                              },
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 252, 252, 252),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25))),
+                                height: 20,
+                                width: 20,
+                                child: Container(
+                                  margin: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                      color: (selected1 == false)
+                                          ? const Color.fromARGB(
+                                              255, 252, 252, 252)
+                                          : Colors.blue,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(25))),
+                                ),
                               ),
-                              label: const Text(
-                                'Nazwa produktu',
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: AddProductFromList(
+                                onNameChanged: (newShopProduct) {
+                                  setState(() {
+                                    shopProduct = newShopProduct;
+                                    shopProductName =
+                                        newShopProduct.shopProductName;
+                                  });
+                                },
+                                productGroup: widget.productGroup,
+                                shopProduct: shopProduct,
                               ),
                             ),
-                            onChanged: (newProduct) {
-                              setState(() {
-                                productName = newProduct;
-                              });
-                            },
-                            textAlign: TextAlign.center,
-                          ),
+                          ],
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selected1 = false;
+                                  selected2 = true;
+                                });
+                              },
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 252, 252, 252),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25))),
+                                height: 20,
+                                width: 20,
+                                child: Container(
+                                  margin: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                      color: (selected2 == false)
+                                          ? const Color.fromARGB(
+                                              255, 252, 252, 252)
+                                          : Colors.blue,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(25))),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Container(
+                                decoration: boxDecoration(),
+                                child: TextField(
+                                  style: GoogleFonts.getFont(
+                                    'Saira',
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                  ),
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    labelStyle: GoogleFonts.getFont(
+                                      'Saira',
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                    ),
+                                    label: const Text(
+                                      'Nazwa produktu',
+                                    ),
+                                  ),
+                                  onChanged: (newProduct) {
+                                    setState(() {
+                                      productName = newProduct;
+                                    });
+                                  },
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 2),
                         Container(
@@ -236,6 +317,8 @@ class _AddButtonWidgetState extends State<AddButtonWidget> {
                             productQuantity = 1;
                             productTypeName = null;
                             quantityGram = 0;
+                            selected1 = false;
+                            selected2 = false;
                           });
                           Navigator.of(context).pop();
                         },
@@ -252,52 +335,69 @@ class _AddButtonWidgetState extends State<AddButtonWidget> {
                           return ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black),
-                            onPressed: productName == null ||
+                            onPressed: (selected1 == false &&
+                                        selected2 == false) ||
                                     productTypeName == null ||
                                     quantityGram == 0
                                 ? null
-                                : () {
-                                    context.read<AddProductCubit>().add(
-                                        widget.productGroup,
-                                        productName!,
-                                        productQuantity,
-                                        isChecked,
-                                        productTypeName!,
-                                        quantityGram);
-                                    setState(() {
-                                      productName = null;
-                                      productQuantity = 1;
-                                      productTypeName = null;
-                                      quantityGram = 0;
-                                    });
+                                : (selected1 == true &&
+                                            (shopProductName == null ||
+                                                shopProductName == '')) ||
+                                        (selected2 == true &&
+                                            (productName == null ||
+                                                productName == ''))
+                                    ? null
+                                    : () {
+                                        context.read<AddProductCubit>().add(
+                                            widget.productGroup,
+                                            (selected1 == true)
+                                                ? shopProductName!
+                                                : productName!,
+                                            productQuantity,
+                                            isChecked,
+                                            productTypeName!,
+                                            quantityGram);
+                                        setState(() {
+                                          shopProduct = null;
+                                          productName = null;
+                                          productQuantity = 1;
+                                          productTypeName = null;
+                                          quantityGram = 0;
+                                          selected1 = false;
+                                          selected2 = false;
+                                        });
 
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        duration:
-                                            const Duration(milliseconds: 600),
-                                        content: SizedBox(
-                                          height: 30,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                  style: GoogleFonts.getFont(
-                                                      'Saira',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white),
-                                                  'Produkt dodany do listy'),
-                                            ],
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            duration: const Duration(
+                                                milliseconds: 600),
+                                            content: SizedBox(
+                                              height: 30,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                      style:
+                                                          GoogleFonts.getFont(
+                                                              'Saira',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.white),
+                                                      'Produkt dodany do listy'),
+                                                ],
+                                              ),
+                                            ),
+                                            backgroundColor: Colors.green,
                                           ),
-                                        ),
-                                        backgroundColor: Colors.green,
-                                      ),
-                                    );
-                                    Navigator.of(context).pop();
-                                  },
+                                        );
+                                        Navigator.of(context).pop();
+                                      },
                             child: Text(
                                 style: GoogleFonts.getFont('Saira'),
                                 'Dodaj do listy'),

@@ -87,9 +87,9 @@ class AddProductCubit extends Cubit<AddProductState> {
 
   final ShopProductsRepository _shopProductsRepository;
 
-  Future<void> getShopProductsNamesStream() async {
+  Future<void> getShopProductsNamesStream(String productGroup) async {
     _streamSubscription =
-        _shopProductsRepository.getShopProductsStream().listen(
+        _shopProductsRepository.getShopProductsNamesStream(productGroup).listen(
       (shopProducts) {
         // final List<dynamic> shopProductsNames = shopProducts.map((element) {
         //   element.shopProductName.toLowerCase();

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shoplistapp/app/home/pages/shop_list/shop_list/add_product_from_list.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list/list_of_product_group_widget.dart';
 
 class ShopListPage extends StatelessWidget {
@@ -14,7 +13,6 @@ class ShopListPage extends StatelessWidget {
         // physics: ClampingScrollPhysics(),
         shrinkWrap: true,
         children: const [
-          AddProductFromList(),
           ListOfProductsGroupWidget(),
         ],
       ),

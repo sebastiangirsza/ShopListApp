@@ -21,6 +21,19 @@ class ShopProductsRepository {
             .toList());
   }
 
+  Stream<List<ShopProductsModel>> getShopProductsNamesStream(
+      String productGroup) {
+    final userID = _userRemoteDataSource.getUserID();
+    if (userID == null) {
+      throw Exception('Użytkownik nie jest zalogowany');
+    }
+    return _shopProductsRemoteDataSource.getShopProductsStream().map(
+        (querySnapshots) => querySnapshots.docs
+            .map((shopProducts) => ShopProductsModel.fromJson(shopProducts))
+            .where((element) => element.productGroup == productGroup)
+            .toList());
+  }
+
   Future<void> addShopProduct(
     String shopProductName,
     String productGroup,
