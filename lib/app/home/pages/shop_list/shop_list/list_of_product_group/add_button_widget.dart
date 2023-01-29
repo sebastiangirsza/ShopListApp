@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:injectable/injectable.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/cubit/add_product_cubit.dart';
+import 'package:shoplistapp/app/home/pages/shop_list/shop_list/add_product_from_list.dart';
 import 'package:shoplistapp/app/injection_container.dart';
 
 @injectable
@@ -40,10 +41,10 @@ class _AddButtonWidgetState extends State<AddButtonWidget> {
           ),
         ),
         onTap: () => showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
+          context: context,
+          builder: (BuildContext context) {
+            return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
                 return AlertDialog(
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15.0))),
@@ -62,6 +63,7 @@ class _AddButtonWidgetState extends State<AddButtonWidget> {
                           'Dodaj produkt do listy',
                           textAlign: TextAlign.center,
                         ),
+                        // AddProductFromList(),
                         Container(
                           decoration: boxDecoration(),
                           child: TextField(
@@ -305,8 +307,10 @@ class _AddButtonWidgetState extends State<AddButtonWidget> {
                     )
                   ],
                 );
-              });
-            }),
+              },
+            );
+          },
+        ),
       ),
     );
   }

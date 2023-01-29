@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/cubit/product_cubit.dart';
-import 'package:shoplistapp/app/home/pages/shop_list/shop_list/add_button_widget.dart';
+import 'package:shoplistapp/app/home/pages/shop_list/shop_list/list_of_product_group/add_button_widget.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list/list_of_product_group/products_dismissible_widget.dart';
 import 'package:shoplistapp/app/injection_container.dart';
 
@@ -49,6 +49,7 @@ class ListOfProductsGroupWidget extends StatelessWidget {
     ];
     return ListView(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 65.0, top: 15),

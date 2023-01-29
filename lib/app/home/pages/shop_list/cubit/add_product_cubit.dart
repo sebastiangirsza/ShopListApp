@@ -1,14 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shoplistapp/app/models/shop_products_model.dart';
 import 'package:shoplistapp/app/repositories/product_repository.dart';
+import 'package:shoplistapp/app/repositories/shop_products_repository.dart';
 
 part 'add_product_state.dart';
 
 @injectable
 class AddProductCubit extends Cubit<AddProductState> {
-  AddProductCubit(this._productsRepository)
-      : super(
+  AddProductCubit(
+    this._productsRepository,
+    this._shopProductsRepository,
+  ) : super(
           const AddProductState(),
         );
 
@@ -31,7 +37,7 @@ class AddProductCubit extends Cubit<AddProductState> {
         productTypeName,
         quantityGram,
       );
-      emit(const AddProductState());
+      emit(const AddProductState(saved: true));
     } catch (error) {
       null;
     }
@@ -75,5 +81,36 @@ class AddProductCubit extends Cubit<AddProductState> {
 
   Future<void> delete({required String documentID}) {
     return _productsRepository.delete(id: documentID);
+  }
+
+  StreamSubscription? _streamSubscription;
+
+  final ShopProductsRepository _shopProductsRepository;
+
+  Future<void> getShopProductsNamesStream() async {
+    _streamSubscription =
+        _shopProductsRepository.getShopProductsStream().listen(
+      (shopProducts) {
+        // final List<dynamic> shopProductsNames = shopProducts.map((element) {
+        //   element.shopProductName.toLowerCase();
+        //   element.productGroup.toLowerCase();
+        // }).toList();
+        emit(AddProductState(
+          shopProducts: shopProducts,
+        ));
+      },
+    )..onError(
+            (error) {
+              emit(const AddProductState(
+                shopProducts: [],
+              ));
+            },
+          );
+  }
+
+  @override
+  Future<void> close() {
+    _streamSubscription?.cancel();
+    return super.close();
   }
 }

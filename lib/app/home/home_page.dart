@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var currentIndex = 1;
+  var currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                 return const PricePage();
               }),
               bottomNavigationBar: MotionTabBar(
-                initialSelectedTab: 'Moje produkty',
+                initialSelectedTab: 'Lista zakupów',
                 labels: const [
                   'Lista zakupów',
                   'Moje produkty',
