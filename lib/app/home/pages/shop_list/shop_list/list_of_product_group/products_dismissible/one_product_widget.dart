@@ -5,10 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:injectable/injectable.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/cubit/add_product_cubit.dart';
+import 'package:shoplistapp/app/home/pages/shop_list/cubit/product_cubit.dart';
 import 'package:shoplistapp/app/home/pages/shop_list/shop_list/list_of_product_group/products_dismissible/one_product/add_to_storage_alert_dialog_widget.dart';
 import 'package:shoplistapp/app/injection_container.dart';
 import 'package:shoplistapp/app/models/product_model.dart';
 
+@injectable
 class OneProductWidget extends StatefulWidget {
   const OneProductWidget({
     Key? key,
@@ -24,105 +26,169 @@ class OneProductWidget extends StatefulWidget {
 class _OneProductWidgetState extends State<OneProductWidget> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onDoubleTap: () => showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return ChangeQuantityAlertDialog(productModel: widget.productModel);
-          }),
-      child: Container(
-        decoration: (widget.productModel.isChecked == false)
-            ? const BoxDecoration(
-                color: Color.fromARGB(255, 200, 233, 255),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(color: Colors.black, blurRadius: 5)
-                ],
-                borderRadius: BorderRadius.all(Radius.circular(10)))
-            : const BoxDecoration(
-                color: Colors.green,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(color: Colors.black, blurRadius: 5)
-                ],
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  widget.productModel.productName,
-                  style: GoogleFonts.getFont(
-                    'Saira',
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
+    return BlocProvider(
+      create: (context) => getIt<ProductCubit>()
+        ..getProductLowestPriceStream(widget.productModel.productName),
+      child: BlocBuilder<ProductCubit, ProductState>(
+        builder: (context, state) {
+          final productPriceModels = state.productsPrice;
+          return InkWell(
+            onDoubleTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return ChangeQuantityAlertDialog(
+                      productModel: widget.productModel);
+                }),
+            child: Container(
+              decoration: (widget.productModel.isChecked == false)
+                  ? const BoxDecoration(
+                      color: Color.fromARGB(255, 200, 233, 255),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(color: Colors.black, blurRadius: 5)
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(10)))
+                  : const BoxDecoration(
+                      color: Colors.green,
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(color: Colors.black, blurRadius: 5)
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        widget.productModel.productName,
+                        style: GoogleFonts.getFont(
+                          'Saira',
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          (widget.productModel.productTypeName != 'gramy')
+                              ? widget.productModel.productQuantity.toString()
+                              : '${widget.productModel.quantityGram.toString()} g',
+                          style: GoogleFonts.getFont(
+                            'Saira',
+                            fontSize:
+                                (widget.productModel.productTypeName == 'gramy')
+                                    ? 8
+                                    : 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                          width: 45,
+                          child: ListView.builder(
+                            itemCount: 1,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return (productPriceModels.isNotEmpty)
+                                  ? (productPriceModels[0].productPrice !=
+                                          999999999999999.0)
+                                      ? Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              height: 14,
+                                              width: 21,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(3),
+                                                ),
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                    productPriceModels[0]
+                                                        .shopDownloadURL,
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              productPriceModels[0]
+                                                  .productPrice
+                                                  .toString(),
+                                              style: GoogleFonts.getFont(
+                                                'Saira',
+                                                fontSize: 9,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : Container()
+                                  : Container();
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 0, 63, 114),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                            ),
+                            onPressed: () {
+                              (widget.productModel.isChecked == true)
+                                  ? showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return AddToStorageAlertDialogWidget(
+                                            productModel: widget.productModel);
+                                      })
+                                  : ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        duration:
+                                            const Duration(milliseconds: 600),
+                                        content: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                                style: GoogleFonts.getFont(
+                                                    'Saira',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                                'Produkt nie został kupiony'),
+                                          ],
+                                        ),
+                                        backgroundColor: Colors.blue,
+                                      ),
+                                    );
+                            },
+                            child: const Icon(
+                                size: 17,
+                                color: Colors.white,
+                                Icons.shopping_bag_outlined),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    (widget.productModel.productTypeName != 'gramy')
-                        ? widget.productModel.productQuantity.toString()
-                        : '${widget.productModel.quantityGram.toString()} g',
-                    style: GoogleFonts.getFont(
-                      'Saira',
-                      fontSize: (widget.productModel.productTypeName == 'gramy')
-                          ? 8
-                          : 15,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  SizedBox(
-                    width: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 0, 63, 114),
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                      ),
-                      onPressed: () {
-                        (widget.productModel.isChecked == true)
-                            ? showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return AddToStorageAlertDialogWidget(
-                                      productModel: widget.productModel);
-                                })
-                            : ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  duration: const Duration(milliseconds: 600),
-                                  content: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                          style: GoogleFonts.getFont('Saira',
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                          'Produkt nie został kupiony'),
-                                    ],
-                                  ),
-                                  backgroundColor: Colors.blue,
-                                ),
-                              );
-                      },
-                      child: const Icon(
-                          size: 17,
-                          color: Colors.white,
-                          Icons.shopping_bag_outlined),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

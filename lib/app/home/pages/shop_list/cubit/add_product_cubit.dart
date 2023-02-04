@@ -91,10 +91,6 @@ class AddProductCubit extends Cubit<AddProductState> {
     _streamSubscription =
         _shopProductsRepository.getShopProductsNamesStream(productGroup).listen(
       (shopProducts) {
-        // final List<dynamic> shopProductsNames = shopProducts.map((element) {
-        //   element.shopProductName.toLowerCase();
-        //   element.productGroup.toLowerCase();
-        // }).toList();
         emit(AddProductState(
           shopProducts: shopProducts,
         ));

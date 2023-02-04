@@ -164,6 +164,10 @@ _i1.GetIt $initGetIt(
         key: get<_i7.Key>(),
         purchasedProductsModel: get<_i6.PurchasedProductModel>(),
       ));
+  gh.factory<_i13.OneProductWidget>(() => _i13.OneProductWidget(
+        key: get<_i4.Key>(),
+        productModel: get<_i12.ProductModel>(),
+      ));
   gh.factory<_i17.PersonButtonWidget>(
       () => _i17.PersonButtonWidget(key: get<_i4.Key>()));
   gh.factory<_i19.ProductDismissibleWidget>(() => _i19.ProductDismissibleWidget(
@@ -280,8 +284,10 @@ _i1.GetIt $initGetIt(
         get<_i40.FirebaseAuthRespository>(),
         get<_i37.UserRemoteDataSource>(),
       ));
-  gh.factory<_i55.ProductCubit>(
-      () => _i55.ProductCubit(get<_i42.ProductsRepository>()));
+  gh.factory<_i55.ProductCubit>(() => _i55.ProductCubit(
+        get<_i42.ProductsRepository>(),
+        get<_i41.ProductPriceRepository>(),
+      ));
   gh.factory<_i56.ProductPriceCubit>(
       () => _i56.ProductPriceCubit(get<_i41.ProductPriceRepository>()));
   gh.factory<_i57.RecipesCubit>(() => _i57.RecipesCubit(
